@@ -3,6 +3,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import modele.character.NPC;
 import modele.character.Player;
@@ -35,10 +37,9 @@ public class Game extends Application {
         Parent root = loader.load();
         StartController startController = loader.getController();
 
-        startController.setPlayer(player);
-
         Scene scene = new Scene(root);
 
+        startController.setPlayer(player);
         startController.setScene(scene);
 
         primaryStage.setScene(scene);
