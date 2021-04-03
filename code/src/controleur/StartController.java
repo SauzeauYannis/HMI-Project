@@ -139,6 +139,7 @@ public class StartController implements Initializable {
      */
     @FXML
     void soundMouseClicked(MouseEvent event) {
+        this.changeVolumeIcon(this.volumeOff, this.volumeOn);
         this.isVolumeOn = !this.isVolumeOn;
     }
 
@@ -149,7 +150,8 @@ public class StartController implements Initializable {
      */
     @FXML
     void soundMouseEntered(MouseEvent event) {
-        this.changeVolumeIcon(this.volumeOff, this.volumeOn);
+        //this.changeVolumeIcon(this.volumeOff, this.volumeOn);
+        this.rescaleNode(this.soundIcon,1.2);
         scene.setCursor(Cursor.HAND);
     }
 
@@ -160,7 +162,8 @@ public class StartController implements Initializable {
      */
     @FXML
     void soundMouseExited(MouseEvent event) {
-        this.changeVolumeIcon(this.volumeOn, this.volumeOff);
+        //this.changeVolumeIcon(this.volumeOn, this.volumeOff);
+        this.rescaleNode(this.soundIcon,1);
         scene.setCursor(Cursor.DEFAULT);
     }
 
