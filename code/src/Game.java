@@ -1,19 +1,46 @@
+import controleur.StartController;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import vue.Start;
+import modele.character.NPC;
+import modele.character.Player;
+import modele.place.Place;
 
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * The type Game.
+ */
 public class Game extends Application {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        Start start = new Start();
+    public void start(Stage primaryStage) throws IOException {
 
-        Scene scene = new Scene(start);
+        List<Place> placeList = Place.generateAllPlaces();
+        Player player = new Player("Benjapied Tablenuit", placeList.get(0));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("vue/start.fxml"));
+        Parent root = loader.load();
+        StartController startController = loader.getController();
+
+        startController.setPlayer(player);
+
+        Scene scene = new Scene(root);
+
+        startController.setScene(scene);
+
         primaryStage.setScene(scene);
 
         primaryStage.setTitle("Gypsy's Carnaval");

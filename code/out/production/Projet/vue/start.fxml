@@ -8,34 +8,31 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<fx:root type="javafx.scene.layout.AnchorPane" fx:id="root" minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.StartController">
+<AnchorPane fx:id="root" minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.StartController">
    <HBox fx:id="iconsBox" layoutX="1020.0" layoutY="30.0" spacing="50.0">
-      <ImageView fx:id="helpIcon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@image/information.png"/>
+      <ImageView fx:id="helpIcon" fitHeight="50.0" fitWidth="50.0" onMouseEntered="#helpMouseEntered" onMouseExited="#helpMouseExited" pickOnBounds="true" preserveRatio="true">
+         <Image url="@image/information.png" />
       </ImageView>
-      <ImageView fx:id="soundIcon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@image/volume.png"/>
+      <ImageView fx:id="soundIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#soundMouseClicked" onMouseEntered="#soundMouseEntered" onMouseExited="#soundMouseExited" pickOnBounds="true" preserveRatio="true">
+         <Image url="@image/volume_on.png" />
       </ImageView>
    </HBox>
    <Label fx:id="name" layoutX="425.0" layoutY="30.0" text="Gypsy's Carnaval">
       <font>
-         <Font name="Carlito Bold" size="50.0"/>
+         <Font name="Carlito Bold" size="50.0" />
       </font>
    </Label>
-   <Button fx:id="playButton" layoutX="50.0" layoutY="700.0" mnemonicParsing="false" prefWidth="500.0" text="Play">
+   <Button fx:id="playButton" layoutX="50.0" layoutY="700.0" mnemonicParsing="false" onMouseEntered="#playMouseEntered" onMouseExited="#playMouseExited" prefWidth="500.0" text="Play">
       <font>
-         <Font name="Carlito" size="30.0"/>
+         <Font name="Carlito" size="30.0" />
       </font>
    </Button>
-   <ImageView fx:id="sceneImage" fitHeight="500.0" fitWidth="1000.0" layoutX="218.0" layoutY="138.0" pickOnBounds="true"
-              preserveRatio="true">
-      <Image url="@image/background.png"/>
+   <ImageView fx:id="sceneImage" fitHeight="500.0" fitWidth="1000.0" layoutX="218.0" layoutY="138.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@image/background.png" />
    </ImageView>
-   <Button fx:id="quitButton" layoutX="629.0" layoutY="700.0" mnemonicParsing="false" prefWidth="500.0" text="Quit">
+   <Button fx:id="quitButton" layoutX="629.0" layoutY="700.0" mnemonicParsing="false" onMouseClicked="#quitMouseClicked" onMouseEntered="#quitMouseEntered" onMouseExited="#quitMouseExited" prefWidth="500.0" text="Quit">
       <font>
-         <Font name="Carlito" size="30.0"/>
+         <Font name="Carlito" size="30.0" />
       </font>
    </Button>
-</fx:root>
+</AnchorPane>
