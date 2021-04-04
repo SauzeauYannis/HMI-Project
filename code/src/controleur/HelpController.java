@@ -5,10 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import modele.character.Player;
 
 import java.io.IOException;
@@ -22,48 +19,38 @@ public class HelpController {
     private Scene scene;
 
     @FXML
-    private AnchorPane root;
-
-    @FXML
     private ImageView backIcon;
-
-    @FXML
-    private Label todo;
 
     /**
      * Back mouse clicked.
      *
-     * @param event the event
+     * @throws IOException the io exception
      */
     @FXML
-    void backMouseClicked(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/start.fxml"));
+    void backMouseClicked() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/main.fxml"));
         Parent root = loader.load();
-        StartController startController = loader.getController();
+        MainController mainController = loader.getController();
 
         scene.setRoot(root);
 
-        startController.setPlayer(this.player);
-        startController.setScene(this.scene);
+        mainController.setPlayer(this.player);
+        mainController.setScene(this.scene);
     }
 
     /**
      * Back mouse entered.
-     *
-     * @param event the event
      */
     @FXML
-    void backMouseEntered(MouseEvent event) {
+    void backMouseEntered() {
         UtilsController.rescaleNode(this.scene, this.backIcon, 1.2);
     }
 
     /**
      * Back mouse exited.
-     *
-     * @param event the event
      */
     @FXML
-    void backMouseExited(MouseEvent event) {
+    void backMouseExited() {
         UtilsController.rescaleNode(this.scene, this.backIcon, 1);
         scene.setCursor(Cursor.DEFAULT);
     }
