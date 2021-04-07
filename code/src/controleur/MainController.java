@@ -27,7 +27,7 @@ public class MainController implements Initializable {
     private final Image volumeOn = new Image("vue/image/volume_on.png");
     private final Image volumeOff = new Image("vue/image/volume_off.png");
     private final MediaPlayer mediaPlayer = new MediaPlayer(
-            new Media(getClass().getResource("../vue/sound/music.mp3").toExternalForm())
+            new Media(getClass().getResource("../vue/sound/theme.mp3").toExternalForm())
     );
 
     private boolean isVolumeOn = true;
@@ -36,7 +36,7 @@ public class MainController implements Initializable {
     private Scene scene;
 
     @FXML
-    private PlayerInfoController playerInfosController;
+    private PlayerInfoController playerInfoController;
 
     @FXML
     private Button testBuyKey;
@@ -161,7 +161,7 @@ public class MainController implements Initializable {
      */
     public void setPlayer(Player player) {
         this.player = player;
-        this.playerInfosController.setPlayer(player);
+        this.playerInfoController.setPlayer(player);
     }
 
     /**
