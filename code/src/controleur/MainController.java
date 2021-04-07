@@ -28,7 +28,7 @@ public class MainController implements Initializable {
     private final Image volumeOn = new Image("vue/image/volume_on.png");
     private final Image volumeOff = new Image("vue/image/volume_off.png");
     private final MediaPlayer mediaPlayer = new MediaPlayer(
-            new Media(getClass().getResource("../vue/sound/music.mp3").toExternalForm())
+            new Media(getClass().getResource("../vue/sound/theme.mp3").toExternalForm())
     );
     private StringProperty coinProperty;
 
@@ -48,6 +48,18 @@ public class MainController implements Initializable {
 
     @FXML
     private ImageView quitIcon;
+
+    @FXML
+    private ImageView LockerIcon;
+
+    @FXML
+    private ImageView chocolateEclairIcon;
+
+    @FXML
+    private ImageView cottonCandyIcon;
+
+    @FXML
+    private ImageView appleCandyIcon;
 
     @FXML
     public Label coinQuantity;
