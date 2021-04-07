@@ -1,7 +1,5 @@
 package controleur;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,10 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import modele.character.Player;
@@ -23,6 +19,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The type Main controller.
+ */
 public class MainController implements Initializable {
 
     private final Image volumeOn = new Image("vue/image/volume_on.png");
@@ -30,12 +29,14 @@ public class MainController implements Initializable {
     private final MediaPlayer mediaPlayer = new MediaPlayer(
             new Media(getClass().getResource("../vue/sound/theme.mp3").toExternalForm())
     );
-    private StringProperty coinProperty;
 
     private boolean isVolumeOn = true;
 
-    private Player player;
+    private Player p;
     private Scene scene;
+
+    @FXML
+    private PlayerController playerController;
 
     @FXML
     private Button testBuyKey;
@@ -49,6 +50,7 @@ public class MainController implements Initializable {
     @FXML
     private ImageView quitIcon;
 
+<<<<<<< HEAD
     @FXML
     private ImageView LockerIcon;
 
@@ -88,6 +90,8 @@ public class MainController implements Initializable {
     @FXML
     private Label appleCandyQuantity;
 
+=======
+>>>>>>> main
     /**
      * Help mouse clicked.
      *
@@ -102,7 +106,7 @@ public class MainController implements Initializable {
 
         scene.setRoot(root);
 
-        helpController.setPlayer(this.player);
+        helpController.setPlayer(this.p);
         helpController.setScene(this.scene);
     }
 
@@ -122,6 +126,9 @@ public class MainController implements Initializable {
         UtilsController.rescaleNode(this.scene, this.helpIcon,1);
     }
 
+    /**
+     * Quit mouse clicked.
+     */
     @FXML
     void quitMouseClicked() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -130,17 +137,23 @@ public class MainController implements Initializable {
         alert.setContentText("Your progress will be lost!");
 
         if (alert.showAndWait().orElse(null) == ButtonType.OK) {
-            Interpreter.interpretCommand(this.player, "quit");
+            Interpreter.interpretCommand(this.p, "quit");
         } else {
             alert.close();
         }
     }
 
+    /**
+     * Quit mouse entered.
+     */
     @FXML
     void quitMouseEntered() {
         UtilsController.rescaleNode(this.scene, this.quitIcon, 1.2);
     }
 
+    /**
+     * Quit mouse exited.
+     */
     @FXML
     void quitMouseExited() {
         UtilsController.rescaleNode(this.scene, this.quitIcon, 1);
@@ -153,8 +166,9 @@ public class MainController implements Initializable {
     void soundMouseClicked() {
         this.isVolumeOn = !this.isVolumeOn;
         changeSoundSetting();
-        this.player.earnMoney(20);
-        this.coinProperty.setValue(Integer.toString(this.player.getMoney()));
+        this.p.earnMoney(20);
+        System.out.println(this.playerController);
+        this.playerController.incrementMoney(20);
     }
 
     /**
@@ -173,11 +187,6 @@ public class MainController implements Initializable {
         UtilsController.rescaleNode(this.scene, this.soundIcon,1);
     }
 
-    @FXML
-    void testBuyKeyClicked() {
-
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.mediaPlayer.play();
@@ -186,12 +195,10 @@ public class MainController implements Initializable {
     /**
      * Sets player.
      *
-     * @param player the player
+     * @param p the player
      */
-    public void setPlayer(Player player) {
-        this.player = player;
-        this.coinProperty = new SimpleStringProperty(Integer.toString(this.player.getMoney()));
-        this.coinQuantity.textProperty().bind(this.coinProperty);
+    public void setP(Player p) {
+        this.p = p;
     }
 
     /**

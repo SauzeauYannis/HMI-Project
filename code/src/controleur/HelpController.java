@@ -34,7 +34,7 @@ public class HelpController {
 
         scene.setRoot(root);
 
-        mainController.setPlayer(this.player);
+        mainController.setP(this.player);
         mainController.setScene(this.scene);
     }
 
