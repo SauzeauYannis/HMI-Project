@@ -40,9 +40,6 @@ public class Player extends Character {
 		this.health = MAX_HEALTH;
 		this.money = money;
 		this.items = new ArrayList<>();
-		this.items.add(new Key("Copper key", 25, Level.COPPER));
-		this.items.add(new Key("Gold key", 25, Level.COPPER));
-		this.items.add(new Key("Copper key", 25, Level.COPPER));
 		this.isLose = false;
 		this.gamesFinished = 0;
 	}
