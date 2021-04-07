@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.MainController">
+<AnchorPane minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.MainController">
     <TabPane prefHeight="650.0" prefWidth="875.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="425.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
         <Tab text="Game scene">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-border-color: black;">
@@ -151,7 +151,11 @@
                     <VBox.margin>
                         <Insets left="15.0" />
                     </VBox.margin>
+<<<<<<< HEAD
                     <Label text="0">
+=======
+                    <Label fx:id="coinQuantity" text="1000">
+>>>>>>> 75699d87029b2907095a8c89bdb2da71aad2a4d9
                         <font>
                             <Font name="Carlito Bold" size="30.0" />
                         </font>

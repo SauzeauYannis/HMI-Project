@@ -77,6 +77,11 @@ public class Player extends Character {
 		return this.gamesFinished;
 	}
 
+	public int getMoney()
+	{
+		return this.money;
+	}
+
 	/////////////
 	// Setters //
 	/////////////
