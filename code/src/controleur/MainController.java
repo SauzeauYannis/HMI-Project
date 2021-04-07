@@ -1,5 +1,9 @@
 package controleur;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -7,16 +11,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.converter.NumberStringConverter;
 import modele.character.Player;
 import modele.command.Interpreter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -26,6 +33,7 @@ public class MainController implements Initializable {
     private final MediaPlayer mediaPlayer = new MediaPlayer(
             new Media(getClass().getResource("../vue/sound/music.mp3").toExternalForm())
     );
+    private StringProperty coinProperty;
 
     private boolean isVolumeOn = true;
 
@@ -40,6 +48,9 @@ public class MainController implements Initializable {
 
     @FXML
     private ImageView quitIcon;
+
+    @FXML
+    public Label coinQuantity;
 
     @FXML
     private VBox progress_bar;
@@ -112,6 +123,8 @@ public class MainController implements Initializable {
     void soundMouseClicked() {
         this.isVolumeOn = !this.isVolumeOn;
         changeSoundSetting();
+        this.player.earnMoney(20);
+        this.coinProperty.setValue(Integer.toString(this.player.getMoney()));
     }
 
     /**
@@ -142,6 +155,9 @@ public class MainController implements Initializable {
      */
     public void setPlayer(Player player) {
         this.player = player;
+        this.coinProperty = new SimpleStringProperty(Integer.toString(this.player.getMoney()));
+        this.coinQuantity.textProperty().bind(this.coinProperty);
+
     }
 
     /**
