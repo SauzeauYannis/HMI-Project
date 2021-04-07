@@ -4,8 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import modele.character.Player;
 
-public class PlayerController  {
+public class PlayerInfoController {
+
+    private Player player;
 
     @FXML
     private VBox progress_bar;
@@ -37,9 +40,10 @@ public class PlayerController  {
     @FXML
     private Label coinQuantity;
 
-    public void incrementMoney(int quantity) {
-        this.coinQuantity.setText(
-                String.valueOf(Integer.parseInt(this.coinQuantity.getText()) + quantity)
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.coinQuantity.textProperty().bind(
+                player.getMoney().asString()
         );
     }
 }

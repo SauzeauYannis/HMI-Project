@@ -1,14 +1,14 @@
 package modele.character;
 
-import modele.Level;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import modele.command.Interpreter;
 import modele.item.Item;
-import modele.item.Key;
 import modele.place.Ending;
 import modele.place.Game;
 import modele.place.Place;
-import modele.place.exit.Exit;
 import modele.place.Shop;
+import modele.place.exit.Exit;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,7 +29,7 @@ public class Player extends Character {
 	private Place cur_place;
 	private final List<Item> items;
 	private int health;
-	private int money;
+	private final IntegerProperty money;
 	private boolean isLose;
 	private int gamesFinished;
 
@@ -38,7 +38,7 @@ public class Player extends Character {
 		super(name);
 		this.cur_place = p;
 		this.health = MAX_HEALTH;
-		this.money = money;
+		this.money = new SimpleIntegerProperty(money);
 		this.items = new ArrayList<>();
 		this.isLose = false;
 		this.gamesFinished = 0;
@@ -74,7 +74,7 @@ public class Player extends Character {
 		return this.gamesFinished;
 	}
 
-	public int getMoney()
+	public IntegerProperty getMoney()
 	{
 		return this.money;
 	}
@@ -115,19 +115,16 @@ public class Player extends Character {
 
 	// Increase the player's money
 	public void earnMoney(int money) {
-		this.money += money;
+		this.money.set(
+				this.money.get() + money
+		);
 		printMoney();
 	}
 
 	// Decrease the player's money
 	public void loseMoney(int money) {
 		// Check if the player's money will be inferior to 0
-		if(this.money - money <= 0){
-			this.money = 0;
-		}
-		else{
-			this.money -= money;
-		}
+		this.money.set(Math.max(this.money.get() - money, 0));
 		printMoney();
 	}
 
@@ -141,7 +138,7 @@ public class Player extends Character {
 		int price = item.getPrice();
 
 		// Check if the player has any money to buy the item
-		if (price > this.money) {
+		if (price > this.money.get()) {
 			System.out.println("| You haven't any money to buy this item");
 		} else {
 			this.items.add(item);

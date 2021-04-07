@@ -45,7 +45,7 @@ public class StartController implements Initializable {
 
         scene.setRoot(root);
 
-        mainController.setP(this.player);
+        mainController.setPlayer(this.player);
         mainController.setScene(this.scene);
     }
 

@@ -32,11 +32,11 @@ public class MainController implements Initializable {
 
     private boolean isVolumeOn = true;
 
-    private Player p;
+    private Player player;
     private Scene scene;
 
     @FXML
-    private PlayerController playerController;
+    private PlayerInfoController playerInfosController;
 
     @FXML
     private Button testBuyKey;
@@ -50,12 +50,19 @@ public class MainController implements Initializable {
     @FXML
     private ImageView quitIcon;
 
+    @FXML
+    void testBuyKeyClicked() {
+        Interpreter.interpretCommand(this.player, "go key");
+        Interpreter.interpretCommand(this.player, "take copper");
+    }
+
     /**
      * Help mouse clicked.
      *
      * @throws IOException the io exception
      */
-    public void helpMouseClicked() throws IOException {
+    @FXML
+    void helpMouseClicked() throws IOException {
         this.mediaPlayer.stop();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/help.fxml"));
@@ -64,7 +71,7 @@ public class MainController implements Initializable {
 
         scene.setRoot(root);
 
-        helpController.setPlayer(this.p);
+        helpController.setPlayer(this.player);
         helpController.setScene(this.scene);
     }
 
@@ -95,7 +102,7 @@ public class MainController implements Initializable {
         alert.setContentText("Your progress will be lost!");
 
         if (alert.showAndWait().orElse(null) == ButtonType.OK) {
-            Interpreter.interpretCommand(this.p, "quit");
+            Interpreter.interpretCommand(this.player, "quit");
         } else {
             alert.close();
         }
@@ -124,9 +131,6 @@ public class MainController implements Initializable {
     void soundMouseClicked() {
         this.isVolumeOn = !this.isVolumeOn;
         changeSoundSetting();
-        this.p.earnMoney(20);
-        System.out.println(this.playerController);
-        this.playerController.incrementMoney(20);
     }
 
     /**
@@ -153,10 +157,11 @@ public class MainController implements Initializable {
     /**
      * Sets player.
      *
-     * @param p the player
+     * @param player the player
      */
-    public void setP(Player p) {
-        this.p = p;
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.playerInfosController.setPlayer(player);
     }
 
     /**
