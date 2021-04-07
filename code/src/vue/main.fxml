@@ -151,11 +151,7 @@
                     <VBox.margin>
                         <Insets left="15.0" />
                     </VBox.margin>
-<<<<<<< HEAD
-                    <Label text="0">
-=======
-                    <Label fx:id="coinQuantity" text="1000">
->>>>>>> 75699d87029b2907095a8c89bdb2da71aad2a4d9
+                    <Label fx:id="coinQuantity" text="0">
                         <font>
                             <Font name="Carlito Bold" size="30.0" />
                         </font>

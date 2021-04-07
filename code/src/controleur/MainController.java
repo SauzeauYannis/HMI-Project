@@ -1,7 +1,5 @@
 package controleur;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
@@ -18,13 +16,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.converter.NumberStringConverter;
 import modele.character.Player;
 import modele.command.Interpreter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -184,7 +180,6 @@ public class MainController implements Initializable {
         this.player = player;
         this.coinProperty = new SimpleStringProperty(Integer.toString(this.player.getMoney()));
         this.coinQuantity.textProperty().bind(this.coinProperty);
-
     }
 
     /**

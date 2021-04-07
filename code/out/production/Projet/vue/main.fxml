@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Tab?>
@@ -24,6 +25,7 @@
                         <Font name="Carlito Bold" size="50.0" />
                     </font>
                 </Label>
+            <Button fx:id="testBuyKey" layoutX="396.0" layoutY="440.0" mnemonicParsing="false" onMouseClicked="#testBuyKeyClicked" text="Acheter clef" />
             </AnchorPane>
         </Tab>
         <Tab text="Map scene">
@@ -149,7 +151,7 @@
                     <VBox.margin>
                         <Insets left="15.0" />
                     </VBox.margin>
-                    <Label fx:id="coinQuantity" text="1000">
+                    <Label fx:id="coinQuantity" text="0">
                         <font>
                             <Font name="Carlito Bold" size="30.0" />
                         </font>
