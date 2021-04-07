@@ -63,7 +63,7 @@
                     <Image url="@image/padlock.png" />
                 </ImageView>
                 <VBox fx:id="progress_bar" alignment="BOTTOM_CENTER" prefHeight="585.0" prefWidth="20.0" style="-fx-border-color: black;">
-                    <VBox fx:id="bar" prefHeight="100.0" prefWidth="20.0" style="-fx-background-color: gold;" />
+                    <VBox fx:id="bar" prefHeight="0.0" prefWidth="20.0" style="-fx-background-color: gold;" />
                 </VBox>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="230.0" spacing="50.0">
@@ -73,7 +73,7 @@
                 <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@image/benjapied.gif" />
                 </ImageView>
-                <ProgressBar prefWidth="200.0" progress="0.75" />
+                <ProgressBar prefWidth="200.0" progress="1.0" />
                 <GridPane maxWidth="170.0" prefHeight="250.0" style="-fx-border-color: black; -fx-border-radius: 5;">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="60.0" prefWidth="86.0" />
@@ -88,7 +88,7 @@
                         <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                             <Image url="@image/key_platinum.png" />
                         </ImageView>
-                        <Label alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
+                        <Label fx:id="platinumKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                             <font>
                                 <Font name="Carlito Bold" size="14.0" />
                             </font>
@@ -98,7 +98,7 @@
                         <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                             <Image url="@image/chocolate_eclair.png" />
                         </ImageView>
-                        <Label alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
+                        <Label fx:id="chocolateEclairQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                             <font>
                                 <Font name="Carlito Bold" size="14.0" />
                             </font>
@@ -108,7 +108,7 @@
                         <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                             <Image url="@image/key_golden.png" />
                         </ImageView>
-                        <Label alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
+                        <Label fx:id="goldKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                             <font>
                                 <Font name="Carlito Bold" size="14.0" />
                             </font>
@@ -118,17 +118,17 @@
                         <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                             <Image url="@image/cotton-candy.png" />
                         </ImageView>
-                        <Label alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
+                        <Label fx:id="cottonCandyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                             <font>
                                 <Font name="Carlito Bold" size="14.0" />
                             </font>
                         </Label>
                     </AnchorPane>
                     <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                             <Image url="@image/key_copper.png" />
                         </ImageView>
-                        <Label alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="1">
+                        <Label fx:id="copperKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                             <font>
                                 <Font name="Carlito Bold" size="14.0" />
                             </font>
@@ -138,7 +138,7 @@
                         <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                             <Image url="@image/apple_candy.png" />
                         </ImageView>
-                        <Label alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
+                        <Label fx:id="appleCandyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                             <font>
                                 <Font name="Carlito Bold" size="14.0" />
                             </font>

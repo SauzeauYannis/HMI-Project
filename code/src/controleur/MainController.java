@@ -6,7 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -33,6 +35,9 @@ public class MainController implements Initializable {
     private Scene scene;
 
     @FXML
+    private Button testBuyKey;
+
+    @FXML
     private ImageView helpIcon;
 
     @FXML
@@ -46,6 +51,24 @@ public class MainController implements Initializable {
 
     @FXML
     private VBox bar;
+
+    @FXML
+    private Label platinumKeyQuantity;
+
+    @FXML
+    private Label chocolateEclairQuantity;
+
+    @FXML
+    private Label goldKeyQuantity;
+
+    @FXML
+    private Label cottonCandyQuantity;
+
+    @FXML
+    private Label copperKeyQuantity;
+
+    @FXML
+    private Label appleCandyQuantity;
 
     /**
      * Help mouse clicked.
@@ -128,6 +151,11 @@ public class MainController implements Initializable {
     @FXML
     void soundMouseExited() {
         UtilsController.rescaleNode(this.scene, this.soundIcon,1);
+    }
+
+    @FXML
+    void testBuyKeyClicked() {
+
     }
 
     @Override
