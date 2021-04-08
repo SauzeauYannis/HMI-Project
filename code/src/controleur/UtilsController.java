@@ -3,6 +3,7 @@ package controleur;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 
 public abstract class UtilsController {
 
@@ -14,5 +15,21 @@ public abstract class UtilsController {
             scene.setCursor(Cursor.DEFAULT);
         else
             scene.setCursor(Cursor.HAND);
+    }
+
+    public static double getMiddleWidth(ImageView imageView) {
+        return imageView.getFitWidth() / 2;
+    }
+
+    public static double getMiddleHeight(ImageView imageView) {
+        return imageView.getFitHeight() / 2;
+    }
+
+    public static double getTranslateCenterX(ImageView imageView) {
+        return imageView.getTranslateX() + getMiddleWidth(imageView);
+    }
+
+    public static double getTranslateCenterY(ImageView imageView) {
+        return imageView.getTranslateY() + getMiddleHeight(imageView);
     }
 }
