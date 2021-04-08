@@ -47,17 +47,8 @@ public class MainController implements Initializable {
     @FXML
     private ImageView quitIcon;
 
-<<<<<<< Updated upstream
     @FXML
     void helpMouseClicked() throws IOException {
-=======
-    /**
-     * Help mouse clicked.
-     *
-     * @throws IOException the io exception
-     */
-    public void helpMouseClicked() throws IOException {
->>>>>>> Stashed changes
         this.mediaPlayer.stop();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/help.fxml"));
@@ -134,6 +125,7 @@ public class MainController implements Initializable {
     public void setScene(Scene scene) {
         this.scene = scene;
         this.gameController.setScene(scene);
+        this.playerInfoController.setScene(scene);
     }
 
     private void changeSoundSetting() {

@@ -17,6 +17,15 @@ public abstract class UtilsController {
             scene.setCursor(Cursor.HAND);
     }
 
+    public static void changeOpacity(Scene scene, Node node, double newOpacity) {
+        node.setOpacity(newOpacity);
+
+        if (newOpacity == 1)
+            scene.setCursor(Cursor.DEFAULT);
+        else
+            scene.setCursor(Cursor.HAND);
+    }
+
     public static double getMiddleWidth(ImageView imageView) {
         return imageView.getFitWidth() / 2;
     }
