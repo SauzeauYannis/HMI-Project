@@ -1,5 +1,9 @@
 package controleur;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -7,14 +11,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import modele.character.Player;
 import modele.command.Interpreter;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -39,6 +48,9 @@ public class MainController implements Initializable {
     private PlayerInfoController playerInfoController;
 
     @FXML
+    private ScrollPane scrollPaneDialog;
+
+    @FXML
     private ImageView helpIcon;
 
     @FXML
@@ -46,6 +58,17 @@ public class MainController implements Initializable {
 
     @FXML
     private ImageView quitIcon;
+
+    @FXML
+    private Label labelDialog;
+
+    @FXML
+    void scrollAnimation() {
+        Animation animation = new Timeline(
+                new KeyFrame(Duration.seconds(5),
+                        new KeyValue(this.scrollPaneDialog.vvalueProperty(), 1)));
+        animation.play();
+    }
 
     @FXML
     void helpMouseClicked() throws IOException {
@@ -114,12 +137,21 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.mediaPlayer.play();
+        System.setOut(new PrintStream(
+                new OutputStream() {
+                    @Override
+                    public void write(int b) {
+                        labelDialog.setText(labelDialog.getText() + (char) b);
+                    }
+                }
+        ));
     }
 
     public void setPlayer(Player player) {
         this.player = player;
         this.gameController.setPlayer(player);
         this.playerInfoController.setPlayer(player);
+        this.player.getPlace().getNpc().talk("Welcome to Gypsy's Carnival!\n");
     }
 
     public void setScene(Scene scene) {
