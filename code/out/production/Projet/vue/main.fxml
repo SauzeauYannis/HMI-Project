@@ -38,7 +38,11 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
         </HBox>
+<<<<<<< Updated upstream
         <fx:include fx:id="playerInfo" source="playerInfos.fxml" />
+=======
+        <fx:include fx:id="player" source="player.fxml" />
+>>>>>>> Stashed changes
     </VBox>
     <AnchorPane layoutY="650.0" prefHeight="105.0" prefWidth="875.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="680.0">
         <Label layoutX="220.0" layoutY="23.0" text="TODO: Zone de texte">

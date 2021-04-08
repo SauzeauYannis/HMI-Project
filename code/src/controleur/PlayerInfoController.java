@@ -38,7 +38,20 @@ public class PlayerInfoController {
     private Label appleCandyQuantity;
 
     @FXML
-    private Label coinQuantity;
+    private ImageView LockerIcon;
+
+    @FXML
+    private ImageView chocolateEclairIcon;
+
+    @FXML
+    private ImageView cottonCandyIcon;
+
+    @FXML
+    private ImageView appleCandyIcon;
+
+    @FXML
+    public Label coinQuantity;
+
 
     public void setPlayer(Player player) {
         this.player = player;
