@@ -21,9 +21,9 @@ public abstract class UtilsController {
         node.setOpacity(newOpacity);
 
         if (newOpacity == 1)
-            scene.setCursor(Cursor.DEFAULT);
+            rescaleNode(scene,node,1.2);
         else
-            scene.setCursor(Cursor.HAND);
+            rescaleNode(scene,node,1);
     }
 
     public static double getMiddleWidth(ImageView imageView) {
