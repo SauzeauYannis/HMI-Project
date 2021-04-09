@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import modele.character.Player;
 
@@ -83,63 +84,13 @@ public class PlayerInfoController {
     // --- ICONS ANIMATIONS
 
     @FXML
-    public void goldKeyIconMouseEntered () {
-        UtilsController.changeOpacity(this.scene,this.goldKeyIcon,1);
+    public void iconMouseEntered (MouseEvent event){
+        UtilsController.changeOpacity(this.scene, (ImageView)event.getTarget(),1);
     }
 
     @FXML
-    public void goldKeyIconMouseExited () {
-        UtilsController.changeOpacity(this.scene,this.goldKeyIcon,0.25);
-    }
-
-    @FXML
-    public void copperKeyIconMouseEntered () {
-        UtilsController.changeOpacity(this.scene,this.copperKeyIcon,1);
-    }
-
-    @FXML
-    public void copperKeyIconMouseExited () {
-        UtilsController.changeOpacity(this.scene,this.copperKeyIcon,0.25);
-    }
-
-    @FXML
-    public void platinumKeyIconMouseEntered () {
-        UtilsController.changeOpacity(this.scene,this.platinumKeyIcon,1);
-    }
-
-    @FXML
-    public void platinumKeyIconMouseExited () {
-        UtilsController.changeOpacity(this.scene,this.platinumKeyIcon,0.25);
-    }
-
-    @FXML
-    public void chocolateEclairIconMouseEntered () {
-        UtilsController.changeOpacity(this.scene,this.chocolateEclairIcon,1);
-    }
-
-    @FXML
-    public void chocolateEclairIconMouseExited () {
-        UtilsController.changeOpacity(this.scene,this.chocolateEclairIcon,0.25);
-    }
-
-    @FXML
-    public void cottonCandyIconMouseEntered () {
-        UtilsController.changeOpacity(this.scene,this.cottonCandyIcon,1);
-    }
-
-    @FXML
-    public void cottonCandyIconMouseExited () {
-        UtilsController.changeOpacity(this.scene,this.cottonCandyIcon,0.25);
-    }
-
-    @FXML
-    public void appleCandyIconMouseEntered () {
-        UtilsController.changeOpacity(this.scene,this.appleCandyIcon,1);
-    }
-
-    @FXML
-    public void appleCandyIconMouseExited () {
-        UtilsController.changeOpacity(this.scene,this.appleCandyIcon,0.25);
+    public void iconMouseExited (MouseEvent event) {
+        UtilsController.changeOpacity(this.scene,(ImageView)event.getTarget(),0.25);
     }
 
     //

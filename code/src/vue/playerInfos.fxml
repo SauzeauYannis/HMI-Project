@@ -44,7 +44,7 @@
                 <RowConstraints minHeight="75.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.halignment="CENTER">
-                <ImageView fx:id="platinumKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#platinumKeyIconMouseEntered" onMouseExited="#platinumKeyIconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="platinumKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                     <Image url="@image/key_platinum.png" />
                 </ImageView>
                 <Label fx:id="platinumKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
@@ -54,7 +54,7 @@
                 </Label>
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                <ImageView fx:id="chocolateEclairIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#chocolateEclairIconMouseEntered" onMouseExited="#chocolateEclairIconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="chocolateEclairIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                     <Image url="@image/chocolate_eclair.png" />
                 </ImageView>
                 <Label fx:id="chocolateEclairQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
@@ -64,7 +64,7 @@
                 </Label>
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                <ImageView fx:id="goldKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#goldKeyIconMouseEntered" onMouseExited="#goldKeyIconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="goldKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                     <Image url="@image/key_golden.png" />
                 </ImageView>
                 <Label fx:id="goldKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
@@ -74,7 +74,7 @@
                 </Label>
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                <ImageView fx:id="cottonCandyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#cottonCandyIconMouseEntered" onMouseExited="#cottonCandyIconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="cottonCandyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                     <Image url="@image/cotton-candy.png" />
                 </ImageView>
                 <Label fx:id="cottonCandyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
@@ -84,7 +84,7 @@
                 </Label>
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                <ImageView fx:id="copperKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#copperKeyIconMouseEntered" onMouseExited="#copperKeyIconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="copperKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                     <Image url="@image/key_copper.png" />
                 </ImageView>
                 <Label fx:id="copperKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
@@ -94,7 +94,7 @@
                 </Label>
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                <ImageView fx:id="appleCandyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#appleCandyIconMouseEntered" onMouseExited="#appleCandyIconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="appleCandyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                     <Image url="@image/apple_candy.png" />
                 </ImageView>
                 <Label fx:id="appleCandyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
