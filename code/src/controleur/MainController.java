@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -37,6 +38,7 @@ public class MainController implements Initializable {
     );
 
     private boolean isVolumeOn = true;
+    private Animation animation;
 
     private Player player;
     private Scene scene;
@@ -51,23 +53,27 @@ public class MainController implements Initializable {
     private ScrollPane scrollPaneDialog;
 
     @FXML
-    private ImageView helpIcon;
+    private ImageView downArrowIcon;
 
     @FXML
     private ImageView soundIcon;
-
-    @FXML
-    private ImageView quitIcon;
 
     @FXML
     private Label labelDialog;
 
     @FXML
     void scrollAnimation() {
-        Animation animation = new Timeline(
-                new KeyFrame(Duration.seconds(5),
-                        new KeyValue(this.scrollPaneDialog.vvalueProperty(), 1)));
-        animation.play();
+        this.animation.play();
+    }
+
+    @FXML
+    public void iconMouseEntered(MouseEvent event) {
+        UtilsController.rescaleNode(this.scene, (ImageView) event.getTarget(), 1.2);
+    }
+
+    @FXML
+    public void iconMouseExited(MouseEvent event) {
+        UtilsController.rescaleNode(this.scene, (ImageView) event.getTarget(), 1);
     }
 
     @FXML
@@ -85,16 +91,6 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void helpMouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.helpIcon, 1.2);
-    }
-
-    @FXML
-    void helpMouseExited() {
-        UtilsController.rescaleNode(this.scene, this.helpIcon,1);
-    }
-
-    @FXML
     void quitMouseClicked() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Quit the game");
@@ -109,34 +105,15 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void quitMouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.quitIcon, 1.2);
-    }
-
-    @FXML
-    void quitMouseExited() {
-        UtilsController.rescaleNode(this.scene, this.quitIcon, 1);
-    }
-
-    @FXML
     void soundMouseClicked() {
         this.isVolumeOn = !this.isVolumeOn;
         changeSoundSetting();
     }
 
-    @FXML
-    void soundMouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.soundIcon,1.2);
-    }
-
-    @FXML
-    void soundMouseExited() {
-        UtilsController.rescaleNode(this.scene, this.soundIcon,1);
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.mediaPlayer.play();
+
         System.setOut(new PrintStream(
                 new OutputStream() {
                     @Override
@@ -145,6 +122,15 @@ public class MainController implements Initializable {
                     }
                 }
         ));
+
+        this.animation = new Timeline(
+                new KeyFrame(
+                        Duration.seconds(1),
+                        new KeyValue(this.scrollPaneDialog.vvalueProperty(), 1))
+        );
+        this.downArrowIcon.visibleProperty().bind(
+                this.scrollPaneDialog.vvalueProperty().lessThan(1)
+        );
     }
 
     public void setPlayer(Player player) {
@@ -164,8 +150,7 @@ public class MainController implements Initializable {
         if (this.isVolumeOn) {
             this.mediaPlayer.play();
             this.soundIcon.setImage(this.volumeOn);
-        }
-        else {
+        } else {
             this.mediaPlayer.pause();
             this.soundIcon.setImage(this.volumeOff);
         }

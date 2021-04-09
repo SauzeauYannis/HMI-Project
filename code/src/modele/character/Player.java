@@ -106,7 +106,7 @@ public class Player extends Character {
 		this.health -= health;
 
 		// Check if the player has lost
-		if(this.health <= 0){
+		if (this.health <= 0){
 			this.lose();
 		} else {
 			printHealth();
