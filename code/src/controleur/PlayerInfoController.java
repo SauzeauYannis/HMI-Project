@@ -79,22 +79,18 @@ public class PlayerInfoController {
         this.scene = scene;
     }
 
-    // --- ICONS ANIMATIONS
-
     @FXML
     public void iconMouseEntered(MouseEvent event){
-        UtilsController.changeOpacity(this.scene, (ImageView)event.getTarget(),1);
+        UtilsController.changeOpacity(this.scene, (ImageView) event.getTarget(),1);
     }
 
     @FXML
     public void iconMouseExited(MouseEvent event) {
-        UtilsController.changeOpacity(this.scene,(ImageView)event.getTarget(),0.25);
+        UtilsController.changeOpacity(this.scene,(ImageView) event.getTarget(),0.25);
     }
 
     @FXML
     public void updateQuantity() {
 
     }
-    //
-
 }
