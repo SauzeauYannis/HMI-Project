@@ -21,7 +21,6 @@ public class PlayerInfoController {
     private VBox bar;
 
     // --- ICONS
-
     @FXML
     private ImageView LockerIcon;
 
@@ -47,7 +46,6 @@ public class PlayerInfoController {
     private ImageView appleCandyIcon;
 
     // --- QUANTITY
-
     @FXML
     private Label platinumKeyQuantity;
 
@@ -88,6 +86,11 @@ public class PlayerInfoController {
 
     @FXML
     public void iconMouseExited(MouseEvent event) {
-        UtilsController.changeOpacity(this.scene, (ImageView) event.getTarget(),0.25);
+        UtilsController.changeOpacity(this.scene,(ImageView) event.getTarget(),0.25);
+    }
+
+    @FXML
+    public void updateQuantity() {
+
     }
 }
