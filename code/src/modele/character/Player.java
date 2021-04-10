@@ -177,7 +177,7 @@ public class Player extends Character {
 	// Display the player's money
 	public void printMoney() {
 		System.out.println("| You have " +
-				this.money +
+				this.money.get() +
 				" coins.");
 	}
 

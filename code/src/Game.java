@@ -40,8 +40,8 @@ public class Game extends Application {
         startController.setScene(scene);
 
         primaryStage.setScene(scene);
-
         primaryStage.setTitle("Gypsy's Carnaval");
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }

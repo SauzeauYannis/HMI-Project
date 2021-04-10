@@ -48,6 +48,5 @@ public class Shop extends Place {
 		for (Item item: this.itemList) {
 			item.printItem();
 		}
-		npc.talk("Type \"look\" for more information");
 	}
 }

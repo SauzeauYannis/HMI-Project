@@ -1,8 +1,11 @@
 package controleur;
 
 import javafx.animation.TranslateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -18,6 +21,8 @@ import java.util.ResourceBundle;
 public class CarnivalController implements Initializable {
 
     private TranslateTransition transition;
+
+    private GameController gameController;
     private Player player;
     private Scene scene;
 
@@ -28,14 +33,21 @@ public class CarnivalController implements Initializable {
     private ImageView benjapiedIcon;
 
     @FXML
-    void gameSceneClicked(MouseEvent mouseEvent) {
-        moveBenjapiedIcon(Duration.seconds(1), mouseEvent.getX(), mouseEvent.getY());
+    private ImageView keyShopIconTest;
+
+    @FXML
+    public void iconMouseEntered(MouseEvent event) {
+        UtilsController.rescaleNode(this.scene, (ImageView) event.getTarget(), 1.2);
     }
 
     @FXML
-    void testBuyKeyClicked() {
-        Interpreter.interpretCommand(this.player, "go key");
-        Interpreter.interpretCommand(this.player, "take copper");
+    public void iconMouseExited(MouseEvent event) {
+        UtilsController.rescaleNode(this.scene, (ImageView) event.getTarget(), 1);
+    }
+
+    @FXML
+    void gameSceneClicked(MouseEvent mouseEvent) {
+        moveBenjapiedIcon(Duration.seconds(1), mouseEvent.getX(), mouseEvent.getY());
     }
 
     @Override
@@ -45,8 +57,22 @@ public class CarnivalController implements Initializable {
         this.transition = new TranslateTransition(Duration.UNKNOWN, this.benjapiedIcon);
     }
 
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
+        this.benjapiedIcon.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+            @Override
+            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
+                if (newValue.intersects(keyShopIconTest.getBoundsInParent())) {
+                    Interpreter.interpretCommand(player, "go key");
+                    gameController.goToKeyShop();
+                    benjapiedIcon.boundsInParentProperty().removeListener(this);
+                }
+            }
+        });
     }
 
     public void setScene(Scene scene) {
