@@ -17,13 +17,18 @@
     <padding>
         <Insets bottom="15.0" left="15.0" />
     </padding>
-    <VBox prefHeight="200.0" spacing="30.0">
+    <VBox prefHeight="200.0" spacing="10.0">
         <ImageView fx:id="LockerIcon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@image/padlock.png" />
         </ImageView>
-        <VBox fx:id="progress_bar" alignment="BOTTOM_CENTER" prefHeight="585.0" prefWidth="20.0" style="-fx-border-color: black;">
+        <VBox fx:id="progress_bar" alignment="BOTTOM_CENTER" prefHeight="550.0" prefWidth="50.0" style="-fx-border-color: black;">
             <VBox fx:id="bar" prefHeight="0.0" prefWidth="20.0" style="-fx-background-color: gold;" />
         </VBox>
+      <Label alignment="CENTER" minWidth="50.0" text="0/9" textAlignment="CENTER">
+         <font>
+            <Font name="Carlito Bold" size="25.0" />
+         </font>
+      </Label>
     </VBox>
     <VBox alignment="CENTER" minWidth="230.0" prefHeight="200.0" prefWidth="230.0" spacing="50.0">
         <padding>

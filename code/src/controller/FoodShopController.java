@@ -15,7 +15,7 @@ import model.place.Shop;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class KeyShopController implements Initializable {
+public class FoodShopController implements Initializable {
 
     private PlayerInfoController playerInfoController;
     private GameController gameController;
@@ -23,22 +23,22 @@ public class KeyShopController implements Initializable {
     private Scene scene;
 
     @FXML
-    private ImageView copperKeyIcon;
+    private ImageView appleCandyIcon;
 
     @FXML
-    private ImageView goldKeyIcon;
+    private ImageView cottonCandyIcon;
 
     @FXML
-    private ImageView platinumKeyIcon;
+    private ImageView chocolateEclairIcon;
 
     @FXML
-    private Label copperKeyPrice;
+    private Label appleCandyPrice;
 
     @FXML
-    private Label goldKeyPrice;
+    private Label cottonCandyPrice;
 
     @FXML
-    private Label platinumKeyPrice;
+    private Label chocolateEclairPrice;
 
     @FXML
     void iconMouseEntered(MouseEvent mouseEvent) {
@@ -51,15 +51,15 @@ public class KeyShopController implements Initializable {
     }
 
     @FXML
-    void buyKey(MouseEvent mouseEvent) {
+    void buyFood(MouseEvent mouseEvent) {
         int oldInventorySize = this.player.getItems().size();
 
-        if (mouseEvent.getTarget().equals(this.copperKeyIcon))
-            Interpreter.interpretCommand(this.player, "take copper");
-        else if (mouseEvent.getTarget().equals(this.goldKeyIcon))
-            Interpreter.interpretCommand(this.player, "take gold");
+        if (mouseEvent.getTarget().equals(this.appleCandyIcon))
+            Interpreter.interpretCommand(this.player, "take apple");
+        else if (mouseEvent.getTarget().equals(this.cottonCandyIcon))
+            Interpreter.interpretCommand(this.player, "take cotton");
         else
-            Interpreter.interpretCommand(this.player, "take platinum");
+            Interpreter.interpretCommand(this.player, "take chocolate");
 
         if (this.player.getItems().size() > oldInventorySize)
             playerInfoController.addItem(((ImageView) mouseEvent.getTarget()).getId());
@@ -73,10 +73,10 @@ public class KeyShopController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip tooltipBuyKey = new Tooltip("Left click to buy a key!");
-        Tooltip.install(this.copperKeyIcon, tooltipBuyKey);
-        Tooltip.install(this.goldKeyIcon, tooltipBuyKey);
-        Tooltip.install(this.platinumKeyIcon, tooltipBuyKey);
+        Tooltip tooltipBuyKey = new Tooltip("Left click to buy a food item!");
+        Tooltip.install(this.appleCandyIcon, tooltipBuyKey);
+        Tooltip.install(this.cottonCandyIcon, tooltipBuyKey);
+        Tooltip.install(this.chocolateEclairIcon, tooltipBuyKey);
     }
 
     public void setGameController(GameController gameController) {
@@ -98,14 +98,14 @@ public class KeyShopController implements Initializable {
     public void generateLabel() {
         for (Item item: ((Shop) this.player.getPlace()).getItemList()) {
             switch (item.getName()) {
-                case "Copper key":
-                    this.copperKeyPrice.setText(item.getPrice() + " coins");
+                case "Apple candy":
+                    this.appleCandyPrice.setText(item.getPrice() + " coins");
                     break;
-                case "Gold key":
-                    this.goldKeyPrice.setText(item.getPrice() + " coins");
+                case "Cotton candy":
+                    this.cottonCandyPrice.setText(item.getPrice() + " coins");
                     break;
-                case "Platinum key":
-                    this.platinumKeyPrice.setText(item.getPrice() + " coins");
+                case "Chocolate eclair":
+                    this.chocolateEclairPrice.setText(item.getPrice() + " coins");
                     break;
             }
         }

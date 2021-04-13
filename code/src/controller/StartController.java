@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -42,6 +41,7 @@ public class StartController implements Initializable {
      */
     public void playMouseClicked() {
         scene.setRoot(this.mainPane);
+        this.mainController.setScene(scene);
     }
 
     /**
@@ -116,7 +116,6 @@ public class StartController implements Initializable {
      */
     public void setScene(Scene scene) {
         this.scene = scene;
-        this.mainController.setScene(scene);
     }
 
     private void buttonFocusOn(Button button) {

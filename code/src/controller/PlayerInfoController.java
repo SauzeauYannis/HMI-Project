@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -96,6 +97,15 @@ public class PlayerInfoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Tooltip tooltipItem = new Tooltip("Left click to look it!\nRight click to use it!");
+        Tooltip.install(this.copperKeyIcon, tooltipItem);
+        Tooltip.install(this.goldKeyIcon, tooltipItem);
+        Tooltip.install(this.platinumKeyIcon, tooltipItem);
+        Tooltip.install(this.appleCandyIcon, tooltipItem);
+        Tooltip.install(this.cottonCandyIcon, tooltipItem);
+        Tooltip.install(this.chocolateEclairIcon, tooltipItem);
+        Tooltip.install(this.healthProgressBar, new Tooltip((int) (this.healthProgressBar.getProgress() * 100) + "/100 calories"));
+
         this.setBindOpacity(this.copperKeyIcon, this.copperKeyQuantity);
         this.setBindOpacity(this.goldKeyIcon, this.goldKeyQuantity);
         this.setBindOpacity(this.platinumKeyIcon, this.platinumKeyQuantity);

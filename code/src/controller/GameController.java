@@ -12,21 +12,20 @@ public class GameController {
 
     private AnchorPane carnivalPane;
     private AnchorPane keyShopPane;
-
-    private PlayerInfoController playerInfoController;
+    private AnchorPane foodShopPane;
 
     private CarnivalController carnivalController;
     private KeyShopController keyShopController;
+    private FoodShopController foodShopController;
 
     private Player player;
-    private Scene scene;
 
     @FXML
     private AnchorPane gameScene;
 
     public void setPlayerInfoController(PlayerInfoController playerInfoController) {
-        this.playerInfoController = playerInfoController;
         this.keyShopController.setPlayerInfoController(playerInfoController);
+        this.foodShopController.setPlayerInfoController(playerInfoController);
     }
 
     public void setPlayer(Player player) {
@@ -43,7 +42,13 @@ public class GameController {
             this.keyShopPane = loader.load();
             this.keyShopController = loader.getController();
             this.keyShopController.setGameController(this);
-            this.keyShopController.setPlayer(this.player);
+            this.keyShopController.setPlayer(player);
+
+            loader = new FXMLLoader(getClass().getResource("../view/foodShop.fxml"));
+            this.foodShopPane = loader.load();
+            this.foodShopController = loader.getController();
+            this.foodShopController.setGameController(this);
+            this.foodShopController.setPlayer(player);
 
             this.changePlace();
         } catch (IOException e) {
@@ -52,8 +57,9 @@ public class GameController {
     }
 
     public void setScene(Scene scene) {
-        this.scene = scene;
         this.carnivalController.setScene(scene);
+        this.keyShopController.setScene(scene);
+        this.foodShopController.setScene(scene);
     }
 
     public void changePlace() {
@@ -66,6 +72,10 @@ public class GameController {
             case "Key shop":
                 this.keyShopController.generateLabel();
                 this.gameScene.getChildren().add(this.keyShopPane);
+                break;
+            case "Food shop":
+                this.foodShopController.generateLabel();
+                this.gameScene.getChildren().add(this.foodShopPane);
                 break;
             default:
                 System.out.println("TODO: faire la vue");
