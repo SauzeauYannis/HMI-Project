@@ -1,5 +1,7 @@
 package model.place.exit;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import model.place.Ending;
 import model.place.Game;
 import model.place.Place;
@@ -10,26 +12,29 @@ import java.util.List;
 public class Exit {
 
 	private final Place place;
-	private boolean isLock;
+	private final BooleanProperty isLock;
 
 	public Exit(Place place, boolean isLock) {
 		this.place = place;
-		this.isLock = isLock;
+		this.isLock = new SimpleBooleanProperty(isLock);
 	}
 
 	public Place getPlace() {
 		return place;
 	}
 
-	public boolean isLock() {
+	public BooleanProperty isLockProperty() {
 		return isLock;
 	}
 
+	public boolean isLock() {
+		return isLock.get();
+	}
+
 	public void unlock() {
-		isLock = false;
+		this.isLock.setValue(false);
 		String place = this.place.getName();
-		System.out.println("| " + place + " is now unlock.\n" +
-				"| Type \"go " + place.split(" ")[0].toLowerCase() + "\" to get inside!");
+		System.out.println("| " + place + " is now unlock.");
 	}
 
 	public static List<Exit> generateAllExits(List<Place> placeList) {

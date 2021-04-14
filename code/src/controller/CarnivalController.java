@@ -14,8 +14,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
+import model.item.Food;
+import model.item.Key;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,6 +57,13 @@ public class CarnivalController implements Initializable {
 
     @FXML
     private ImageView padlockCaravanIcon;
+
+    // TODO: 14-Apr-21 Enlever lors du rendu
+    @FXML
+    void cheat() {
+        this.player.increaseHealth(100);
+        this.player.earnMoney(10000);
+    }
 
     @FXML
     public void iconMouseEntered(MouseEvent event) {

@@ -236,9 +236,7 @@ public class Player extends Character {
 								", this game is locked !\n" +
 								"| If you have a " +
 								level +
-								" key in your inventory, type \"use " +
-								level +
-								"\" to unlock the first lock game.\n" +
+								" key in your inventory, left click on it to unlock the first lock game.\n" +
 								"| Else go to the shop to buy it.");
 
 						// Check if 'place' is an instance of Ending

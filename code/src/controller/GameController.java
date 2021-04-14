@@ -14,11 +14,19 @@ public class GameController {
     private AnchorPane keyShopPane;
     private AnchorPane foodShopPane;
     private AnchorPane copperHubPane;
+    private AnchorPane findNumberPane;
+    private AnchorPane qtePane;
+    private AnchorPane rockPaperScissorsPane;
+    private AnchorPane goldHubPane;
 
     private CarnivalController carnivalController;
     private KeyShopController keyShopController;
     private FoodShopController foodShopController;
     private CopperHubController copperHubController;
+    private FindNumberController findNumberController;
+    private QTEController qteController;
+    private RockPaperScissorsController rockPaperScissorsController;
+    private GoldHubController goldHubController;
 
     private Player player;
 
@@ -52,11 +60,35 @@ public class GameController {
             this.foodShopController.setGameController(this);
             this.foodShopController.setPlayer(player);
 
-            loader = new FXMLLoader(getClass().getResource("../view/copper_hub.fxml"));
+            loader = new FXMLLoader(getClass().getResource("../view/copperHub.fxml"));
             this.copperHubPane = loader.load();
             this.copperHubController = loader.getController();
             this.copperHubController.setGameController(this);
             this.copperHubController.setPlayer(player);
+
+            loader = new FXMLLoader(getClass().getResource("../view/findNumber.fxml"));
+            this.findNumberPane = loader.load();
+            this.findNumberController = loader.getController();
+            this.findNumberController.setGameController(this);
+            this.findNumberController.setPlayer(player);
+
+            loader = new FXMLLoader(getClass().getResource("../view/qte.fxml"));
+            this.qtePane = loader.load();
+            this.qteController = loader.getController();
+            this.qteController.setGameController(this);
+            this.qteController.setPlayer(player);
+
+            loader = new FXMLLoader(getClass().getResource("../view/rockPaperScissors.fxml"));
+            this.rockPaperScissorsPane = loader.load();
+            this.rockPaperScissorsController = loader.getController();
+            this.rockPaperScissorsController.setGameController(this);
+            this.rockPaperScissorsController.setPlayer(player);
+
+            loader = new FXMLLoader(getClass().getResource("../view/goldHub.fxml"));
+            this.goldHubPane = loader.load();
+            this.goldHubController = loader.getController();
+            this.goldHubController.setGameController(this);
+            this.goldHubController.setPlayer(player);
 
             this.gameScene.getChildren().add(this.carnivalPane);
         } catch (IOException e) {
@@ -69,6 +101,7 @@ public class GameController {
         this.keyShopController.setScene(scene);
         this.foodShopController.setScene(scene);
         this.copperHubController.setScene(scene);
+        this.goldHubController.setScene(scene);
     }
 
     public void changePlace() {
@@ -87,7 +120,21 @@ public class GameController {
                 this.gameScene.getChildren().add(this.foodShopPane);
                 break;
             case "Copper hub":
+                this.copperHubController.generatePadlocks();
                 this.gameScene.getChildren().add(this.copperHubPane);
+                break;
+            case "Find Number":
+                this.gameScene.getChildren().add(this.findNumberPane);
+                break;
+            case "QTE":
+                this.gameScene.getChildren().add(this.qtePane);
+                break;
+            case "Rock paper scissors":
+                this.gameScene.getChildren().add(this.rockPaperScissorsPane);
+                break;
+            case "Gold hub":
+                this.goldHubController.generatePadlocks();
+                this.gameScene.getChildren().add(this.goldHubPane);
                 break;
             default:
                 System.out.println("TODO: faire la vue");
