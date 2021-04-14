@@ -16,6 +16,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -78,15 +79,14 @@ public class MainController implements Initializable {
 
     @FXML
     void helpMouseClicked() throws IOException {
-        this.mediaPlayer.stop();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/help.fxml"));
         Parent root = loader.load();
         HelpController helpController = loader.getController();
 
-        scene.setRoot(root);
+        helpController.setRoot((AnchorPane) this.scene.getRoot());
 
-        helpController.setPlayer(this.player);
+        this.scene.setRoot(root);
+
         helpController.setScene(this.scene);
     }
 
@@ -135,6 +135,17 @@ public class MainController implements Initializable {
 
     public void setPlayer(Player player) {
         this.player = player;
+
+        player.getHealth().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() <= 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("You lose!");
+                alert.setContentText("Oh no you've have lose too much calories you can't continue!");
+                alert.showAndWait();
+                Interpreter.interpretCommand(player, "quit");
+            }
+        });
+
         this.playerInfoController.setPlayer(player);
         this.gameController.setPlayer(player);
         this.gameController.setPlayerInfoController(this.playerInfoController);

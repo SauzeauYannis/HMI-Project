@@ -28,7 +28,7 @@ public class Player extends Character {
 	/// Attributes ///
 	private Place cur_place;
 	private final List<Item> items;
-	private int health;
+	private final IntegerProperty health;
 	private final IntegerProperty money;
 	private boolean isLose;
 	private int gamesFinished;
@@ -37,8 +37,8 @@ public class Player extends Character {
 	public Player(String name, Place p, int money) {
 		super(name);
 		this.cur_place = p;
-		this.health = MAX_HEALTH;
 		this.money = new SimpleIntegerProperty(money);
+		this.health = new SimpleIntegerProperty(MAX_HEALTH);
 		this.items = new ArrayList<>();
 		this.isLose = false;
 		this.gamesFinished = 0;
@@ -66,17 +66,17 @@ public class Player extends Character {
 		return this.items;
 	}
 
-	public int getHealth(){
+	public IntegerProperty getMoney()
+	{
+		return this.money;
+	}
+
+	public IntegerProperty getHealth(){
 		return this.health;
 	}
 
 	public int getGamesFinished(){
 		return this.gamesFinished;
-	}
-
-	public IntegerProperty getMoney()
-	{
-		return this.money;
 	}
 
 	/////////////
@@ -86,16 +86,16 @@ public class Player extends Character {
 	// Increase the player's health remain
 	public boolean increaseHealth(int health) {
 		// Check if the player's health is full
-		if (this.health == MAX_HEALTH) {
+		if (this.health.get() == MAX_HEALTH) {
 			System.out.println("| You're calorie are always at max");
 			return false;
 		}
 		// Check if the player's health will be superior to the max health
-		else if (this.health + health >= MAX_HEALTH){
-			this.health = MAX_HEALTH;
+		else if (this.health.get() + health >= MAX_HEALTH){
+			this.health.set(MAX_HEALTH);
 		}
 		else{
-			this.health += health;
+			this.health.set(this.health.get() + health);
 		}
 		printHealth();
 		return true;
@@ -103,10 +103,10 @@ public class Player extends Character {
 
 	// Decrease the player's health
 	public void decreaseHealth(int health) {
-		this.health -= health;
+		this.health.set(this.health.get() - health);
 
 		// Check if the player has lost
-		if (this.health <= 0){
+		if (this.health.get() <= 0){
 			this.lose();
 		} else {
 			printHealth();

@@ -80,7 +80,7 @@
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                 <ImageView fx:id="cottonCandyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseClicked="#iconMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@image/cotton-candy.png" />
+                    <Image url="@image/cotton_candy.png" />
                 </ImageView>
                 <Label fx:id="cottonCandyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                     <font>

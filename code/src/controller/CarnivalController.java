@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -34,10 +35,25 @@ public class CarnivalController implements Initializable {
     private ImageView playerIcon;
 
     @FXML
-    private ImageView keyShopIconTest;
+    private ImageView keyShopIcon;
 
     @FXML
-    private ImageView foodShopIconTest;
+    private ImageView foodShopIcon;
+
+    @FXML
+    private ImageView sparklingCaravanIcon;
+
+    @FXML
+    private ImageView goldHubIcon;
+
+    @FXML
+    private ImageView platinumHubIcon;
+
+    @FXML
+    private ImageView copperHubIcon;
+
+    @FXML
+    private ImageView padlockCaravanIcon;
 
     @FXML
     public void iconMouseEntered(MouseEvent event) {
@@ -58,8 +74,13 @@ public class CarnivalController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.transition = new TranslateTransition(Duration.UNKNOWN, this.playerIcon);
 
-        Tooltip.install(this.keyShopIconTest, new Tooltip("Go to the key shop!"));
-        Tooltip.install(this.foodShopIconTest, new Tooltip("Go to the food shop!"));
+        Tooltip.install(this.keyShopIcon, new Tooltip("Go to the key shop!"));
+        Tooltip.install(this.foodShopIcon, new Tooltip("Go to the food shop!"));
+        Tooltip.install(this.sparklingCaravanIcon, new Tooltip("Go to the sparkling caravan!"));
+        Tooltip.install(this.copperHubIcon, new Tooltip("Go to the copper hub!"));
+        Tooltip.install(this.goldHubIcon, new Tooltip("Go to the gold hub!"));
+        Tooltip.install(this.platinumHubIcon, new Tooltip("Go to the platinum hub!"));
+        Tooltip.install(this.padlockCaravanIcon, new Tooltip("This place is lock!\nYou need to finish the 9 mini-games\nto automatically unlock it"));
     }
 
     public void setGameController(GameController gameController) {
@@ -82,12 +103,33 @@ public class CarnivalController implements Initializable {
         this.playerIcon.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
             @Override
             public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
-                if (newValue.intersects(keyShopIconTest.getBoundsInParent())) {
+                if (newValue.intersects(keyShopIcon.getBoundsInParent())) {
                     Interpreter.interpretCommand(player, "go key");
                     gameController.changePlace();
                     playerIcon.boundsInParentProperty().removeListener(this);
-                } else if (newValue.intersects(foodShopIconTest.getBoundsInParent())) {
+                } else if (newValue.intersects(foodShopIcon.getBoundsInParent())) {
                     Interpreter.interpretCommand(player, "go food");
+                    gameController.changePlace();
+                    playerIcon.boundsInParentProperty().removeListener(this);
+                } else if (newValue.intersects(sparklingCaravanIcon.getBoundsInParent())) {
+                    if (!padlockCaravanIcon.isVisible()) {
+                        Interpreter.interpretCommand(player, "go sparkling");
+                        gameController.changePlace();
+                        playerIcon.boundsInParentProperty().removeListener(this);
+                    } else {
+                        playerIcon.setTranslateX(675);
+                        playerIcon.setTranslateY(300);
+                    }
+                } else if (newValue.intersects(copperHubIcon.getBoundsInParent())) {
+                    Interpreter.interpretCommand(player, "go copper");
+                    gameController.changePlace();
+                    playerIcon.boundsInParentProperty().removeListener(this);
+                } else if (newValue.intersects(goldHubIcon.getBoundsInParent())) {
+                    Interpreter.interpretCommand(player, "go gold");
+                    gameController.changePlace();
+                    playerIcon.boundsInParentProperty().removeListener(this);
+                } else if (newValue.intersects(platinumHubIcon.getBoundsInParent())) {
+                    Interpreter.interpretCommand(player, "go platinum");
                     gameController.changePlace();
                     playerIcon.boundsInParentProperty().removeListener(this);
                 }

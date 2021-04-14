@@ -6,6 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import model.character.Player;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import java.io.IOException;
  */
 public class HelpController {
 
-    private Player player;
+    private AnchorPane root;
     private Scene scene;
 
     @FXML
@@ -28,14 +29,7 @@ public class HelpController {
      */
     @FXML
     void backMouseClicked() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/main.fxml"));
-        Parent root = loader.load();
-        MainController mainController = loader.getController();
-
-        scene.setRoot(root);
-
-        mainController.setPlayer(this.player);
-        mainController.setScene(this.scene);
+        this.scene.setRoot(this.root);
     }
 
     /**
@@ -55,20 +49,10 @@ public class HelpController {
         scene.setCursor(Cursor.DEFAULT);
     }
 
-    /**
-     * Sets player.
-     *
-     * @param player the player
-     */
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setRoot(AnchorPane root) {
+        this.root = root;
     }
 
-    /**
-     * Sets scene.
-     *
-     * @param scene the scene
-     */
     public void setScene(Scene scene) {
         this.scene = scene;
     }

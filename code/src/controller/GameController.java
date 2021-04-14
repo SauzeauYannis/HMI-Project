@@ -13,10 +13,12 @@ public class GameController {
     private AnchorPane carnivalPane;
     private AnchorPane keyShopPane;
     private AnchorPane foodShopPane;
+    private AnchorPane copperHubPane;
 
     private CarnivalController carnivalController;
     private KeyShopController keyShopController;
     private FoodShopController foodShopController;
+    private CopperHubController copperHubController;
 
     private Player player;
 
@@ -50,7 +52,13 @@ public class GameController {
             this.foodShopController.setGameController(this);
             this.foodShopController.setPlayer(player);
 
-            this.changePlace();
+            loader = new FXMLLoader(getClass().getResource("../view/copper_hub.fxml"));
+            this.copperHubPane = loader.load();
+            this.copperHubController = loader.getController();
+            this.copperHubController.setGameController(this);
+            this.copperHubController.setPlayer(player);
+
+            this.gameScene.getChildren().add(this.carnivalPane);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,6 +68,7 @@ public class GameController {
         this.carnivalController.setScene(scene);
         this.keyShopController.setScene(scene);
         this.foodShopController.setScene(scene);
+        this.copperHubController.setScene(scene);
     }
 
     public void changePlace() {
@@ -76,6 +85,9 @@ public class GameController {
             case "Food shop":
                 this.foodShopController.generateLabel();
                 this.gameScene.getChildren().add(this.foodShopPane);
+                break;
+            case "Copper hub":
+                this.gameScene.getChildren().add(this.copperHubPane);
                 break;
             default:
                 System.out.println("TODO: faire la vue");

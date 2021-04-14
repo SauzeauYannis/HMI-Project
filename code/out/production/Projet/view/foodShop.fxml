@@ -13,7 +13,7 @@
       <Image url="@image/apple_candy.png" />
    </ImageView>
    <ImageView fx:id="cottonCandyIcon" fitHeight="100.0" fitWidth="100.0" layoutX="383.0" layoutY="232.0" onMouseClicked="#buyFood" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
-      <Image url="@image/cotton-candy.png" />
+      <Image url="@image/cotton_candy.png" />
    </ImageView>
    <ImageView fx:id="chocolateEclairIcon" fitHeight="100.0" fitWidth="100.0" layoutX="640.0" layoutY="232.0" onMouseClicked="#buyFood" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
       <Image url="@image/chocolate_eclair.png" />

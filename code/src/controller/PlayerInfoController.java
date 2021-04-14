@@ -104,7 +104,12 @@ public class PlayerInfoController implements Initializable {
         Tooltip.install(this.appleCandyIcon, tooltipItem);
         Tooltip.install(this.cottonCandyIcon, tooltipItem);
         Tooltip.install(this.chocolateEclairIcon, tooltipItem);
-        Tooltip.install(this.healthProgressBar, new Tooltip((int) (this.healthProgressBar.getProgress() * 100) + "/100 calories"));
+
+        Tooltip tooltipHealth = new Tooltip();
+        tooltipHealth.textProperty().bind(
+                Bindings.format("%.0f/100 calories", this.healthProgressBar.progressProperty().multiply(100))
+        );
+        Tooltip.install(this.healthProgressBar, tooltipHealth);
 
         this.setBindOpacity(this.copperKeyIcon, this.copperKeyQuantity);
         this.setBindOpacity(this.goldKeyIcon, this.goldKeyQuantity);
@@ -118,6 +123,9 @@ public class PlayerInfoController implements Initializable {
         this.player = player;
         this.coinQuantity.textProperty().bind(
                 player.getMoney().asString()
+        );
+        this.healthProgressBar.progressProperty().bind(
+                player.getHealth().divide(100F)
         );
     }
 
