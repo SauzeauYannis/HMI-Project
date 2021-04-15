@@ -31,8 +31,17 @@ public class GameController {
     private KeyShopController keyShopController;
     private FoodShopController foodShopController;
     private CopperHubController copperHubController;
+    private FindNumberController findNumberController;
+    private QTEController qteController;
+    private RockPaperScissorsController rockPaperScissorsController;
     private GoldHubController goldHubController;
+    private HanoiTowerController hanoiTowerController;
+    private RiddleController riddleController;
+    private TicTacToeController ticTacToeController;
     private PlatinumHubController platinumHubController;
+    private HangmanController hangmanController;
+    private KaraokeController karaokeController;
+    private QuestionsController questionsController;
 
     private Player player;
 
@@ -74,21 +83,21 @@ public class GameController {
 
             loader = new FXMLLoader(getClass().getResource("../view/findNumber.fxml"));
             this.findNumberPane = loader.load();
-            FindNumberController findNumberController = loader.getController();
-            findNumberController.setGameController(this);
-            findNumberController.setPlayer(player);
+            this.findNumberController = loader.getController();
+            this.findNumberController.setGameController(this);
+            this.findNumberController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/qte.fxml"));
             this.qtePane = loader.load();
-            QTEController qteController = loader.getController();
-            qteController.setGameController(this);
-            qteController.setPlayer(player);
+            this.qteController = loader.getController();
+            this.qteController.setGameController(this);
+            this.qteController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/rockPaperScissors.fxml"));
             this.rockPaperScissorsPane = loader.load();
-            RockPaperScissorsController rockPaperScissorsController = loader.getController();
-            rockPaperScissorsController.setGameController(this);
-            rockPaperScissorsController.setPlayer(player);
+            this.rockPaperScissorsController = loader.getController();
+            this.rockPaperScissorsController.setGameController(this);
+            this.rockPaperScissorsController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/goldHub.fxml"));
             this.goldHubPane = loader.load();
@@ -98,21 +107,21 @@ public class GameController {
 
             loader = new FXMLLoader(getClass().getResource("../view/hanoiTower.fxml"));
             this.hanoiTowerPane = loader.load();
-            HanoiTowerController hanoiTowerController = loader.getController();
-            hanoiTowerController.setGameController(this);
-            hanoiTowerController.setPlayer(player);
+            this.hanoiTowerController = loader.getController();
+            this.hanoiTowerController.setGameController(this);
+            this.hanoiTowerController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/riddle.fxml"));
             this.riddlePane = loader.load();
-            RiddleController riddleController = loader.getController();
-            riddleController.setGameController(this);
-            riddleController.setPlayer(player);
+            this.riddleController = loader.getController();
+            this.riddleController.setGameController(this);
+            this.riddleController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/ticTacToe.fxml"));
             this.ticTacToePane = loader.load();
-            TicTacToeController ticTacToeController = loader.getController();
-            ticTacToeController.setGameController(this);
-            ticTacToeController.setPlayer(player);
+            this.ticTacToeController = loader.getController();
+            this.ticTacToeController.setGameController(this);
+            this.ticTacToeController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/platinumHub.fxml"));
             this.platinumHubPane = loader.load();
@@ -122,21 +131,21 @@ public class GameController {
 
             loader = new FXMLLoader(getClass().getResource("../view/hangman.fxml"));
             this.hangmanHubPane = loader.load();
-            HangmanController hangmanController = loader.getController();
-            hangmanController.setGameController(this);
-            hangmanController.setPlayer(player);
+            this.hangmanController = loader.getController();
+            this.hangmanController.setGameController(this);
+            this.hangmanController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/karaoke.fxml"));
             this.karaokeHubPane = loader.load();
-            KaraokeController karaokeController = loader.getController();
-            karaokeController.setGameController(this);
-            karaokeController.setPlayer(player);
+            this.karaokeController = loader.getController();
+            this.karaokeController.setGameController(this);
+            this.karaokeController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/questions.fxml"));
             this.questionsHubPane = loader.load();
-            QuestionsController questionsController = loader.getController();
-            questionsController.setGameController(this);
-            questionsController.setPlayer(player);
+            this.questionsController = loader.getController();
+            this.questionsController.setGameController(this);
+            this.questionsController.setPlayer(player);
 
             loader = new FXMLLoader(getClass().getResource("../view/ending.fxml"));
             this.endingPane = loader.load();
@@ -179,6 +188,7 @@ public class GameController {
                 this.gameScene.getChildren().add(this.copperHubPane);
                 break;
             case "Find Number":
+                this.findNumberController.reset();
                 this.gameScene.getChildren().add(this.findNumberPane);
                 break;
             case "QTE":

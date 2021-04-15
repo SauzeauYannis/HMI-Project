@@ -1,9 +1,8 @@
 package model.place.game;
 
-import model.Gameplay;
+import model.Level;
 import model.character.NPC;
 import model.character.Player;
-import model.Level;
 import model.place.Game;
 
 import java.util.Scanner;
@@ -18,6 +17,8 @@ public class FindNumber extends Game {
     // Class attributes
     private final static int MAX_NUMBER = 999;
     private final static int DEFAULT_ATTEMPT = 10;
+
+    private Scanner scanner;
 
     // Constructor
     public FindNumber() {
@@ -35,7 +36,7 @@ public class FindNumber extends Game {
     @Override
     public void play(Player player) {
         // Method variables
-        Scanner scanner = Gameplay.scanner;
+        scanner = new Scanner(System.in);
         int attempt = DEFAULT_ATTEMPT;
         int rand = (int) (Math.random() * (MAX_NUMBER));
         int chosenNumber;
@@ -47,7 +48,7 @@ public class FindNumber extends Game {
         // While the player still has attempt
         while (attempt > 0) {
 
-            System.out.print(player);
+            // System.out.print(player);
 
             // Check if the player choose only a number
             try {
@@ -89,7 +90,12 @@ public class FindNumber extends Game {
 
         // Prevent a bug at the end of the game
         scanner.nextLine();
+        scanner.close();
 
         System.out.println("\n--- Game finished ---\n");
+    }
+
+    public void test(String i) {
+        System.out.println("[DEBUG] - You submit: " + i);
     }
 }
