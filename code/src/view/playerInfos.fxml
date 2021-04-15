@@ -34,7 +34,7 @@
         <padding>
             <Insets right="15.0" />
         </padding>
-        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="playerIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@image/benjapied.gif" />
         </ImageView>
         <ProgressBar fx:id="healthProgressBar" prefWidth="200.0" progress="1.0" />

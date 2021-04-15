@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -56,6 +53,15 @@ public class MainController implements Initializable {
 
     @FXML
     private ImageView downArrowIcon;
+
+    @FXML
+    private ImageView lookIcon;
+
+    @FXML
+    private ImageView helpIcon;
+
+    @FXML
+    private ImageView quitIcon;
 
     @FXML
     private ImageView soundIcon;
@@ -121,7 +127,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.mediaPlayer.play();
+        this.changeSoundSetting();
 
         System.setOut(new PrintStream(
                 new OutputStream() {
@@ -140,6 +146,11 @@ public class MainController implements Initializable {
         this.downArrowIcon.visibleProperty().bind(
                 this.scrollPaneDialog.vvalueProperty().lessThan(1)
         );
+
+        Tooltip.install(this.downArrowIcon, new Tooltip("Click to scroll down"));
+        Tooltip.install(this.lookIcon, new Tooltip("Click to look the place"));
+        Tooltip.install(this.helpIcon, new Tooltip("Click to go to help page"));
+        Tooltip.install(this.quitIcon, new Tooltip("Click to quit the game"));
     }
 
     public void setPlayer(Player player) {
@@ -161,7 +172,7 @@ public class MainController implements Initializable {
         this.playerInfoController.setPlayer(player);
         this.gameController.setPlayer(player);
         this.gameController.setPlayerInfoController(this.playerInfoController);
-        this.player.getPlace().getNpc().talk("Welcome to Gypsy's Carnival!\n");
+        this.player.getPlace().getNpc().talk("Welcome to Gypsy's Carnival!");
     }
 
     public void setScene(Scene scene) {
@@ -172,9 +183,11 @@ public class MainController implements Initializable {
 
     private void changeSoundSetting() {
         if (this.isVolumeOn) {
+            Tooltip.install(this.soundIcon, new Tooltip("Click to set the volume off"));
             this.mediaPlayer.play();
             this.soundIcon.setImage(this.volumeOn);
         } else {
+            Tooltip.install(this.soundIcon, new Tooltip("Click to set the volume on"));
             this.mediaPlayer.pause();
             this.soundIcon.setImage(this.volumeOff);
         }

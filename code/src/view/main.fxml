@@ -32,13 +32,13 @@
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
-            <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#helpMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="helpIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#helpMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
                 <Image url="@image/information.png" />
             </ImageView>
             <ImageView fx:id="soundIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#soundMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
                 <Image url="@image/volume_on.png" />
             </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#quitMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="quitIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#quitMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
                 <Image url="@image/quit.png" />
             </ImageView>
             <VBox.margin>
@@ -60,9 +60,7 @@
     <ImageView fx:id="downArrowIcon" fitHeight="50.0" fitWidth="50.0" layoutX="815.0" layoutY="740.0" onMouseClicked="#scrollAnimation" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
         <Image url="@image/down_arrowgif.gif" />
     </ImageView>
-    <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="830.0" layoutY="50.0" onMouseClicked="#lookMouseClicked"
-               onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@image/glasses.png"/>
+    <ImageView fx:id="lookIcon" fitHeight="50.0" fitWidth="50.0" layoutX="830.0" layoutY="50.0" onMouseClicked="#lookMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@image/glasses.png" />
     </ImageView>
 </AnchorPane>

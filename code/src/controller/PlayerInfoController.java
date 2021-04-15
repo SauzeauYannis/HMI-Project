@@ -35,6 +35,9 @@ public class PlayerInfoController implements Initializable {
     @FXML
     private Label gameFinishedLabel;
 
+    @FXML
+    private ImageView playerIcon;
+
     // --- ICONS
     @FXML
     private ImageView padlockIcon;
@@ -132,6 +135,9 @@ public class PlayerInfoController implements Initializable {
                 player.getMoney().asString()
         );
         this.healthProgressBar.progressProperty().bind(
+                player.getHealth().divide(100F)
+        );
+        this.playerIcon.opacityProperty().bind(
                 player.getHealth().divide(100F)
         );
         player.getGamesFinished().addListener((observable, oldValue, newValue) -> {

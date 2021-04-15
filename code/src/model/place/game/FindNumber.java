@@ -1,5 +1,8 @@
 package model.place.game;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import model.Gameplay;
 import model.Level;
 import model.character.NPC;
 import model.character.Player;
@@ -18,7 +21,8 @@ public class FindNumber extends Game {
     private final static int MAX_NUMBER = 999;
     private final static int DEFAULT_ATTEMPT = 10;
 
-    private Scanner scanner;
+    private final IntegerProperty attempt = new SimpleIntegerProperty(DEFAULT_ATTEMPT);
+    private int rand;
 
     // Constructor
     public FindNumber() {
@@ -36,56 +40,26 @@ public class FindNumber extends Game {
     @Override
     public void play(Player player) {
         // Method variables
-        scanner = new Scanner(System.in);
-        int attempt = DEFAULT_ATTEMPT;
-        int rand = (int) (Math.random() * (MAX_NUMBER));
+        Scanner scanner = Gameplay.scanner;
         int chosenNumber;
 
-        System.out.println("\n--- Game launched ---\n");
-
-        this.getNpc().talk("You need to find my number between 0 and " + MAX_NUMBER + " in " + DEFAULT_ATTEMPT + " attempts!");
+        start();
 
         // While the player still has attempt
-        while (attempt > 0) {
+        while (attempt.get() > 0) {
 
-            // System.out.print(player);
+            System.out.print(player);
 
             // Check if the player choose only a number
             try {
                 chosenNumber = scanner.nextInt();
             } catch (Exception exception) {
                 scanner.nextLine();
-                this.getNpc().talk("You need to write a number!");
+                mustBeNumber();
                 continue;
             }
 
-            // Check if the player type a valid number
-            if(chosenNumber > MAX_NUMBER || chosenNumber < 0) {
-                this.getNpc().talk("Please entry a valid number!");
-            } else {
-                attempt--;
-
-                // The player has abandoned
-                if (attempt == 0 && chosenNumber != rand) {
-                    this.getNpc().talk("The number was " + rand);
-                    this.lose(player);
-                    break;
-                } else {
-
-                    //Check where is the number chosen
-                    if (rand > chosenNumber) {
-                        this.getNpc().talk("It's more!");
-                    } else if (rand < chosenNumber) {
-                        this.getNpc().talk("It's less!");
-                    } else {
-                        this.win(player);
-                        break;
-                    }
-                    this.getNpc().talk("You only have " +
-                            attempt +
-                            " attempts left!");
-                }
-            }
+            playOneTurn(player, chosenNumber);
         }
 
         // Prevent a bug at the end of the game
@@ -95,7 +69,57 @@ public class FindNumber extends Game {
         System.out.println("\n--- Game finished ---\n");
     }
 
-    public void test(String i) {
-        System.out.println("[DEBUG] - You submit: " + i);
+    public int getRand() {
+        return rand;
+    }
+
+    public IntegerProperty attemptProperty() {
+        return attempt;
+    }
+
+    public void mustBeNumber() {
+        this.getNpc().talk("You need to write a number!");
+    }
+
+    public void start() {
+        attempt.set(DEFAULT_ATTEMPT);
+        rand = (int) (Math.random() * (MAX_NUMBER));
+
+        System.out.println("\n--- Game launched ---\n");
+
+        this.getNpc().talk("You need to find my number between 0 and " + MAX_NUMBER + " in " + DEFAULT_ATTEMPT + " attempts!");
+    }
+
+
+    public void playOneTurn(Player player, int chosenNumber) {
+        // Check if the player type a valid number
+        if (chosenNumber > MAX_NUMBER || chosenNumber < 0) {
+            this.getNpc().talk("Please entry a valid number!");
+        } else {
+            attempt.set(attempt.get()-1);
+
+            // The player has abandoned
+            if (attempt.get() == 0 && chosenNumber != rand) {
+                this.getNpc().talk("The number was " + rand);
+                this.lose(player);
+            } else {
+
+                //Check where is the number chosen
+                if (rand > chosenNumber) {
+                    this.getNpc().talk("It's more!");
+                    this.getNpc().talk("You only have " +
+                            attempt.get() +
+                            " attempts left!");
+                } else if (rand < chosenNumber) {
+                    this.getNpc().talk("It's less!");
+                    this.getNpc().talk("You only have " +
+                            attempt.get() +
+                            " attempts left!");
+                } else {
+                    this.win(player);
+                    attempt.set(0);
+                }
+            }
+        }
     }
 }
