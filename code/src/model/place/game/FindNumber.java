@@ -22,8 +22,7 @@ public class FindNumber extends Game {
     // Constructor
     public FindNumber() {
         super("Find Number",
-                "| In this game you need to find a number think by the man who is in front of you.\n" +
-                "| Type \"play\" to start the game.",
+                "| In this game you need to find a number think by the man who is in front of you.",
                 new NPC("Vincent Faygaf"),
                 Level.COPPER);
     }

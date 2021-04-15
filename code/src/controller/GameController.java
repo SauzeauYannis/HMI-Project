@@ -25,6 +25,7 @@ public class GameController {
     private AnchorPane hangmanHubPane;
     private AnchorPane karaokeHubPane;
     private AnchorPane questionsHubPane;
+    private AnchorPane endingPane;
 
     private CarnivalController carnivalController;
     private KeyShopController keyShopController;
@@ -137,6 +138,12 @@ public class GameController {
             questionsController.setGameController(this);
             questionsController.setPlayer(player);
 
+            loader = new FXMLLoader(getClass().getResource("../view/ending.fxml"));
+            this.endingPane = loader.load();
+            EndingController endingController = loader.getController();
+            endingController.setGameController(this);
+            endingController.setPlayer(player);
+
             this.gameScene.getChildren().add(this.carnivalPane);
         } catch (IOException e) {
             e.printStackTrace();
@@ -205,6 +212,9 @@ public class GameController {
                 break;
             case "Questions":
                 this.gameScene.getChildren().add(this.questionsHubPane);
+                break;
+            case "Sparkling caravan":
+                this.gameScene.getChildren().add(this.endingPane);
                 break;
         }
     }

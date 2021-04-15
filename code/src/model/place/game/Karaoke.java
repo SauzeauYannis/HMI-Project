@@ -42,8 +42,7 @@ public class Karaoke extends Game {
     //CONSTRUCTOR
     public Karaoke() {
         super("Karaoke",
-                "| In this game, your music culture will be useful to find out the missing lyrics.\n" +
-                        "| Type \"play\" to start the game.",
+                "| In this game, your music culture will be useful to find out the missing lyrics.",
                 new NPC("Kharra Okey"),
                 Level.PLATINUM);
     }

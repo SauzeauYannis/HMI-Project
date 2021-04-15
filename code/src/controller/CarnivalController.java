@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,11 +13,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
-import model.item.Food;
-import model.item.Key;
+import model.place.Game;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -99,6 +96,9 @@ public class CarnivalController implements Initializable {
 
     public void setPlayer(Player player) {
         this.player = player;
+        this.padlockCaravanIcon.visibleProperty().bind(
+                player.getGamesFinished().isEqualTo(Game.NB_GAMES).not()
+        );
         this.reset();
     }
 
@@ -172,6 +172,13 @@ public class CarnivalController implements Initializable {
                         Duration.millis(20),
                         UtilsController.getTranslateCenterX(this.playerIcon) + 20,
                         UtilsController.getTranslateCenterY(this.playerIcon));
+                break;
+            // TODO: 15-Apr-21 Enlever debug decrease quand ca sera fini
+            case C:
+                this.player.decreaseHealth(11);
+                break;
+            case F:
+                this.player.increaseGameFinished();
                 break;
         }
     }

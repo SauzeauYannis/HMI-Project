@@ -29,8 +29,7 @@ public class RockPaperScissors extends Game {
     // Constructor
     public RockPaperScissors() {
         super("Rock paper scissors",
-                "| In this game you need to beat at roshambo the man who is in front of you.\n" +
-                        "| Type \"play\" to start the game.",
+                "| In this game you need to beat at roshambo the man who is in front of you.",
                 new NPC("Pierre Dupuis"),
                 Level.COPPER);
     }

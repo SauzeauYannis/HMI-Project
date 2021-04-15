@@ -37,20 +37,20 @@ public class Ending extends Place {
     public void printCredits() {
         // Print each noc sentence with 2 seconds intervals
         for (String sentence: NPC_TALK) {
-            try {
-                TimeUnit.SECONDS.sleep(2);
-            } catch (Exception exception) {
-                System.err.println("Error during sleep program in QTE");
-            }
+//            try {
+//                Thread.sleep(2000);
+//            } catch (Exception exception) {
+//                System.err.println("Error during sleep program in Sparkling");
+//            }
             this.getNpc().talk(sentence);
         }
 
-        System.out.println("| Press enter to exit");
+        //System.out.println("| Press enter to exit");
 
         // Wait enter
-        Gameplay.scanner.nextLine();
+        //Gameplay.scanner.nextLine();
 
         // Quit the program
-        System.exit(0);
+        //System.exit(0);
     }
 }

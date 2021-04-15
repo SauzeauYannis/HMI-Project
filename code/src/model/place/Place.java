@@ -102,16 +102,13 @@ public class Place implements Describable {
 
 		// Hubs
 		placeList.add(new Place("Copper hub",
-						"| This is the place where you can choose to go to a copper Game\n" +
-								"| Type \"go\" for have the list of games you can access",
+						"| This is the place where you can choose to go to a copper Game",
 						npcMain));
 		placeList.add(new Place("Gold hub",
-						"| This is the place where you can choose to go to a gold Game\n" +
-								"| Type \"go\" for have the list of games you can access",
+						"| This is the place where you can choose to go to a gold Game",
 						npcMain));
 		placeList.add(new Place("Platinum hub",
-						"| This is the place where you can choose to go to a platinum Game\n" +
-								"| Type \"go\" for have the list of games you can access",
+						"| This is the place where you can choose to go to a platinum Game",
 						npcMain));
 
 		// Key shop

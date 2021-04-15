@@ -4,15 +4,19 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.character.Player;
 import model.command.Interpreter;
+import model.place.Game;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,9 +32,12 @@ public class PlayerInfoController implements Initializable {
     @FXML
     private VBox bar;
 
+    @FXML
+    private Label gameFinishedLabel;
+
     // --- ICONS
     @FXML
-    private ImageView LockerIcon;
+    private ImageView padlockIcon;
 
     @FXML
     private ProgressBar healthProgressBar;
@@ -127,6 +134,23 @@ public class PlayerInfoController implements Initializable {
         this.healthProgressBar.progressProperty().bind(
                 player.getHealth().divide(100F)
         );
+        player.getGamesFinished().addListener((observable, oldValue, newValue) -> {
+            this.gameFinishedLabel.setText(newValue.intValue() + "/" + Game.NB_GAMES);
+            this.bar.setPrefHeight(newValue.doubleValue() * (this.progress_bar.getHeight() / 9F));
+            if (newValue.intValue() == 9) {
+                Interpreter.interpretCommand(this.player, "unlock sparkling");
+                this.padlockIcon.setImage(
+                        new Image("view/image/unlock.png")
+                );
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("You finished all games!");
+                alert.setContentText("Congratulations, you can now enter the sparkling caravan!");
+                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
+                        new Image("view/image/clapping.png")
+                );
+                alert.showAndWait();
+            }
+        });
     }
 
     public void setScene(Scene scene) {

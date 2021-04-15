@@ -3,9 +3,14 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.Place;
@@ -15,6 +20,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GoldHubController implements Initializable {
+
+    private final ButtonType playButton = new ButtonType("play", ButtonBar.ButtonData.OK_DONE);
+    private final ButtonType hubButton = new ButtonType("return to gold hub", ButtonBar.ButtonData.CANCEL_CLOSE);
+    private final Alert alertPlay = new Alert(Alert.AlertType.CONFIRMATION, "", this.playButton, this.hubButton);
+    private final Stage dialogStage = (Stage) this.alertPlay.getDialogPane().getScene().getWindow();
+    private final Image hanoiTowerImage = new Image("view/image/hanoi_tower.gif");
+    private final Image riddleImage = new Image("view/image/riddle.gif");
+    private final Image ticTacToeImage = new Image("view/image/tic_tac_toe.gif");
 
     private GameController gameController;
     private Player player;
@@ -42,15 +55,34 @@ public class GoldHubController implements Initializable {
     void iconMouseClicked(MouseEvent mouseEvent) {
         Place oldPlace = this.player.getPlace();
 
-        if (mouseEvent.getTarget().equals(this.hanoiTowerIcon))
+        if (mouseEvent.getTarget().equals(this.hanoiTowerIcon)) {
+            this.alertPlay.setTitle("Hanoi tower");
+            this.alertPlay.setContentText("TODO: How to play");
+            this.dialogStage.getIcons().clear();
+            this.dialogStage.getIcons().add(this.hanoiTowerImage);
             Interpreter.interpretCommand(this.player, "go hanoi");
-        else if (mouseEvent.getTarget().equals(this.riddleIcon))
+        } else if (mouseEvent.getTarget().equals(this.riddleIcon)) {
+            this.alertPlay.setTitle("Riddle");
+            this.alertPlay.setContentText("TODO: How to play");
+            this.dialogStage.getIcons().clear();
+            this.dialogStage.getIcons().add(this.riddleImage);
             Interpreter.interpretCommand(this.player, "go riddle");
-        else
+        } else {
+            this.alertPlay.setTitle("Tic tac toe");
+            this.alertPlay.setContentText("TODO: How to play");
+            this.dialogStage.getIcons().clear();
+            this.dialogStage.getIcons().add(this.ticTacToeImage);
             Interpreter.interpretCommand(this.player, "go tic");
+        }
 
-        if (!oldPlace.equals(this.player.getPlace()))
-            this.gameController.changePlace();
+        if (!oldPlace.equals(this.player.getPlace())) {
+            if (this.alertPlay.showAndWait().orElse(null) == this.playButton)
+                this.gameController.changePlace();
+            else {
+                Interpreter.interpretCommand(this.player, "go gold");
+                this.alertPlay.close();
+            }
+        }
     }
 
     @FXML

@@ -44,8 +44,7 @@ public class Questions extends Game {
     //CONSTRUCTOR
     public Questions() {
         super("Questions",
-                "| In this game, your culture will be useful to find out the correct answer to questions.\n"  +
-                        "| Type \"play\" to start the game.",
+                "| In this game, your culture will be useful to find out the correct answer to questions.",
                 new NPC("Samuel Outienne"),
                 Level.PLATINUM);
     }

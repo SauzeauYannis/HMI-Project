@@ -63,7 +63,7 @@ public class Unlock extends Command{
                             return;
                         } else if (place instanceof Ending) { // Else if a place is a Ending
                             // If player has finished all the games
-                            if (player.getGamesFinished() == Game.NB_GAMES) {
+                            if (player.getGamesFinished().get() == Game.NB_GAMES) {
                                 // Unlock the exit
                                 exit.unlock();
                                 System.out.println("| Congratulations, you've unlocked all the locations.");

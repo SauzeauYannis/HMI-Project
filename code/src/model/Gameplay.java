@@ -37,7 +37,7 @@ public class Gameplay {
 		player.printGames();
 
 		// Ask the player to enter a command while he has not lose
-		while (!player.getIsLose()) {
+		while (!player.getIsLose().get()) {
 			System.out.print(player);
 			command = scanner.nextLine();
 			Interpreter.interpretCommand(player, command);

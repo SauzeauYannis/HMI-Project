@@ -27,8 +27,7 @@ public class HanoiTower extends Game {
     // Constructor
     public HanoiTower() {
         super("Hanoi tower",
-                "| You are in front of a person who needs help to solve a puzzle.\n" +
-                        "| Type \"play\" to help him.",
+                "| You are in front of a person who needs help to solve a puzzle.",
                 new NPC("Edwardo Nald"),
                 Level.GOLD);
     }

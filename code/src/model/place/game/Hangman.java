@@ -51,8 +51,7 @@ public class Hangman extends Game {
     //CONSTRUCTOR
     public Hangman() {
         super("Hangman",
-                "| In this game, you have to found the word the stand owner is thinking of by giving him letters.\n" +
-                        "| Type \"play\" to start the game.",
+                "| In this game, you have to found the word the stand owner is thinking of by giving him letters.",
                 new NPC("Marina Lependu"),
                 Level.PLATINUM);
     }

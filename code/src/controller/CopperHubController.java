@@ -3,9 +3,14 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.Place;
@@ -16,6 +21,14 @@ import java.util.ResourceBundle;
 
 public class CopperHubController implements Initializable {
 
+    private final ButtonType playButton = new ButtonType("play", ButtonBar.ButtonData.OK_DONE);
+    private final ButtonType hubButton = new ButtonType("return to copper hub", ButtonBar.ButtonData.CANCEL_CLOSE);
+    private final Alert alertPlay = new Alert(Alert.AlertType.CONFIRMATION, "", this.playButton, this.hubButton);
+    private final Stage dialogStage = (Stage) this.alertPlay.getDialogPane().getScene().getWindow();
+    private final Image findNumberImage = new Image("view/image/find_number.gif");
+    private final Image qteImage = new Image("view/image/qte.gif");
+    private final Image rockPaperScissorsImage = new Image("view/image/rock_paper_scissors.gif");
+
     private GameController gameController;
     private Player player;
     private Scene scene;
@@ -24,33 +37,52 @@ public class CopperHubController implements Initializable {
     private ImageView findNumberIcon;
 
     @FXML
-    private ImageView rockPaperScissorsIcon;
+    private ImageView qteIcon;
 
     @FXML
-    private ImageView qteIcon;
+    private ImageView rockPaperScissorsIcon;
 
     @FXML
     private ImageView padlockFindNumberIcon;
 
     @FXML
-    private ImageView padlockRockPaperScissorsIcon;
+    private ImageView padlockQteIcon;
 
     @FXML
-    private ImageView padlockQteIcon;
+    private ImageView padlockRockPaperScissorsIcon;
 
     @FXML
     void iconMouseClicked(MouseEvent mouseEvent) {
         Place oldPlace = this.player.getPlace();
 
-        if (mouseEvent.getTarget().equals(this.findNumberIcon))
+        if (mouseEvent.getTarget().equals(this.findNumberIcon)) {
+            this.alertPlay.setTitle("Find number");
+            this.alertPlay.setContentText("TODO: How to play");
+            this.dialogStage.getIcons().clear();
+            this.dialogStage.getIcons().add(this.findNumberImage);
             Interpreter.interpretCommand(this.player, "go find");
-        else if (mouseEvent.getTarget().equals(this.qteIcon))
+        } else if (mouseEvent.getTarget().equals(this.qteIcon)) {
+            this.alertPlay.setTitle("QTE");
+            this.alertPlay.setContentText("TODO: How to play");
+            this.dialogStage.getIcons().clear();
+            this.dialogStage.getIcons().add(this.qteImage);
             Interpreter.interpretCommand(this.player, "go qte");
-        else
+        } else {
+            this.alertPlay.setTitle("Rock paper scissors");
+            this.alertPlay.setContentText("TODO: How to play");
+            this.dialogStage.getIcons().clear();
+            this.dialogStage.getIcons().add(this.rockPaperScissorsImage);
             Interpreter.interpretCommand(this.player, "go rock");
+        }
 
-        if (!oldPlace.equals(this.player.getPlace()))
-            this.gameController.changePlace();
+        if (!oldPlace.equals(this.player.getPlace())) {
+            if (this.alertPlay.showAndWait().orElse(null) == this.playButton)
+                this.gameController.changePlace();
+            else {
+                Interpreter.interpretCommand(this.player, "go copper");
+                this.alertPlay.close();
+            }
+        }
     }
 
     @FXML

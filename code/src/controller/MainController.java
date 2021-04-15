@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.character.Player;
 import model.command.Interpreter;
@@ -78,6 +79,11 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    void lookMouseClicked() {
+        Interpreter.interpretCommand(this.player, "look");
+    }
+
+    @FXML
     void helpMouseClicked() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/help.fxml"));
         Parent root = loader.load();
@@ -96,6 +102,9 @@ public class MainController implements Initializable {
         alert.setTitle("Quit the game");
         alert.setHeaderText("Are you sure you want to exit the game?");
         alert.setContentText("Your progress will be lost!");
+        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
+                new Image("view/image/quit.png")
+        );
 
         if (alert.showAndWait().orElse(null) == ButtonType.OK) {
             Interpreter.interpretCommand(this.player, "quit");
@@ -136,11 +145,14 @@ public class MainController implements Initializable {
     public void setPlayer(Player player) {
         this.player = player;
 
-        player.getHealth().addListener((observable, oldValue, newValue) -> {
-            if (newValue.intValue() <= 0) {
+        player.getIsLose().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("You lose!");
                 alert.setContentText("Oh no you've have lose too much calories you can't continue!");
+                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
+                        new Image("view/image/cry.png")
+                );
                 alert.showAndWait();
                 Interpreter.interpretCommand(player, "quit");
             }

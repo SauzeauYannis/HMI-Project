@@ -1,6 +1,8 @@
 package model.character;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import model.command.Interpreter;
 import model.item.Item;
@@ -30,8 +32,8 @@ public class Player extends Character {
 	private final List<Item> items;
 	private final IntegerProperty health;
 	private final IntegerProperty money;
-	private boolean isLose;
-	private int gamesFinished;
+	private final IntegerProperty gamesFinished;
+	private final BooleanProperty isLose;
 
 	/// Constructors ///
 	public Player(String name, Place p, int money) {
@@ -39,9 +41,9 @@ public class Player extends Character {
 		this.cur_place = p;
 		this.money = new SimpleIntegerProperty(money);
 		this.health = new SimpleIntegerProperty(MAX_HEALTH);
+		this.gamesFinished = new SimpleIntegerProperty(0);
+		this.isLose = new SimpleBooleanProperty(false);
 		this.items = new ArrayList<>();
-		this.isLose = false;
-		this.gamesFinished = 0;
 	}
 
 	public Player(String name, Place p) {
@@ -58,10 +60,6 @@ public class Player extends Character {
 		return this.cur_place;
 	}
 
-	public boolean getIsLose(){
-		return this.isLose;
-	}
-
 	public List<Item> getItems() {
 		return this.items;
 	}
@@ -75,8 +73,12 @@ public class Player extends Character {
 		return this.health;
 	}
 
-	public int getGamesFinished(){
+	public IntegerProperty getGamesFinished(){
 		return this.gamesFinished;
+	}
+
+	public BooleanProperty getIsLose(){
+		return this.isLose;
 	}
 
 	/////////////
@@ -130,7 +132,7 @@ public class Player extends Character {
 
 	// Allows to say if the player has win
 	private void lose(){
-		this.isLose = true;
+		this.isLose.setValue(true);
 	}
 
 	// Add item to the player's inventory
@@ -157,7 +159,7 @@ public class Player extends Character {
 
 	// Increase the number of games finished for the first time
 	public void increaseGameFinished(){
-		this.gamesFinished += 1;
+		this.gamesFinished.set(this.gamesFinished.get() + 1);
 		printGames();
 	}
 
@@ -168,7 +170,7 @@ public class Player extends Character {
 	// Display the player's health remain
 	public void printHealth() {
 		System.out.println("| You have " +
-				this.getHealth() +
+				this.getHealth().get() +
 				"/" +
 				MAX_HEALTH +
 				" calories.");
@@ -184,7 +186,7 @@ public class Player extends Character {
 	// Display how many games the player has finished
 	public void printGames() {
 		System.out.println("| You have finish " +
-				this.gamesFinished + "/" + Game.NB_GAMES +
+				this.gamesFinished.get() + "/" + Game.NB_GAMES +
 				" games.");
 	}
 
@@ -236,7 +238,7 @@ public class Player extends Character {
 								", this game is locked !\n" +
 								"| If you have a " +
 								level +
-								" key in your inventory, left click on it to unlock the first lock game.\n" +
+								" key in your inventory, right click on it to unlock the first lock game.\n" +
 								"| Else go to the shop to buy it.");
 
 						// Check if 'place' is an instance of Ending

@@ -37,8 +37,7 @@ public class QTE extends Game {
     // Constructor
     public QTE() {
         super("QTE",
-                "| You are in front of the faster gipsy's rapper.\n" +
-                "| Type \"play\" to start the game.",
+                "| You are in front of the faster gipsy's rapper.",
                 new NPC("Ethoufet Kwallah"),
                 Level.COPPER);
     }

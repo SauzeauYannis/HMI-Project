@@ -20,8 +20,8 @@ public class Shop extends Place {
 	public Shop(String name, String description, NPC npc) {
 		super(name,
 				description +
-						"| To have more information about one item, type \"look <item>\" (Example: look apple for information about apple candy).\n" +
-						"| To buy an item, type \"take <item>\" (Example: take copper to buy a copper key).",
+						"| To have more information about one item, left click on the item in your inventory\n" +
+						"| To buy an item, left click on the item in the shop",
 				npc);
 		this.itemList = new ArrayList<>();
 	}

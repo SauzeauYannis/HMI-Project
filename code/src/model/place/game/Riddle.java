@@ -32,8 +32,7 @@ public class Riddle extends Game {
     public Riddle() {
         super("Riddle",
                 "| Here you need to answer to a riddle. You have only " + DEFAULT_ATTEMPTS + " attempts!\n" +
-                        "| Turn on your brain, and make it work hard!" +
-                        "| Type \"play\" to start the game.",
+                        "| Turn on your brain, and make it work hard!",
                 new NPC("Jean-Pierre Fougas"),
                 Level.GOLD);
         this.attempts = DEFAULT_ATTEMPTS;
