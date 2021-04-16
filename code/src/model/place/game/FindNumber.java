@@ -18,8 +18,8 @@ public class FindNumber extends Game {
      *****************************/
 
     // Class attributes
-    private final static int MAX_NUMBER = 999;
-    private final static int DEFAULT_ATTEMPT = 10;
+    public final static int MAX_NUMBER = 999;
+    public final static int DEFAULT_ATTEMPT = 10;
 
     private final IntegerProperty attempt = new SimpleIntegerProperty(DEFAULT_ATTEMPT);
     private int rand;
@@ -64,9 +64,8 @@ public class FindNumber extends Game {
 
         // Prevent a bug at the end of the game
         scanner.nextLine();
-        scanner.close();
 
-        System.out.println("\n--- Game finished ---\n");
+        finish();
     }
 
     public int getRand() {
@@ -75,6 +74,10 @@ public class FindNumber extends Game {
 
     public IntegerProperty attemptProperty() {
         return attempt;
+    }
+
+    public void finish() {
+        System.out.println("\n--- Game finished ---\n");
     }
 
     public void mustBeNumber() {
@@ -96,13 +99,13 @@ public class FindNumber extends Game {
         if (chosenNumber > MAX_NUMBER || chosenNumber < 0) {
             this.getNpc().talk("Please entry a valid number!");
         } else {
-            attempt.set(attempt.get()-1);
-
             // The player has abandoned
-            if (attempt.get() == 0 && chosenNumber != rand) {
+            if (attempt.get() == 1 && chosenNumber != rand) {
                 this.getNpc().talk("The number was " + rand);
                 this.lose(player);
+                attempt.set(0);
             } else {
+                attempt.set(attempt.get()-1);
 
                 //Check where is the number chosen
                 if (rand > chosenNumber) {

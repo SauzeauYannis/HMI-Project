@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.place.game.copper.RockPaperScissorsController">
+    <ImageView fx:id="copperHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0"
+               onMouseClicked="#goCopper" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../../design/image/copper_hub.png"/>
+    </ImageView>
+    <Label layoutY="262.0" text="[TODO] rock paper scissors">
+        <font>
+          <Font name="Carlito Bold" size="79.0" />
+        </font>
+    </Label>
+</AnchorPane>

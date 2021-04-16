@@ -3,6 +3,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.character.Player;
 import model.place.Place;
@@ -31,7 +33,7 @@ public class Game extends Application {
         Player player = new Player("Benjapied Tablenuit", placeList.get(0));
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("view/start.fxml"));
-        Parent root = loader.load();
+        AnchorPane root = loader.load();
         StartController startController = loader.getController();
 
         Scene scene = new Scene(root);
@@ -40,6 +42,7 @@ public class Game extends Application {
         startController.setScene(scene);
 
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("view/design/image/carnival.png"));
         primaryStage.setTitle("Gypsy's Carnaval");
         primaryStage.setResizable(false);
         primaryStage.show();

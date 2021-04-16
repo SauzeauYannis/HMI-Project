@@ -1,5 +1,7 @@
 package model.place.game;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import model.Gameplay;
 import model.character.NPC;
 import model.character.Player;
@@ -17,22 +19,24 @@ public class QTE extends Game {
      *****************************/
 
     // Class attributes
-    private static final int ROUND_NUMBER = 3;
-    private static final String[] NPC_TALK = {
+    public static final int ROUND_NUMBER = 3;
+    public static final String[] NPC_TALK = {
             "Start slowly with this first punch!\n",
             "Okay now faster with this second punch!\n",
             "You're fast but you can't be more fast for this last punch!\n"
     };
-    private static final String[] PUNCHLINE = {
+    public static final String[] PUNCHLINE = {
             "My name is Ethoufet Kwallah the fast one",
             "You eat chocopipe during i eat sausage",
             "I rap faster than you and Eminem"
     };
-    private static final int[] TIME = {
+    public static final int[] TIME = {
             20,
             15,
             10
     };
+
+    private IntegerProperty round;
 
     // Constructor
     public QTE() {
@@ -51,7 +55,7 @@ public class QTE extends Game {
     public void play(Player player) {
         // Method variables
         NPC npc = this.getNpc();
-        int round = 0;
+        round = new SimpleIntegerProperty(0);
 
         System.out.println("\n--- Game launched ---\n");
 
@@ -60,10 +64,10 @@ public class QTE extends Game {
                 "Try to repeat that I say in a limited time!");
 
         // To play 3 rounds
-        while (round < ROUND_NUMBER) {
+        while (round.get() < ROUND_NUMBER) {
 
             // Print the punchline of the current round
-            printPunchline(round);
+            printPunchline(round.get());
 
             // To know the number of seconds the player has write the punchline
             Date start = new Date();
@@ -73,11 +77,11 @@ public class QTE extends Game {
             int second = (int)((end.getTime() - start.getTime()) / 1000);
 
             // If the player lose then finish game
-            if (!winRound(playerSentence, round, second)) {
+            if (!winRound(playerSentence, round.get(), second)) {
                 this.lose(player);
                 return;
             } else { // Else if he wins then next round
-                round++;
+                round.set(round.get()+1);
             }
         }
 
@@ -85,6 +89,10 @@ public class QTE extends Game {
         this.win(player);
 
         System.out.println("\n--- Game finished ---\n");
+    }
+
+    public IntegerProperty roundProperty() {
+        return round;
     }
 
     // To print the punchline

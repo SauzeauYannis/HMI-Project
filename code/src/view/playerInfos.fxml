@@ -19,7 +19,7 @@
     </padding>
     <VBox prefHeight="200.0" spacing="10.0">
         <ImageView fx:id="padlockIcon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@image/padlock.png" />
+            <Image url="@design/image/padlock.png" />
         </ImageView>
         <VBox fx:id="progress_bar" alignment="BOTTOM_CENTER" prefHeight="550.0" prefWidth="50.0" style="-fx-border-color: black;">
             <VBox fx:id="bar" prefHeight="0.0" prefWidth="20.0" style="-fx-background-color: gold;" />
@@ -35,7 +35,7 @@
             <Insets right="15.0" />
         </padding>
         <ImageView fx:id="playerIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@image/benjapied.gif" />
+            <Image url="@design/image/benjapied.gif" />
         </ImageView>
         <ProgressBar fx:id="healthProgressBar" prefWidth="200.0" progress="1.0" />
         <GridPane maxWidth="170.0" prefHeight="250.0" style="-fx-border-color: black; -fx-border-radius: 5;">
@@ -50,7 +50,7 @@
             </rowConstraints>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.halignment="CENTER">
                 <ImageView fx:id="platinumKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseClicked="#iconMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@image/key_platinum.png" />
+                    <Image url="@design/image/key_platinum.png" />
                 </ImageView>
                 <Label fx:id="platinumKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                     <font>
@@ -60,7 +60,7 @@
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                 <ImageView fx:id="chocolateEclairIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseClicked="#iconMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@image/chocolate_eclair.png" />
+                    <Image url="@design/image/chocolate_eclair.png" />
                 </ImageView>
                 <Label fx:id="chocolateEclairQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                     <font>
@@ -70,7 +70,7 @@
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                 <ImageView fx:id="goldKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseClicked="#iconMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@image/key_golden.png" />
+                    <Image url="@design/image/key_golden.png" />
                 </ImageView>
                 <Label fx:id="goldKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                     <font>
@@ -80,7 +80,7 @@
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                 <ImageView fx:id="cottonCandyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseClicked="#iconMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@image/cotton_candy.png" />
+                    <Image url="@design/image/cotton_candy.png" />
                 </ImageView>
                 <Label fx:id="cottonCandyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                     <font>
@@ -90,7 +90,7 @@
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                 <ImageView fx:id="copperKeyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseClicked="#iconMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@image/key_copper.png" />
+                    <Image url="@design/image/key_copper.png" />
                 </ImageView>
                 <Label fx:id="copperKeyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                     <font>
@@ -100,7 +100,7 @@
             </AnchorPane>
             <AnchorPane maxHeight="75.0" maxWidth="75.0" style="-fx-border-color: black; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                 <ImageView fx:id="appleCandyIcon" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="8.0" onMouseClicked="#iconMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" opacity="0.25" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@image/apple_candy.png" />
+                    <Image url="@design/image/apple_candy.png" />
                 </ImageView>
                 <Label fx:id="appleCandyQuantity" alignment="CENTER" layoutX="54.0" layoutY="54.0" minHeight="19.0" minWidth="19.0" style="-fx-border-color: black; -fx-border-radius: 5;" text="0">
                     <font>
@@ -119,7 +119,7 @@
                 </font>
             </Label>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@image/coins.png" />
+                <Image url="@design/image/coins.png" />
             </ImageView>
         </HBox>
     </VBox>

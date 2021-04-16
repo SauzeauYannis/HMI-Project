@@ -30,10 +30,10 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    private final Image volumeOn = new Image("view/image/volume_on.png");
-    private final Image volumeOff = new Image("view/image/volume_off.png");
+    private final Image volumeOn = new Image("view/design/image/volume_on.png");
+    private final Image volumeOff = new Image("view/design/image/volume_off.png");
     private final MediaPlayer mediaPlayer = new MediaPlayer(
-            new Media(Objects.requireNonNull(getClass().getResource("../view/sound/theme.mp3")).toExternalForm())
+            new Media(Objects.requireNonNull(getClass().getResource("../view/design/sound/theme.mp3")).toExternalForm())
     );
 
     private boolean isVolumeOn = true;
@@ -109,14 +109,13 @@ public class MainController implements Initializable {
         alert.setHeaderText("Are you sure you want to exit the game?");
         alert.setContentText("Your progress will be lost!");
         ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
-                new Image("view/image/quit.png")
+                new Image("view/design/image/quit.png")
         );
 
-        if (alert.showAndWait().orElse(null) == ButtonType.OK) {
+        if (alert.showAndWait().orElse(null) == ButtonType.OK)
             Interpreter.interpretCommand(this.player, "quit");
-        } else {
+        else
             alert.close();
-        }
     }
 
     @FXML
@@ -162,7 +161,7 @@ public class MainController implements Initializable {
                 alert.setTitle("You lose!");
                 alert.setContentText("Oh no you've have lose too much calories you can't continue!");
                 ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
-                        new Image("view/image/cry.png")
+                        new Image("view/design/image/cry.png")
                 );
                 alert.showAndWait();
                 Interpreter.interpretCommand(player, "quit");

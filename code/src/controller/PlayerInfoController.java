@@ -146,13 +146,13 @@ public class PlayerInfoController implements Initializable {
             if (newValue.intValue() == 9) {
                 Interpreter.interpretCommand(this.player, "unlock sparkling");
                 this.padlockIcon.setImage(
-                        new Image("view/image/unlock.png")
+                        new Image("view/design/image/unlock.png")
                 );
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("You finished all games!");
                 alert.setContentText("Congratulations, you can now enter the sparkling caravan!");
                 ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
-                        new Image("view/image/clapping.png")
+                        new Image("view/design/image/clapping.png")
                 );
                 alert.showAndWait();
             }
