@@ -3,9 +3,12 @@ package controller;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 
 public abstract class UtilsController {
+
+    private static final Alert alertFinish = new Alert(Alert.AlertType.CONFIRMATION);
 
     public static void rescaleNode(Scene scene, Node node, double newScale) {
         node.setScaleX(newScale);
@@ -24,6 +27,12 @@ public abstract class UtilsController {
             scene.setCursor(Cursor.DEFAULT);
         else
             scene.setCursor(Cursor.HAND);
+    }
+
+    public static Alert getAlertFinish() {
+        alertFinish.setTitle("Game finished");
+        alertFinish.setContentText("Do you want to replay?");
+        return alertFinish;
     }
 
     public static double getMiddleWidth(ImageView imageView) {

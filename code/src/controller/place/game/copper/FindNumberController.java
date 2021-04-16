@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 
 public class FindNumberController implements Initializable {
 
-    private final Alert alertFinish = new Alert(Alert.AlertType.CONFIRMATION);
     private final Image plusImage = new Image("view/design/image/plus.png");
     private final Image lessImage = new Image("view/design/image/minus.png");
 
@@ -80,9 +79,6 @@ public class FindNumberController implements Initializable {
         Tooltip.install(this.numberField, new Tooltip("Type enter or press submit button to validate"));
         Tooltip.install(this.copperHubIcon, new Tooltip("Go to copper hub"));
 
-        this.alertFinish.setTitle("Game finished");
-        this.alertFinish.setContentText("Do you want to replay?");
-
         this.numberField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
         this.numberField.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER))
@@ -113,7 +109,7 @@ public class FindNumberController implements Initializable {
                 if (newValue.intValue() == 0) {
                     findNumber.finish();
                     findNumber.attemptProperty().removeListener(this);
-                    if (alertFinish.showAndWait().orElse(null) == ButtonType.OK)
+                    if (UtilsController.getAlertFinish().showAndWait().orElse(null) == ButtonType.OK)
                         reset();
                     else
                         goCopper();

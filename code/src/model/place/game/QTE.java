@@ -54,14 +54,7 @@ public class QTE extends Game {
     @Override
     public void play(Player player) {
         // Method variables
-        NPC npc = this.getNpc();
-        round = new SimpleIntegerProperty(0);
-
-        System.out.println("\n--- Game launched ---\n");
-
-        npc.talk("Yo! Welcome to my stand bro!\n" +
-                "I am the fastest rapper of this carnival!\n" +
-                "Try to repeat that I say in a limited time!");
+        start();
 
         // To play 3 rounds
         while (round.get() < ROUND_NUMBER) {
@@ -81,43 +74,35 @@ public class QTE extends Game {
                 this.lose(player);
                 return;
             } else { // Else if he wins then next round
-                round.set(round.get()+1);
+                nextRound();
             }
         }
 
         // If the player wins the 3 rounds
-        this.win(player);
-
-        System.out.println("\n--- Game finished ---\n");
+        finish(player);
     }
 
     public IntegerProperty roundProperty() {
         return round;
     }
 
-    // To print the punchline
-    private void printPunchline(int round) {
-        // Method variable
-        NPC npc = this.getNpc();
+    public void start() {
+        round = new SimpleIntegerProperty(0);
 
-        npc.talk(NPC_TALK[round] +
+        System.out.println("\n--- Game launched ---\n");
+
+        this.getNpc().talk("Yo! Welcome to my stand bro!\n" +
+                "I am the fastest rapper of this carnival!\n" +
+                "Try to repeat that I say in a limited time!");
+    }
+
+    public void preparing(int round) {
+        this.getNpc().talk(NPC_TALK[round] +
                 "You have " + TIME[round] + "s to write the punch, good luck!");
-
-        // 3 second countdown
-        for (int i = ROUND_NUMBER; i > 0; i--) {
-            // Catch InterruptedException caused by sleep
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (Exception exception) {
-                System.err.println("Error during sleep program in QTE");
-            }
-            npc.talk(Integer.toString(i));
-        }
-        npc.talk(PUNCHLINE[round]);
     }
 
     // To check if the player win or not
-    private boolean winRound(String playerSentence, int round, int second) {
+    public boolean winRound(String playerSentence, int round, int second) {
         // Method variable
         NPC npc = this.getNpc();
 
@@ -138,5 +123,31 @@ public class QTE extends Game {
                     "I am the best!");
             return false;
         }
+    }
+
+    public void nextRound() {
+        round.set(round.get()+1);
+    }
+
+    public void finish(Player player) {
+        this.win(player);
+        System.out.println("\n--- Game finished ---\n");
+    }
+
+    // To print the punchline
+    private void printPunchline(int round) {
+        preparing(round);
+
+        // 3 second countdown
+        for (int i = ROUND_NUMBER; i > 0; i--) {
+            // Catch InterruptedException caused by sleep
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception exception) {
+                System.err.println("Error during sleep program in QTE");
+            }
+            this.getNpc().talk(Integer.toString(i));
+        }
+        this.getNpc().talk(PUNCHLINE[round]);
     }
 }
