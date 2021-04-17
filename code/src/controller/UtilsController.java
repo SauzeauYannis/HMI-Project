@@ -24,9 +24,9 @@ public abstract class UtilsController {
         node.setOpacity(newOpacity);
 
         if (newOpacity == 1)
-            scene.setCursor(Cursor.DEFAULT);
-        else
             scene.setCursor(Cursor.HAND);
+        else
+            scene.setCursor(Cursor.DEFAULT);
     }
 
     public static Alert getAlertFinish() {

@@ -223,6 +223,7 @@ public class GameController {
                 this.gameScene.getChildren().add(this.qtePane);
                 break;
             case "Rock paper scissors":
+                this.rockPaperScissorsController.reset();
                 this.gameScene.getChildren().add(this.rockPaperScissorsPane);
                 break;
             case "Gold hub":

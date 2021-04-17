@@ -1,5 +1,7 @@
 package model.place.game;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import model.Gameplay;
 import model.character.NPC;
 import model.character.Player;
@@ -16,15 +18,15 @@ public class RockPaperScissors extends Game {
      *****************************/
 
     // Class attributes
-    private static final String[] ROSHAMBO = {
+    public static final String[] ROSHAMBO = {
             "rock",
             "paper",
             "scissors"
     };
-    private static final int POINT_TO_WIN = 3;
+    public static final int POINT_TO_WIN = 3;
 
-    private int playerPoint;
-    private int NPCPoint;
+    private final IntegerProperty playerPoint = new SimpleIntegerProperty();
+    private final IntegerProperty NPCPoint = new SimpleIntegerProperty();
 
     // Constructor
     public RockPaperScissors() {
@@ -41,23 +43,16 @@ public class RockPaperScissors extends Game {
     // To play the game
     @Override
     public void play(Player player) {
-        // Init the points
-        playerPoint = 0;
-        NPCPoint = 0;
+        start();
 
-        // To print the game
-        System.out.println("\n--- Game launched ---\n");
         System.out.println("To play, type one of this proposition :");
         for (String proposition: ROSHAMBO) {
             System.out.println("-" + proposition);
         }
         System.out.println("Good luck!");
 
-        this.getNpc().talk("I am unbeatable in that game!\n" +
-                "I take you in 3 rounds!");
-
         // Play while nobody have reach the number of points to win
-        while (playerPoint < POINT_TO_WIN && NPCPoint < POINT_TO_WIN) {
+        while (playerPoint.get() < POINT_TO_WIN && NPCPoint.get() < POINT_TO_WIN) {
             this.getNpc().talk("\nRo..\nSham..\nBo!");
 
             // To get the result of npc and player
@@ -73,7 +68,7 @@ public class RockPaperScissors extends Game {
         }
 
         // Check the winner of the game
-        if (playerPoint == POINT_TO_WIN) {
+        if (playerPoint.get() == POINT_TO_WIN) {
             this.win(player);
         } else {
             this.lose(player);
@@ -82,16 +77,55 @@ public class RockPaperScissors extends Game {
         // To flush scanner
         Gameplay.scanner.nextLine();
 
-        System.out.println("\n--- Game finished ---\n");
+        finish();
+    }
+
+    public IntegerProperty playerPointProperty() {
+        return playerPoint;
+    }
+
+    public IntegerProperty NPCPointProperty() {
+        return NPCPoint;
     }
 
     // Getters
-    private int getNPCTurn() {
+    public int getNPCTurn() {
         int rand = (int)(Math.random()*3);
 
         this.getNpc().talk(ROSHAMBO[rand]);
 
         return rand;
+    }
+
+    public void start() {
+        // Init the points
+        playerPoint.set(0);
+        NPCPoint.set(0);
+
+        // To print the game
+        System.out.println("\n--- Game launched ---\n");
+
+        this.getNpc().talk("I am unbeatable in that game!\n" +
+                "I take you in 3 rounds!");
+    }
+
+    // To check winner of the round
+    public void checkWinner(String playerTurn, int NPCTurn) {
+        NPC npc = this.getNpc();
+        // If draw
+        if (playerTurn.equals(ROSHAMBO[NPCTurn])) {
+            npc.talk("Draw, I'll get you in the next round!");
+        } else if (playerTurn.equals(ROSHAMBO[(NPCTurn+1)%3])) { // If player win
+            npc.talk("I lose, it's impossible you cheated!");
+            playerPoint.set(playerPoint.get()+1);
+        } else { // If npc win
+            npc.talk("I win, i'm too strong for you!");
+            NPCPoint.set(NPCPoint.get()+1);
+        }
+    }
+
+    public void finish() {
+        System.out.println("\n--- Game finished ---\n");
     }
 
     private String getPlayerTurn(Player player) {
@@ -125,9 +159,9 @@ public class RockPaperScissors extends Game {
         // To get the point of player or npc by his name
         int point;
         if (name.equals(this.getNpc().getName())) {
-            point = NPCPoint;
+            point = NPCPoint.get();
         } else {
-            point = playerPoint;
+            point = playerPoint.get();
         }
 
         // To print the points
@@ -136,20 +170,5 @@ public class RockPaperScissors extends Game {
                 " : " +
                 point +
                 " points.");
-    }
-
-    // To check winner of the round
-    private void checkWinner(String playerTurn, int NPCTurn) {
-        NPC npc = this.getNpc();
-        // If draw
-        if (playerTurn.equals(ROSHAMBO[NPCTurn])) {
-            npc.talk("Draw, I'll get you in the next round!");
-        } else if (playerTurn.equals(ROSHAMBO[(NPCTurn+1)%3])) { // If player win
-            npc.talk("I lose, it's impossible you cheated!");
-            playerPoint++;
-        } else { // If npc win
-            npc.talk("I win, i'm too strong for you!");
-            NPCPoint++;
-        }
     }
 }
