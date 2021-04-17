@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import model.character.Player;
 import model.command.Interpreter;
-import model.place.game.RockPaperScissors;
+import model.place.game.copper.RockPaperScissors;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -98,13 +98,13 @@ public class RockPaperScissorsController implements Initializable {
     @FXML
     void iconMouseEntered(MouseEvent mouseEvent) {
         if (this.nextTurnButton.isDisabled())
-            UtilsController.changeOpacity(this.scene, (ImageView) mouseEvent.getTarget(), 1);
+            UtilsController.changeOpacity(this.scene, (ImageView) mouseEvent.getTarget(), 1, true);
     }
 
     @FXML
     void iconMouseExited(MouseEvent mouseEvent) {
         if (this.nextTurnButton.isDisabled())
-            UtilsController.changeOpacity(this.scene, (ImageView) mouseEvent.getTarget(), 0.25);
+            UtilsController.changeOpacity(this.scene, (ImageView) mouseEvent.getTarget(), 0.25, false);
     }
 
     @FXML

@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.converter.IntegerStringConverter;
 import model.character.Player;
 import model.command.Interpreter;
-import model.place.game.FindNumber;
+import model.place.game.copper.FindNumber;
 
 import java.net.URL;
 import java.util.ResourceBundle;

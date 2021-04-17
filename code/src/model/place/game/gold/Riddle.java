@@ -1,4 +1,4 @@
-package model.place.game;
+package model.place.game.gold;
 
 import model.Gameplay;
 import model.character.NPC;

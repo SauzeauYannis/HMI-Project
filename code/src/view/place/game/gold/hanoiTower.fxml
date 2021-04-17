@@ -1,20 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.place.game.gold.HanoiTowerController">
-    <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0"
-               onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited"
-               pickOnBounds="true" preserveRatio="true">
-        <Image url="@../../../design/image/gold_hub.png"/>
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="865.0" prefHeight="615.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.place.game.gold.HanoiTowerController">
+    <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../../design/image/gold_hub.png" />
     </ImageView>
-    <Label layoutX="86.0" layoutY="262.0" text="[TODO] Hanoi Tower">
+    <Label layoutX="379.0" layoutY="35.0" text="Hanoi Tower">
         <font>
-          <Font name="Carlito Bold" size="79.0" />
+          <Font name="Carlito Bold" size="20.0" />
         </font>
     </Label>
+   <HBox layoutX="169.0" layoutY="486.0" spacing="250.0">
+      <children>
+         <Label text="A">
+            <font>
+               <Font name="Carlito Bold" size="15.0" />
+            </font>
+         </Label>
+         <Label text="B">
+            <font>
+               <Font name="Carlito Bold" size="15.0" />
+            </font>
+         </Label>
+         <Label text="C">
+            <font>
+               <Font name="Carlito Bold" size="15.0" />
+            </font>
+         </Label>
+      </children>
+   </HBox>
+   <Line endX="100.0" layoutX="175.0" layoutY="461.0" startX="-100.0" strokeWidth="5.0" />
+   <Line endX="100.0" layoutX="696.0" layoutY="461.0" startX="-100.0" strokeWidth="5.0" />
+   <Line endX="100.0" layoutX="430.0" layoutY="461.0" startX="-100.0" strokeWidth="5.0" />
+   <Line endX="200.0" layoutX="125.0" layoutY="307.0" rotate="90.0" startX="-100.0" strokeWidth="3.0" />
+   <Line endX="200.0" layoutX="382.0" layoutY="307.0" rotate="90.0" startX="-100.0" strokeWidth="3.0" />
+   <Line endX="200.0" layoutX="646.0" layoutY="307.0" rotate="90.0" startX="-100.0" strokeWidth="3.0" />
+   <VBox fx:id="aPillarBox" alignment="BOTTOM_CENTER" layoutX="75.0" layoutY="158.0" prefHeight="300.0" prefWidth="200.0">
+      <Ellipse fill="#ff321f" onMouseDragged="#test" radiusX="60.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fill="#1fff57" onMouseDragged="#test" radiusX="80.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fill="DODGERBLUE" onMouseDragged="#test" radiusX="100.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
+   </VBox>
+   <VBox fx:id="bPillarBox" alignment="BOTTOM_CENTER" layoutX="330.0" layoutY="158.0" prefHeight="300.0" prefWidth="200.0" />
+   <VBox fx:id="cPillarBox" alignment="BOTTOM_CENTER" layoutX="595.0" layoutY="158.0" prefHeight="300.0" prefWidth="200.0" />
 </AnchorPane>

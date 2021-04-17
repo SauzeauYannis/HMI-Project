@@ -20,10 +20,10 @@ public abstract class UtilsController {
             scene.setCursor(Cursor.HAND);
     }
 
-    public static void changeOpacity(Scene scene, Node node, double newOpacity) {
+    public static void changeOpacity(Scene scene, Node node, double newOpacity, boolean isCursorHand) {
         node.setOpacity(newOpacity);
 
-        if (newOpacity == 1)
+        if (isCursorHand)
             scene.setCursor(Cursor.HAND);
         else
             scene.setCursor(Cursor.DEFAULT);

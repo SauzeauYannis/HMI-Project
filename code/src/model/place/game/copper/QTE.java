@@ -1,4 +1,4 @@
-package model.place.game;
+package model.place.game.copper;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

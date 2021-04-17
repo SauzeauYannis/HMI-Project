@@ -18,7 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import model.character.Player;
 import model.command.Interpreter;
-import model.place.game.QTE;
+import model.place.game.copper.QTE;
 
 import java.net.URL;
 import java.util.ResourceBundle;

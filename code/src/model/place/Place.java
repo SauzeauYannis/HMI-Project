@@ -7,7 +7,15 @@ import model.item.Key;
 import model.Describable;
 import model.character.NPC;
 import model.place.exit.Exit;
-import model.place.game.*;
+import model.place.game.copper.FindNumber;
+import model.place.game.copper.QTE;
+import model.place.game.copper.RockPaperScissors;
+import model.place.game.gold.HanoiTower;
+import model.place.game.gold.Riddle;
+import model.place.game.gold.TicTacToe;
+import model.place.game.platinum.Hangman;
+import model.place.game.platinum.Karaoke;
+import model.place.game.platinum.Questions;
 
 import java.util.ArrayList;
 import java.util.List;
