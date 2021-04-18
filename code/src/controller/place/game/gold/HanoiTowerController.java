@@ -57,18 +57,29 @@ public class HanoiTowerController implements Initializable {
     }
 
     @FXML
+    void diskMouseClicked(MouseEvent mouseEvent) {
+        Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
+        Pane parent = (Pane) diskIcon.getParent();
+
+        if (parent instanceof VBox) {
+            diskIcon.setLayoutX(695);
+            diskIcon.setLayoutY(570);
+
+            parent.getChildren().remove(diskIcon);
+            this.pane.getChildren().add(diskIcon);
+        }
+    }
+
+    @FXML
     void diskMouseDragged(MouseEvent mouseEvent) {
         this.scene.setCursor(Cursor.CLOSED_HAND);
 
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
         Pane parent = (Pane) diskIcon.getParent();
 
-        diskIcon.setLayoutX(mouseEvent.getSceneX() - diskIcon.getRadiusX() / 2);
-        diskIcon.setLayoutY(mouseEvent.getSceneY() - diskIcon.getRadiusY() / 2);
-
-        if (parent instanceof VBox) {
-            parent.getChildren().remove(diskIcon);
-            this.pane.getChildren().add(diskIcon);
+        if (parent instanceof AnchorPane) {
+            diskIcon.setLayoutX(mouseEvent.getSceneX() - 15);
+            diskIcon.setLayoutY(mouseEvent.getSceneY() - 45);
         }
     }
 
