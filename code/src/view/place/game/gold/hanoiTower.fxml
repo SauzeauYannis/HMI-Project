@@ -45,9 +45,9 @@
    <Line endX="200.0" layoutX="382.0" layoutY="307.0" rotate="90.0" startX="-100.0" strokeWidth="3.0" />
    <Line endX="200.0" layoutX="646.0" layoutY="307.0" rotate="90.0" startX="-100.0" strokeWidth="3.0" />
    <VBox fx:id="aPillarBox" alignment="BOTTOM_CENTER" layoutX="75.0" layoutY="158.0" prefHeight="300.0" prefWidth="200.0">
-      <Ellipse fill="#ff321f" onMouseDragged="#test" radiusX="60.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
-      <Ellipse fill="#1fff57" onMouseDragged="#test" radiusX="80.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
-      <Ellipse fill="DODGERBLUE" onMouseDragged="#test" radiusX="100.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fill="#ff321f" onMouseDragged="#diskMouseDragged" onMouseEntered="#diskMouseEntered" onMouseExited="#diskMouseExited" radiusX="60.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fill="#1fff57" onMouseDragged="#diskMouseDragged" onMouseEntered="#diskMouseEntered" onMouseExited="#diskMouseExited" radiusX="80.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
+      <Ellipse fill="DODGERBLUE" onMouseDragged="#diskMouseDragged" onMouseEntered="#diskMouseEntered" onMouseExited="#diskMouseExited" radiusX="100.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
    </VBox>
    <VBox fx:id="bPillarBox" alignment="BOTTOM_CENTER" layoutX="330.0" layoutY="158.0" prefHeight="300.0" prefWidth="200.0" />
    <VBox fx:id="cPillarBox" alignment="BOTTOM_CENTER" layoutX="595.0" layoutY="158.0" prefHeight="300.0" prefWidth="200.0" />

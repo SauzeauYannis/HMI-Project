@@ -4,11 +4,13 @@ import controller.GameController;
 import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Ellipse;
 import model.character.Player;
@@ -55,13 +57,29 @@ public class HanoiTowerController implements Initializable {
     }
 
     @FXML
-    void test(MouseEvent mouseEvent) {
+    void diskMouseDragged(MouseEvent mouseEvent) {
+        this.scene.setCursor(Cursor.CLOSED_HAND);
+
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
-        this.aPillarBox.getChildren().remove(diskIcon);
-        diskIcon.setLayoutX(mouseEvent.getSceneX());
-        diskIcon.setLayoutY(mouseEvent.getSceneY());
-        this.pane.getChildren().add(diskIcon);
-        UtilsController.changeOpacity(this.scene, diskIcon, 0.25, true);
+        Pane parent = (Pane) diskIcon.getParent();
+
+        diskIcon.setLayoutX(mouseEvent.getSceneX() - diskIcon.getRadiusX() / 2);
+        diskIcon.setLayoutY(mouseEvent.getSceneY() - diskIcon.getRadiusY() / 2);
+
+        if (parent instanceof VBox) {
+            parent.getChildren().remove(diskIcon);
+            this.pane.getChildren().add(diskIcon);
+        }
+    }
+
+    @FXML
+    void diskMouseEntered(MouseEvent mouseEvent) {
+        UtilsController.changeOpacity(this.scene, (Ellipse) mouseEvent.getTarget(), 0.5, true);
+    }
+
+    @FXML
+    void diskMouseExited(MouseEvent mouseEvent) {
+        UtilsController.changeOpacity(this.scene, (Ellipse) mouseEvent.getTarget(), 1, false);
     }
 
     @Override
