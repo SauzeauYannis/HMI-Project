@@ -20,7 +20,7 @@ public class Riddle extends Game {
 
     /// Constants ///
     public final static int DEFAULT_ATTEMPTS = 3;
-    public final static String[][] RIDDLES = {
+    private final static String[][] RIDDLES = {
             {"What is the summation between 1 and 2?", "3"},
             {"If I am mute, blind and deaf, how many senses do I have left?", "3"},
             {"If 1 equals 5, 2 equals 25, 3 equals 605, 4 equals 10855, 5 equals what?", "1"},
@@ -28,7 +28,7 @@ public class Riddle extends Game {
     };
 
     /// Attributes ///
-    private IntegerProperty attempts = new SimpleIntegerProperty();
+    private final IntegerProperty attempts = new SimpleIntegerProperty();
 
     // Constructor
     public Riddle() {
@@ -64,53 +64,22 @@ public class Riddle extends Game {
 
                 // Check if the player is a joker
                 if(answer.equals("no")) {
-                    choseYes(false, riddle[0]);
+                    choseYes(false, riddle);
 
                     // To go out of the loop
                     attempts.set(0);
                 }
                 else {
-                    choseYes(true, riddle[0]);
+                    choseYes(true, riddle);
 
                     // While attempts isn't equal to 0
-                    while(attempts.get() != 0){
+                    while(attempts.get() != 0) {
                         System.out.print(player);
                         System.out.print("-> Answer: ");
                         answer = scan.nextLine().toLowerCase();
 
-                        // Check the answer for the riddle
-                        if(answer.equals(riddle[1].toLowerCase())) {
-                            this.getNpc().talk("INCREDIBLE TRAVELER !!!!\n" +
-                                    "You are a true Hercule Kourge ! (it isn't Poirot ?)\n" +
-                                    "You have deserved your reward traveler! Take it!");
-                            this.win(player);
-
-                            // To go out of the loop
-                            attempts.set(0);
-                        }
-
-                        // Check if this is the last attempt
-                        else if (attempts.get() > 1) {
-                            // Remove 1 attempt
-                            attempts.set(attempts.get() - 1);
-
-                            this.getNpc().talk("Ok traveler, this isn't the end ! You can take sometime\n" +
-                                    "to say a new proposal");
-                            System.out.println("| Attempts left : " + attempts.get() + "\n");
-                        }
-
-                        else {
-                            // Remove the last attempt, to arrive to 0
-                            attempts.set(attempts.get() - 1);
-
-                            this.getNpc().talk("Oh no traveler, this isn't the good answer ...\n" +
-                                    "I am so sorry to tell you this, but ...\n" +
-                                    "this is the end, you lose ...");
-
-                            this.lose(player);
-                        }
+                        giveAnswer(player, answer, riddle);
                     }
-
                 }
             }
             else {
@@ -147,18 +116,52 @@ public class Riddle extends Game {
         return riddle;
     }
 
-    public boolean choseYes(boolean yes, String riddle) {
+    public void choseYes(boolean yes, String[] riddle) {
         if (yes) {
             this.getNpc().talk("Oh oh perfect! Ok ok, let's begin!\n" +
                     "Sit down, calm down and listen:\n");
 
-            System.out.println("|[ " + riddle + " ]|\n");
+            System.out.println("|[ " + riddle[0] + " ]|\n");
 
             this.getNpc().talk("So traveler, what is your answer? O.O");
         } else
             this.getNpc().talk("Oh...Ok...So, goodbye kid. I hope you will change\n" +
                     " your opinion, and come back traveler...");
-        return yes;
+    }
+
+    public void giveAnswer(Player player, String answer, String[] riddle) {
+        // Check the answer for the riddle
+        if (answer.equals(riddle[1].toLowerCase())) {
+            this.getNpc().talk("INCREDIBLE TRAVELER !!!!\n" +
+                    "You are a true Hercule Kourge ! (it isn't Poirot ?)\n" +
+                    "You have deserved your reward traveler! Take it!");
+            this.win(player);
+
+            // To go out of the loop
+            attempts.set(0);
+        }
+
+        // Check if this is the last attempt
+        else if (attempts.get() > 1) {
+            // Remove 1 attempt
+            attempts.set(attempts.get() - 1);
+
+            this.getNpc().talk("Ok traveler, this isn't the end ! You can take sometime\n" +
+                    "to say a new proposal");
+
+            System.out.println("| Attempts left : " + attempts.get() + "\n");
+        }
+
+        else {
+            // Remove the last attempt, to arrive to 0
+            attempts.set(attempts.get() - 1);
+
+            this.getNpc().talk("Oh no traveler, this isn't the good answer ...\n" +
+                    "I am so sorry to tell you this, but ...\n" +
+                    "this is the end, you lose ...");
+
+            this.lose(player);
+        }
     }
 
     public void finish() {

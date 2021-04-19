@@ -37,9 +37,14 @@
          <Font name="Carlito Bold" size="15.0" />
       </font>
    </TextField>
-   <Label fx:id="attemptLabel" alignment="CENTER" layoutX="184.0" layoutY="419.0" minWidth="500.0" text="Attempt left: 0">
+   <Label fx:id="attemptLabel" alignment="CENTER" layoutX="184.0" layoutY="487.0" minWidth="500.0" text="Attempt left: 0">
       <font>
          <Font name="Carlito Bold" size="15.0" />
       </font>
    </Label>
+   <Button fx:id="answerButton" layoutX="399.0" layoutY="397.0" mnemonicParsing="false" onMouseClicked="#answerButtonClicked" text="Answer">
+      <font>
+         <Font name="Carlito Bold" size="15.0" />
+      </font>
+   </Button>
 </AnchorPane>

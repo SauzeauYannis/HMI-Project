@@ -2,7 +2,8 @@ package controller.place.game.gold;
 
 import controller.GameController;
 import controller.UtilsController;
-import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ import java.util.ResourceBundle;
 public class RiddleController implements Initializable {
 
     private Riddle riddle;
-    private String currentRiddle;
+    private String[] currentRiddle;
 
     private GameController gameController;
     private Player player;
@@ -42,6 +43,15 @@ public class RiddleController implements Initializable {
 
     @FXML
     private Label attemptLabel;
+
+    @FXML
+    private Button answerButton;
+
+    @FXML
+    void answerButtonClicked() {
+        this.riddle.giveAnswer(this.player, this.answerTextField.getText(), this.currentRiddle);
+        this.answerTextField.clear();
+    }
 
     @FXML
     void yesButtonMouseClicked() {
@@ -89,26 +99,35 @@ public class RiddleController implements Initializable {
     }
 
     public void reset() {
-        this.questionLabel.setText("Are you ready?");
         this.changeVisible(true);
 
         this.riddle = (Riddle) this.player.getPlace();
-        this.currentRiddle = this.riddle.startAndGetRiddle()[0];
+        this.currentRiddle = this.riddle.startAndGetRiddle();
+        this.attemptLabel.setText("Attempt left: " + Riddle.DEFAULT_ATTEMPTS);
 
-        this.attemptLabel.textProperty().unbind();
-        this.attemptLabel.textProperty().bind(
-                Bindings.createStringBinding(
-                        () -> "Attempt left: " + this.riddle.attemptsProperty().get(),
-                        this.riddle.attemptsProperty()
-                )
-        );
+        this.riddle.attemptsProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                attemptLabel.setText("Attempt left: " + newValue.intValue());
+                if (newValue.intValue() == 0) {
+                    replay();
+                    riddle.attemptsProperty().removeListener(this);
+                }
+            }
+        });
     }
 
     private void changeVisible(boolean start) {
         this.yesButton.setVisible(start);
         this.noButton.setVisible(start);
         this.answerTextField.setVisible(!start);
+        this.answerButton.setVisible(!start);
         this.attemptLabel.setVisible(!start);
+
+        if (start)
+            this.questionLabel.setText("Are you ready?");
+        else
+            this.questionLabel.setText(this.currentRiddle[0]);
     }
 
     private void replay() {
