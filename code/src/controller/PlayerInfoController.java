@@ -194,7 +194,7 @@ public class PlayerInfoController implements Initializable {
             Interpreter.interpretCommand(this.player, "use chocolate");
 
         if (this.player.getItems().size() < oldInventorySize)
-            removeItem(icon.getId());
+            this.removeItem(icon.getId());
     }
 
     public void addItem(String id) {
