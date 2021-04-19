@@ -5,9 +5,13 @@ import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import model.character.Player;
 import model.command.Interpreter;
 
@@ -22,6 +26,38 @@ public class HangmanController implements Initializable {
 
     @FXML
     private ImageView platinumHubIcon;
+
+    @FXML
+    private Line line1;
+
+    @FXML
+    private Line line2;
+
+    @FXML
+    private Line line3;
+
+    @FXML
+    private Line line4;
+
+    @FXML
+    private Line line5;
+
+    @FXML
+    private ImageView hangmanIcon;
+
+    @FXML
+    private HBox wordBox;
+
+    @FXML
+    private TextField letterTextField;
+
+    @FXML
+    private VBox notInWordBox;
+
+    @FXML
+    void checkIconClicked() {
+        this.letterTextField.clear();
+    }
 
     @FXML
     void iconMouseEntered(MouseEvent mouseEvent) {
