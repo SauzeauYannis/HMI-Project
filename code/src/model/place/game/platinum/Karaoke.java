@@ -92,7 +92,7 @@ public class Karaoke extends Game {
                 npc.talk("You still have " + trials_left + " trial(s) to find it. Think carefully...\n");
             }
 
-            npc.talk("Find the word to complete the song :" );
+            npc.talk("Find the words to complete the song :" );
             System.out.println("\"" + sentence + "\"");
 
             // Displays a commentary from NPC if it's the first loop
