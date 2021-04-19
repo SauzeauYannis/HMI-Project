@@ -2,6 +2,7 @@ package controller.place.hub;
 
 import controller.GameController;
 import controller.UtilsController;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -11,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.character.Player;
@@ -105,10 +107,22 @@ public class CopperHubController implements Initializable {
         Interpreter.interpretCommand(this.player, "go carnival");
         this.gameController.changePlace();
     }
+
+    @FXML
+    void padlockClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+            if (mouseEvent.getTarget().equals(this.padlockFindNumberIcon))
+                Interpreter.interpretCommand(this.player, "unlock find");
+            else if (mouseEvent.getTarget().equals(this.padlockQteIcon))
+                Interpreter.interpretCommand(this.player, "unlock qte");
+            else
+                Interpreter.interpretCommand(this.player, "unlock rock");
+        }
+    }
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a copper key to unlock a game!");
+        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a copper key to unlock a game or right click on the padlock!");
         Tooltip.install(this.padlockFindNumberIcon, tooltipPadlock);
         Tooltip.install(this.padlockQteIcon, tooltipPadlock);
         Tooltip.install(this.padlockRockPaperScissorsIcon, tooltipPadlock);

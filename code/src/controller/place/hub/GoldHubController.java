@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.character.Player;
@@ -106,9 +107,21 @@ public class GoldHubController implements Initializable {
         this.gameController.changePlace();
     }
 
+    @FXML
+    void padlockClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+            if (mouseEvent.getTarget().equals(this.padlockHanoiTowerIcon))
+                Interpreter.interpretCommand(this.player, "unlock hanoi");
+            else if (mouseEvent.getTarget().equals(this.padlockRiddleIcon))
+                Interpreter.interpretCommand(this.player, "unlock riddle");
+            else
+                Interpreter.interpretCommand(this.player, "unlock tic");
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a copper key to unlock a game!");
+        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a copper key to unlock a game or right click on the padlock!");
         Tooltip.install(this.padlockHanoiTowerIcon, tooltipPadlock);
         Tooltip.install(this.padlockRiddleIcon, tooltipPadlock);
         Tooltip.install(this.padlockTicTacToeIcon, tooltipPadlock);

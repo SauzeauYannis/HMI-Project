@@ -45,16 +45,8 @@ public class HanoiTower extends Game {
         String command = "";
         String[] commandTab;
 
-        System.out.println("\n--- Game launched ---\n");
+        start();
 
-        npc.talk("Hi young man, I'm really annoyed by this problem, can you help me?\n" +
-                "I have three pillars in front of me and I have to pass the three discs from pillar A to pillar C using pillar B.\n" +
-                "You have to respect these 2 rules in order not to lose:\n" +
-                "-You can only move one disc at a time.\n" +
-                "-You can only move a disk to an empty slot or a smaller disk.");
-
-        // To initialize the stacks
-        initialize();
         // To print the pillars
         printPillars();
 
@@ -94,17 +86,87 @@ public class HanoiTower extends Game {
             if (moveDisk(commandTab[0], commandTab[1])) {
                 printPillars();
             } else { // Else the player lose and the game stop
-                npc.talk("Oh no you've lose!");
-                this.lose(player);
+                hasWin(player, false);
                 return;
             }
         }
 
-        // The player has win
-        this.win(player);
+        hasWin(player, true);
+    }
 
-        npc.talk("Oh thanks a lot for helping me!");
-        System.out.println("\n--- Game finished ---\n");
+    public void start() {
+        System.out.println("\n--- Game launched ---\n");
+
+        this.getNpc().talk("Hi young man, I'm really annoyed by this problem, can you help me?\n" +
+                "I have three pillars in front of me and I have to pass the three discs from pillar A to pillar C using pillar B.\n" +
+                "You have to respect these 2 rules in order not to lose:\n" +
+                "-You can only move one disc at a time.\n" +
+                "-You can only move a disk to an empty slot or a smaller disk.");
+
+        // To initialize the stacks
+        initialize();
+    }
+
+    // To check the command
+    public boolean wrongCommand(String cmd) {
+        // The command need to have the first and second part a, b or c
+        String[] cmdTab = cmd.toLowerCase().split(" ");
+        String match = "[abc]";
+        // The command need have at least 2 string matches with regex [abc] to represent pillars
+        if (cmdTab.length >= 2) {
+            return !cmdTab[0].matches(match) || !cmdTab[1].matches(match) || cmdTab[0].equals(cmdTab[1]);
+        } else {
+            return true;
+        }
+    }
+
+    // To move a disk
+    public boolean moveDisk(String src, String dest) {
+        // Variables method
+        int disk;
+        boolean isWin;
+        Stack<Integer> srcPillar = getPillar(src);
+        Stack<Integer> destPillar = getPillar(dest);
+        int srcLength = srcPillar.size();
+
+        // Pop the head of the source pillar
+        disk = srcPillar.pop();
+
+        // If the destination pillar is empty the move is possible
+        if (destPillar.empty()) {
+            isWin = true;
+        } else { // Else the disk move need to be lower than the head of the destination pillar
+            isWin = disk < destPillar.peek();
+        }
+
+        // If the player lose
+        if (!isWin) {
+            return false;
+        } else { // Else if the move is correct
+            // Push the disk at the head of the destination pillar
+            destPillar.push(disk);
+            changeGame(src, dest, srcLength, destPillar.size());
+            return true;
+        }
+    }
+
+    // To check if the player win
+    public boolean isWin() {
+        return this.cPillar.size() == 3;
+    }
+
+    public void hasWin(Player player, boolean win) {
+        if (win) {
+            // The player has win
+            this.win(player);
+
+            this.getNpc().talk("Oh thanks a lot for helping me!");
+            System.out.println("\n--- Game finished ---\n");
+        } else {
+            this.lose(player);
+
+            this.getNpc().talk("Oh no you've lose!");
+        }
     }
 
     // Getter
@@ -156,57 +218,9 @@ public class HanoiTower extends Game {
         System.out.println("a\tb\tc\t");
     }
 
-    // To check the command
-    private boolean wrongCommand(String cmd) {
-        // The command need to have the first and second part a, b or c
-        String[] cmdTab = cmd.toLowerCase().split(" ");
-        String match = "[abc]";
-        // The command need have at least 2 string matches with regex [abc] to represent pillars
-        if (cmdTab.length >= 2) {
-            return !cmdTab[0].matches(match) || !cmdTab[1].matches(match) || cmdTab[0].equals(cmdTab[1]);
-        } else {
-            return true;
-        }
-    }
-
-    // To check if the player win
-    private boolean isWin() {
-        return this.cPillar.size() == 3;
-    }
-
     // To check if the player can move the disks
     private boolean canMove(String src) {
         return !getPillar(src).empty();
-    }
-
-    // To move a disk
-    private boolean moveDisk(String src, String dest) {
-        // Variables method
-        int disk;
-        boolean isWin;
-        Stack<Integer> srcPillar = getPillar(src);
-        Stack<Integer> destPillar = getPillar(dest);
-        int srcLength = srcPillar.size();
-
-        // Pop the head of the source pillar
-        disk = srcPillar.pop();
-
-        // If the destination pillar is empty the move is possible
-        if (destPillar.empty()) {
-            isWin = true;
-        } else { // Else the disk move need to be lower than the head of the destination pillar
-            isWin = disk < destPillar.peek();
-        }
-
-        // If the player lose
-        if (!isWin) {
-            return false;
-        } else { // Else if the move is correct
-            // Push the disk at the head of the destination pillar
-            destPillar.push(disk);
-            changeGame(src, dest, srcLength, destPillar.size());
-            return true;
-        }
     }
 
     // To change the screen print of the pillars

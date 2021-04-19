@@ -231,9 +231,11 @@ public class GameController {
                 this.gameScene.getChildren().add(this.goldHubPane);
                 break;
             case "Hanoi tower":
+                this.hanoiTowerController.reset();
                 this.gameScene.getChildren().add(this.hanoiTowerPane);
                 break;
             case "Riddle":
+                this.riddleController.reset();
                 this.gameScene.getChildren().add(this.riddlePane);
                 break;
             case "Tic Tac Toe":

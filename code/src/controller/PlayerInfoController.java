@@ -144,7 +144,6 @@ public class PlayerInfoController implements Initializable {
             this.gameFinishedLabel.setText(newValue.intValue() + "/" + Game.NB_GAMES);
             this.bar.setPrefHeight(newValue.doubleValue() * (this.progress_bar.getHeight() / 9F));
             if (newValue.intValue() == 9) {
-                Interpreter.interpretCommand(this.player, "unlock sparkling");
                 this.padlockIcon.setImage(
                         new Image("view/design/image/unlock.png")
                 );

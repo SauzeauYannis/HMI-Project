@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
@@ -76,7 +77,18 @@ public class CarnivalController implements Initializable {
 
     @FXML
     void gameSceneClicked(MouseEvent mouseEvent) {
-        movePlayerIcon(Duration.seconds(1), mouseEvent.getX(), mouseEvent.getY());
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
+            movePlayerIcon(Duration.seconds(1), mouseEvent.getX(), mouseEvent.getY());
+    }
+
+    @FXML
+    void padlockClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+            Interpreter.interpretCommand(this.player, "unlock sparkling");
+            if (player.getGamesFinished().isEqualTo(Game.NB_GAMES).get()) {
+                this.padlockCaravanIcon.setVisible(false);
+            }
+        }
     }
 
     @Override
@@ -89,7 +101,7 @@ public class CarnivalController implements Initializable {
         Tooltip.install(this.copperHubIcon, new Tooltip("Go to the copper hub!"));
         Tooltip.install(this.goldHubIcon, new Tooltip("Go to the gold hub!"));
         Tooltip.install(this.platinumHubIcon, new Tooltip("Go to the platinum hub!"));
-        Tooltip.install(this.padlockCaravanIcon, new Tooltip("This place is lock!\nYou need to finish the 9 mini-games\nto automatically unlock it"));
+        Tooltip.install(this.padlockCaravanIcon, new Tooltip("This game is lock!\nFinish the 9 games an right click on the padlock to unlock that place!"));
     }
 
     public void setGameController(GameController gameController) {
@@ -98,9 +110,6 @@ public class CarnivalController implements Initializable {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.padlockCaravanIcon.visibleProperty().bind(
-                player.getGamesFinished().isEqualTo(Game.NB_GAMES).not()
-        );
         this.reset();
     }
 
