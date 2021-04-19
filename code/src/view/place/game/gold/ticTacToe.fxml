@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.place.game.gold.TicTacToeController">
-    <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0"
-               onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited"
-               pickOnBounds="true" preserveRatio="true">
-        <Image url="@../../../design/image/gold_hub.png"/>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.place.game.gold.TicTacToeController">
+    <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="42.0" layoutY="20.0" onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../../design/image/gold_hub.png" />
     </ImageView>
-    <Label layoutX="120.0" layoutY="262.0" text="[TODO] Tic Tac Toe">
-        <font>
-          <Font name="Carlito Bold" size="79.0" />
-        </font>
-    </Label>
 </AnchorPane>
