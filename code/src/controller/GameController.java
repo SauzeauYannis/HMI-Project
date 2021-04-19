@@ -68,6 +68,9 @@ public class GameController {
     public void setPlayerInfoController(PlayerInfoController playerInfoController) {
         this.keyShopController.setPlayerInfoController(playerInfoController);
         this.foodShopController.setPlayerInfoController(playerInfoController);
+        this.copperHubController.setPlayerInfoController(playerInfoController);
+        this.goldHubController.setPlayerInfoController(playerInfoController);
+        this.platinumHubController.setPlayerInfoController(playerInfoController);
     }
 
     public void setPlayer(Player player) {

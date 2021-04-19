@@ -14,8 +14,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
+import model.item.Key;
 import model.place.Game;
 
 import java.net.URL;
@@ -160,6 +162,24 @@ public class PlayerInfoController implements Initializable {
 
     public void setScene(Scene scene) {
         this.scene = scene;
+    }
+
+    public void unlockGame(String gameName, Level level) {
+        int oldInventorySize = this.player.getItems().size();
+        Interpreter.interpretCommand(this.player, "unlock " + gameName);
+        if (this.player.getItems().size() < oldInventorySize) {
+            switch (level) {
+                case COPPER:
+                    this.removeItem(this.copperKeyIcon.getId());
+                    break;
+                case GOLD:
+                    this.removeItem(this.goldKeyIcon.getId());
+                    break;
+                case PLATINUM:
+                    this.removeItem(this.platinumKeyIcon.getId());
+                    break;
+            }
+        }
     }
 
     private void lookItem(ImageView icon) {
