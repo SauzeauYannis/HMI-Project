@@ -14,12 +14,14 @@
         <Image url="@../../../design/image/platinum_hub.png" />
     </ImageView>
    <Rectangle id="rectangleIndicator" fx:id="rectangleIndicator" arcHeight="5.0" arcWidth="5.0" fill="#d4d4d4" height="96.0" layoutX="63.0" layoutY="167.0" stroke="BLACK" strokeType="INSIDE" width="743.0" />
-   <Label id="LabelLyrics" fx:id="LabelLyrics" alignment="CENTER" layoutX="69.0" layoutY="178.0" prefHeight="75.0" prefWidth="727.0" text="LYRICS" textAlignment="CENTER">
+   <Label id="labelLyrics" fx:id="labelLyrics" alignment="CENTER" layoutX="69.0" layoutY="178.0" prefHeight="75.0" prefWidth="727.0" text="LYRICS" textAlignment="CENTER">
       <font>
          <Font size="19.0" />
       </font>
    </Label>
-   <Label layoutX="667.0" layoutY="125.0" text="Trials Left" />
-   <TextField id="TextFieldProposition" fx:id="TextFieldProposition" layoutX="174.0" layoutY="364.0" prefHeight="42.0" prefWidth="521.0" />
-   <Button id="ButtonSubmit" fx:id="ButtonSubmit" layoutX="407.0" layoutY="422.0" mnemonicParsing="false" text="SUBMIT" />
+   <Label layoutX="71.0" layoutY="132.0" prefHeight="17.0" prefWidth="64.0" text="Left trials :" />
+   <TextField id="textFieldProposition" fx:id="textFieldProposition" layoutX="174.0" layoutY="364.0" prefHeight="42.0" prefWidth="521.0" />
+   <Button id="buttonSubmit" fx:id="buttonSubmit" layoutX="407.0" layoutY="422.0" mnemonicParsing="false" text="SUBMIT" />
+   <Label layoutX="389.0" layoutY="333.0" text="Your proposition :" />
+   <Label id="labelTrials" fx:id="labelTrials" layoutX="135.0" layoutY="132.0" text="3" />
 </AnchorPane>

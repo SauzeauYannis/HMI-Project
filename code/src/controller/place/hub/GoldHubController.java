@@ -1,6 +1,7 @@
 package controller.place.hub;
 
 import controller.GameController;
+import controller.PlayerInfoController;
 import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.Place;
@@ -32,6 +34,7 @@ public class GoldHubController implements Initializable {
     private final Image riddleImage = new Image("view/design/image/riddle.gif");
     private final Image ticTacToeImage = new Image("view/design/image/tic_tac_toe.gif");
 
+    private PlayerInfoController playerInfoController;
     private GameController gameController;
     private Player player;
     private Scene scene;
@@ -111,11 +114,11 @@ public class GoldHubController implements Initializable {
     void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             if (mouseEvent.getTarget().equals(this.padlockHanoiTowerIcon))
-                Interpreter.interpretCommand(this.player, "unlock hanoi");
+                this.playerInfoController.unlockGame("hanoi", Level.GOLD);
             else if (mouseEvent.getTarget().equals(this.padlockRiddleIcon))
-                Interpreter.interpretCommand(this.player, "unlock riddle");
+                this.playerInfoController.unlockGame("riddle", Level.GOLD);
             else
-                Interpreter.interpretCommand(this.player, "unlock tic");
+                this.playerInfoController.unlockGame("tic", Level.GOLD);
         }
     }
 
@@ -129,6 +132,10 @@ public class GoldHubController implements Initializable {
         Tooltip.install(this.riddleIcon, new Tooltip("Go to riddle game"));
         Tooltip.install(this.ticTacToeIcon, new Tooltip("Go to tic tac toe game"));
         Tooltip.install(this.carnivalIcon, new Tooltip("Go to carnival"));
+    }
+
+    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
+        this.playerInfoController = playerInfoController;
     }
 
     public void setGameController(GameController gameController) {

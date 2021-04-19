@@ -1,6 +1,7 @@
 package controller.place.hub;
 
 import controller.GameController;
+import controller.PlayerInfoController;
 import controller.UtilsController;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.Place;
@@ -33,6 +35,7 @@ public class CopperHubController implements Initializable {
     private final Image qteImage = new Image("view/design/image/qte.gif");
     private final Image rockPaperScissorsImage = new Image("view/design/image/rock_paper_scissors.gif");
 
+    private PlayerInfoController playerInfoController;
     private GameController gameController;
     private Player player;
     private Scene scene;
@@ -112,11 +115,11 @@ public class CopperHubController implements Initializable {
     void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             if (mouseEvent.getTarget().equals(this.padlockFindNumberIcon))
-                Interpreter.interpretCommand(this.player, "unlock find");
+                this.playerInfoController.unlockGame("find", Level.COPPER);
             else if (mouseEvent.getTarget().equals(this.padlockQteIcon))
-                Interpreter.interpretCommand(this.player, "unlock qte");
+                this.playerInfoController.unlockGame("qte", Level.COPPER);
             else
-                Interpreter.interpretCommand(this.player, "unlock rock");
+                this.playerInfoController.unlockGame("rock", Level.COPPER);
         }
     }
     
@@ -130,6 +133,10 @@ public class CopperHubController implements Initializable {
         Tooltip.install(this.qteIcon, new Tooltip("Go to qte game"));
         Tooltip.install(this.rockPaperScissorsIcon, new Tooltip("Go to rock paper scissors game"));
         Tooltip.install(this.carnivalIcon, new Tooltip("Go to carnival"));
+    }
+
+    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
+        this.playerInfoController = playerInfoController;
     }
 
     public void setGameController(GameController gameController) {

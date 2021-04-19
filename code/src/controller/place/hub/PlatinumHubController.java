@@ -1,6 +1,7 @@
 package controller.place.hub;
 
 import controller.GameController;
+import controller.PlayerInfoController;
 import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.Place;
@@ -32,6 +34,7 @@ public class PlatinumHubController implements Initializable {
     private final Image karaokeImage = new Image("view/design/image/karaoke.gif");
     private final Image questionsImage = new Image("view/design/image/questions.gif");
 
+    private PlayerInfoController playerInfoController;
     private GameController gameController;
     private Player player;
     private Scene scene;
@@ -111,11 +114,11 @@ public class PlatinumHubController implements Initializable {
     void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             if (mouseEvent.getTarget().equals(this.padlockHangmanTowerIcon))
-                Interpreter.interpretCommand(this.player, "unlock hangman");
+                this.playerInfoController.unlockGame("hangman", Level.PLATINUM);
             else if (mouseEvent.getTarget().equals(this.padlockKaraokeIcon))
-                Interpreter.interpretCommand(this.player, "unlock karaoke");
+                this.playerInfoController.unlockGame("karaoke", Level.PLATINUM);
             else
-                Interpreter.interpretCommand(this.player, "unlock questions");
+                this.playerInfoController.unlockGame("questions", Level.PLATINUM);
         }
     }
 
@@ -129,6 +132,10 @@ public class PlatinumHubController implements Initializable {
         Tooltip.install(this.karaokeIcon, new Tooltip("Go to karaoke game"));
         Tooltip.install(this.questionsIcon, new Tooltip("Go to questions game"));
         Tooltip.install(this.carnivalIcon, new Tooltip("Go to carnival"));
+    }
+
+    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
+        this.playerInfoController = playerInfoController;
     }
 
     public void setGameController(GameController gameController) {
