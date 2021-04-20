@@ -35,7 +35,7 @@ public class TicTacToe extends Game {
 
     /// Constructor ///
     public TicTacToe() {
-        super("Tic Tac Toe",
+        super("Tic tac toe",
                 "| This the game of the TicTacToe, you must to align three same symbols to horizontally, vertical or diagonal.",
                 new NPC("Sagrat Opubice"),
                 Level.GOLD);

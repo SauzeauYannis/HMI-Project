@@ -3,7 +3,6 @@ package controller.place;
 import controller.GameController;
 import controller.UtilsController;
 import javafx.animation.PathTransition;
-import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -12,10 +11,8 @@ import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.HLineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -30,14 +27,16 @@ import java.util.ResourceBundle;
 
 public class CarnivalController implements Initializable {
 
-    private TranslateTransition transition;
+    private PathTransition pathTransitionToCopperHub;
+    private PathTransition pathTransitionToGoldHub;
+    private PathTransition pathTransitionToPlatinumHub;
+    private PathTransition pathTransitionToFoodShop;
+    private PathTransition pathTransitionToKeyShop;
+    private PathTransition pathTransitionToSparklingCaravan;
 
     private GameController gameController;
     private Player player;
     private Scene scene;
-
-    @FXML
-    private AnchorPane carnivalScene;
 
     @FXML
     private ImageView playerIcon;
@@ -63,13 +62,6 @@ public class CarnivalController implements Initializable {
     @FXML
     private ImageView padlockCaravanIcon;
 
-    // TODO: 14-Apr-21 Enlever lors du rendu
-    @FXML
-    void cheat() {
-        this.player.increaseHealth(100);
-        this.player.earnMoney(10000);
-    }
-
     @FXML
     public void iconMouseEntered(MouseEvent event) {
         UtilsController.rescaleNode(this.scene, (ImageView) event.getTarget(), 1.2);
@@ -83,19 +75,22 @@ public class CarnivalController implements Initializable {
     @FXML
     void gameSceneClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-            if (mouseEvent.getTarget().equals(this.goldHubIcon)) {
-                Path path = new Path();
-                path.getElements().add(new MoveTo(50, 50));
-                path.getElements().add(new VLineTo(250));
-                path.getElements().add(new HLineTo(485));
-                path.getElements().add(new VLineTo(150));
-                PathTransition pathTransition = new PathTransition();
-                pathTransition.setDuration(Duration.seconds(3));
-                pathTransition.setPath(path);
-                pathTransition.setNode(this.playerIcon);
-                pathTransition.play();
-            } else
-                movePlayerIcon(Duration.seconds(1), mouseEvent.getX(), mouseEvent.getY());
+            if (mouseEvent.getTarget().equals(this.copperHubIcon))
+                this.pathTransitionToCopperHub.play();
+            else if (mouseEvent.getTarget().equals(this.goldHubIcon))
+                this.pathTransitionToGoldHub.play();
+            else if (mouseEvent.getTarget().equals(this.platinumHubIcon))
+                this.pathTransitionToPlatinumHub.play();
+            else if (mouseEvent.getTarget().equals(this.foodShopIcon))
+                this.pathTransitionToFoodShop.play();
+            else if (mouseEvent.getTarget().equals(this.keyShopIcon))
+                this.pathTransitionToKeyShop.play();
+            else if (mouseEvent.getTarget().equals(this.sparklingCaravanIcon)) {
+                if (this.padlockCaravanIcon.isVisible())
+                    Interpreter.interpretCommand(this.player, "go sparkling");
+                else
+                    this.pathTransitionToSparklingCaravan.play();
+            }
         }
     }
 
@@ -103,16 +98,13 @@ public class CarnivalController implements Initializable {
     void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             Interpreter.interpretCommand(this.player, "unlock sparkling");
-            if (player.getGamesFinished().isEqualTo(Game.NB_GAMES).get()) {
+            if (player.getGamesFinished().isEqualTo(Game.NB_GAMES).get())
                 this.padlockCaravanIcon.setVisible(false);
-            }
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.transition = new TranslateTransition(Duration.UNKNOWN, this.playerIcon);
-
         Tooltip.install(this.keyShopIcon, new Tooltip("Go to the key shop!"));
         Tooltip.install(this.foodShopIcon, new Tooltip("Go to the food shop!"));
         Tooltip.install(this.sparklingCaravanIcon, new Tooltip("Go to the sparkling caravan!"));
@@ -120,6 +112,57 @@ public class CarnivalController implements Initializable {
         Tooltip.install(this.goldHubIcon, new Tooltip("Go to the gold hub!"));
         Tooltip.install(this.platinumHubIcon, new Tooltip("Go to the platinum hub!"));
         Tooltip.install(this.padlockCaravanIcon, new Tooltip("This game is lock!\nFinish the 9 games an right click on the padlock to unlock that place!"));
+
+        double xOffset = UtilsController.getMiddleWidth(this.playerIcon);
+        double yOffset  = UtilsController.getMiddleHeight(this.playerIcon);
+
+        MoveTo startMoveTo = new MoveTo(xOffset, yOffset);
+
+        VLineTo firstVLineTo = new VLineTo(yOffset + 250);
+        VLineTo secondVLineToTop = new VLineTo(yOffset + 150);
+        VLineTo secondVLineToBottom = new VLineTo(yOffset + 350);
+
+        Path pathToCopperHub = new Path();
+        pathToCopperHub.getElements().add(startMoveTo);
+        pathToCopperHub.getElements().add(firstVLineTo);
+        pathToCopperHub.getElements().add(new HLineTo(xOffset + 250));
+        pathToCopperHub.getElements().add(secondVLineToTop);
+        this.pathTransitionToCopperHub = new PathTransition(Duration.seconds(2), pathToCopperHub, playerIcon);
+
+        Path pathToGoldHub = new Path();
+        pathToGoldHub.getElements().add(startMoveTo);
+        pathToGoldHub.getElements().add(firstVLineTo);
+        pathToGoldHub.getElements().add(new HLineTo(xOffset + 485));
+        pathToGoldHub.getElements().add(secondVLineToTop);
+        this.pathTransitionToGoldHub = new PathTransition(Duration.seconds(3), pathToGoldHub, playerIcon);
+
+        Path pathToPlatinumHub = new Path();
+        pathToPlatinumHub.getElements().add(startMoveTo);
+        pathToPlatinumHub.getElements().add(firstVLineTo);
+        pathToPlatinumHub.getElements().add(new HLineTo(xOffset + 690));
+        pathToPlatinumHub.getElements().add(secondVLineToTop);
+        this.pathTransitionToPlatinumHub = new PathTransition(Duration.seconds(4), pathToPlatinumHub, playerIcon);
+
+        Path pathToFoodShop = new Path();
+        pathToFoodShop.getElements().add(startMoveTo);
+        pathToFoodShop.getElements().add(firstVLineTo);
+        pathToFoodShop.getElements().add(new HLineTo(xOffset + 75));
+        pathToFoodShop.getElements().add(secondVLineToBottom);
+        this.pathTransitionToFoodShop = new PathTransition(Duration.seconds(2), pathToFoodShop, playerIcon);
+
+        Path pathToKeyShop = new Path();
+        pathToKeyShop.getElements().add(startMoveTo);
+        pathToKeyShop.getElements().add(firstVLineTo);
+        pathToKeyShop.getElements().add(new HLineTo(xOffset + 385));
+        pathToKeyShop.getElements().add(secondVLineToBottom);
+        this.pathTransitionToKeyShop = new PathTransition(Duration.seconds(3), pathToKeyShop, playerIcon);
+
+        Path pathToSparklingCaravan = new Path();
+        pathToSparklingCaravan.getElements().add(startMoveTo);
+        pathToSparklingCaravan.getElements().add(firstVLineTo);
+        pathToSparklingCaravan.getElements().add(new HLineTo(xOffset + 680));
+        pathToSparklingCaravan.getElements().add(secondVLineToBottom);
+        this.pathTransitionToSparklingCaravan = new PathTransition(Duration.seconds(4), pathToSparklingCaravan, playerIcon);
     }
 
     public void setGameController(GameController gameController) {
@@ -128,12 +171,13 @@ public class CarnivalController implements Initializable {
 
     public void setPlayer(Player player) {
         this.player = player;
+        // TODO: 14-Apr-21 Enlever lors du rendu
+        player.earnMoney(1000);
         this.reset();
     }
 
     public void setScene(Scene scene) {
         this.scene = scene;
-        scene.getRoot().setOnKeyPressed(this::moveWithKeys);
     }
 
     public void reset() {
@@ -142,82 +186,25 @@ public class CarnivalController implements Initializable {
         this.playerIcon.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
             @Override
             public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
-                if (newValue.intersects(keyShopIcon.getBoundsInParent())) {
-                    Interpreter.interpretCommand(player, "go key");
-                    gameController.changePlace();
-                    playerIcon.boundsInParentProperty().removeListener(this);
-                } else if (newValue.intersects(foodShopIcon.getBoundsInParent())) {
-                    Interpreter.interpretCommand(player, "go food");
-                    gameController.changePlace();
-                    playerIcon.boundsInParentProperty().removeListener(this);
-                } else if (newValue.intersects(sparklingCaravanIcon.getBoundsInParent())) {
-                    if (!padlockCaravanIcon.isVisible()) {
-                        Interpreter.interpretCommand(player, "go sparkling");
-                        gameController.changePlace();
-                        playerIcon.boundsInParentProperty().removeListener(this);
-                    } else {
-                        playerIcon.setTranslateX(675);
-                        playerIcon.setTranslateY(300);
-                    }
-                } else if (newValue.intersects(copperHubIcon.getBoundsInParent())) {
-                    Interpreter.interpretCommand(player, "go copper");
-                    gameController.changePlace();
-                    playerIcon.boundsInParentProperty().removeListener(this);
-                } else if (newValue.intersects(goldHubIcon.getBoundsInParent())) {
-                    Interpreter.interpretCommand(player, "go gold");
-                    gameController.changePlace();
-                    playerIcon.boundsInParentProperty().removeListener(this);
-                } else if (newValue.intersects(platinumHubIcon.getBoundsInParent())) {
-                    Interpreter.interpretCommand(player, "go platinum");
-                    gameController.changePlace();
-                    playerIcon.boundsInParentProperty().removeListener(this);
-                }
+                if (newValue.intersects(keyShopIcon.getBoundsInParent()))
+                    go("key", this);
+                else if (newValue.intersects(foodShopIcon.getBoundsInParent()))
+                    go("food", this);
+                else if (newValue.intersects(sparklingCaravanIcon.getBoundsInParent()))
+                    go("sparkling", this);
+                else if (newValue.intersects(copperHubIcon.getBoundsInParent()))
+                    go("copper", this);
+                else if (newValue.intersects(goldHubIcon.getBoundsInParent()))
+                    go("gold", this);
+                else if (newValue.intersects(platinumHubIcon.getBoundsInParent()))
+                    go("platinum", this);
             }
         });
     }
 
-    private void moveWithKeys(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case Z:
-                movePlayerIcon(
-                        Duration.millis(20),
-                        UtilsController.getTranslateCenterX(this.playerIcon),
-                        UtilsController.getTranslateCenterY(this.playerIcon) - 20);
-                break;
-            case Q:
-                movePlayerIcon(
-                        Duration.millis(20),
-                        UtilsController.getTranslateCenterX(this.playerIcon) - 20,
-                        UtilsController.getTranslateCenterY(this.playerIcon));
-                break;
-            case S:
-                movePlayerIcon(
-                        Duration.millis(20),
-                        UtilsController.getTranslateCenterX(this.playerIcon),
-                        UtilsController.getTranslateCenterY(this.playerIcon) + 20);
-                break;
-            case D:
-                movePlayerIcon(
-                        Duration.millis(20),
-                        UtilsController.getTranslateCenterX(this.playerIcon) + 20,
-                        UtilsController.getTranslateCenterY(this.playerIcon));
-                break;
-            // TODO: 15-Apr-21 Enlever debug decrease quand ca sera fini
-            case C:
-                this.player.decreaseHealth(11);
-                break;
-            case F:
-                this.player.increaseGameFinished();
-                break;
-        }
-    }
-
-    private void movePlayerIcon(Duration duration, double X, double Y) {
-        if (X > 0 && Y > 0 && X < this.carnivalScene.getWidth() && Y < this.carnivalScene.getHeight()) {
-            transition.setDuration(duration);
-            transition.setToX(X - UtilsController.getMiddleWidth(this.playerIcon));
-            transition.setToY(Y - UtilsController.getMiddleHeight(this.playerIcon));
-            transition.playFromStart();
-        }
+    private void go(String place, ChangeListener<Bounds> boundsChangeListener) {
+        Interpreter.interpretCommand(this.player, "go " + place);
+        this.gameController.changePlace();
+        this.playerIcon.boundsInParentProperty().removeListener(boundsChangeListener);
     }
 }

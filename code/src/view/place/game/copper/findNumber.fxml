@@ -13,6 +13,11 @@
    <ImageView fx:id="copperHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#goCopper" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
       <Image url="@../../../design/image/copper_hub.png" />
    </ImageView>
+   <Label layoutX="366.0" layoutY="31.0" text="Find number">
+      <font>
+         <Font name="Carlito Bold" size="25.0" />
+      </font>
+   </Label>
    <TextField fx:id="numberField" layoutX="396.0" layoutY="294.0" maxWidth="75.0" promptText="Type...">
       <font>
          <Font name="Carlito Bold" size="15.0" />
@@ -23,9 +28,9 @@
          <Font name="Carlito Bold" size="15.0" />
       </font>
    </Label>
-   <Label fx:id="attemptLabel" layoutX="378.0" layoutY="35.0" text="Find Number">
+   <Label fx:id="attemptLabel" layoutX="141.0" layoutY="246.0" text="Attempt">
       <font>
-         <Font name="Carlito Bold" size="20.0" />
+         <Font name="Carlito Bold" size="15.0" />
       </font>
    </Label>
    <VBox fx:id="historyBox" layoutX="669.0" layoutY="187.0" spacing="10.0" />

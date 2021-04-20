@@ -11,11 +11,11 @@
     <ImageView fx:id="copperHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#goCopper" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
         <Image url="@../../../design/image/copper_hub.png" />
     </ImageView>
-    <Label layoutX="416.0" layoutY="35.0" text="QTE">
-        <font>
-          <Font name="Carlito Bold" size="20.0" />
-        </font>
-    </Label>
+   <Label layoutX="412.0" layoutY="31.0" text="QTE">
+      <font>
+         <Font name="Carlito Bold" size="25.0" />
+      </font>
+   </Label>
    <TextField fx:id="punchTextField" layoutX="283.0" layoutY="294.0" minWidth="300.0" promptText="Type the punch here">
       <font>
          <Font name="Carlito Bold" size="15.0" />

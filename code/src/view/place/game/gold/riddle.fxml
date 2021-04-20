@@ -12,9 +12,9 @@
     <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
         <Image url="@../../../design/image/gold_hub.png" />
     </ImageView>
-    <Label layoutX="406.0" layoutY="35.0" text="Riddle">
+    <Label layoutX="400.0" layoutY="31.0" text="Riddle">
         <font>
-          <Font name="Carlito Bold" size="20.0" />
+          <Font name="Carlito Bold" size="25.0" />
         </font>
     </Label>
    <Label fx:id="questionLabel" alignment="CENTER" layoutX="183.0" layoutY="198.0" minWidth="500.0" text="Are you ready?">
