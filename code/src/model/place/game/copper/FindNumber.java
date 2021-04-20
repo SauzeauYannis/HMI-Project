@@ -45,8 +45,10 @@ public class FindNumber extends Game {
 
         start();
 
+        boolean win = false;
+
         // While the player still has attempt
-        while (attempt.get() > 0) {
+        while (!win || attempt.get() > 0) {
 
             System.out.print(player);
 
@@ -59,7 +61,7 @@ public class FindNumber extends Game {
                 continue;
             }
 
-            playOneTurn(player, chosenNumber);
+            win = playOneTurn(player, chosenNumber);
         }
 
         // Prevent a bug at the end of the game
@@ -94,7 +96,7 @@ public class FindNumber extends Game {
     }
 
 
-    public void playOneTurn(Player player, int chosenNumber) {
+    public boolean playOneTurn(Player player, int chosenNumber) {
         // Check if the player type a valid number
         if (chosenNumber > MAX_NUMBER || chosenNumber < 0) {
             this.getNpc().talk("Please entry a valid number!");
@@ -120,9 +122,10 @@ public class FindNumber extends Game {
                             " attempts left!");
                 } else {
                     this.win(player);
-                    attempt.set(0);
+                    return true;
                 }
             }
         }
+        return false;
     }
 }

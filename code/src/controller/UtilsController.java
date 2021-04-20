@@ -29,9 +29,15 @@ public abstract class UtilsController {
             scene.setCursor(Cursor.DEFAULT);
     }
 
-    public static Alert getAlertFinish() {
+    public static Alert getAlertFinish(boolean win) {
         alertFinish.setTitle("Game finished");
         alertFinish.setContentText("Do you want to replay?");
+
+        if (win)
+            alertFinish.setHeaderText("You win!");
+        else
+            alertFinish.setHeaderText("You lose!");
+
         return alertFinish;
     }
 

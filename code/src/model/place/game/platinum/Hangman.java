@@ -1,5 +1,9 @@
 package model.place.game.platinum;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import model.Gameplay;
 import model.character.NPC;
 import model.character.Player;
@@ -15,9 +19,9 @@ public class Hangman extends Game {
     /*****************************
      * Attributes and constructor
      *****************************/
-    // ATTRIBUTES
-    private final static int NB_TRY = 5;
 
+    // ATTRIBUTES
+    public final static int NB_TRY = 5;
     private final String[] WORDS = {
             "Apple",
             "Pear",
@@ -48,6 +52,13 @@ public class Hangman extends Game {
             "Cucumber"
     };
 
+    private IntegerProperty trialsLeft;
+    private StringProperty wordToFind;
+
+    private String word;
+    private String lettersFound;
+    private int trials;
+
     //CONSTRUCTOR
     public Hangman() {
         super("Hangman",
@@ -60,20 +71,48 @@ public class Hangman extends Game {
      * Methods
      **********/
 
-    //GETTERS
-    private int getLengthWORDS(){
-        return this.WORDS.length;
-    }
-
     //OVERRIDE METHODS
     @Override
     public void play(Player player) {
-        NPC npc = this.getNpc();
-        Scanner scanner;
+        Scanner scanner = Gameplay.scanner;
 
+        String guess;
+
+        this.start();
+
+        // Here starts the game loop
+        while (!this.isWordFind() && (this.trialsLeft.get() > 0)) {
+            startRound();
+
+            System.out.print(player);
+            guess = scanner.nextLine();
+
+            playRound(guess);
+        }
+
+        // Checks if player wins and acts accordingly
+        if (this.checkWin())
+            this.win(player);
+        else
+            this.lose(player);
+
+        System.out.println("\n--- Game finished ---\n");
+    }
+
+    //GETTERS
+    public StringProperty getWordToFind() {
+        return wordToFind;
+    }
+
+    public IntegerProperty trialsLeftProperty() {
+        return trialsLeft;
+    }
+
+    //METHODS
+    public void start() {
         System.out.println("\n--- Game launched ---\n");
 
-        npc.talk("ZZzzzZZZ... Wha... Sh... Hello! ^^'\n" +
+        this.getNpc().talk("ZZzzzZZZ... Wha... Sh... Hello! ^^'\n" +
                 "I wasn't sleeping... Well, I'm Mrs.Lependu and welcome to my stand! \n" +
                 "The hangman game here is about fruits and vegetables...\n" +
                 "I hope you've reviewed your voc!\n" +
@@ -82,121 +121,101 @@ public class Hangman extends Game {
                 "You have " + NB_TRY + " guesses. Good luck!");
 
         // To choose randomly a word from the words array
-        String word = this.randWORDS();
+        this.randWordInWORDS();
 
         // To show the word in underscores form
-        String wordToFind = word.replaceAll("[A-Z]", "_ ");
+        this.wordToFind = new SimpleStringProperty(this.word.replaceAll("[A-Z]", "_"));
 
         // To declare variable needed for the game
-        int trials = 0;
-        int trials_left = NB_TRY;
-        String guess;
-        char letter;
+        this.trialsLeft = new SimpleIntegerProperty(NB_TRY);
+        this.trials = 0;
+
         // To store and know if a letter was already guessed
-        String lettersFound = "";
-        boolean letterFound;
+        this.lettersFound = "";
+    }
 
-        // Here starts the game loop
-        while (wordToFind.contains("_") && (trials_left>0)) {
+    public void startRound() {
+        // Displays the word to find underscored
+        System.out.println(this.wordToFind.get());
 
-            // Displays the word to find underscored
-            System.out.println(wordToFind);
+        // Displays if it is not the first loop
+        if (this.trialsLeft.get() != NB_TRY)
+            this.getNpc().talk("You have " + this.trialsLeft.get() + " guesses left.");
 
-            // Displays if it is not the first loop
-            if (trials_left != NB_TRY)
-                npc.talk("You have " + trials_left + " guesses left.");
+        // Catches player guess' and convert it to upper case to be comparable
+        this.getNpc().talk("What is your guess?");
+    }
 
-            // Catches player guess' and convert it to upper case to be comparable
-            npc.talk("What is your guess?");
-            System.out.print(player);
-            scanner = Gameplay.scanner;
-            guess = scanner.nextLine();
-            guess = guess.toUpperCase();
+    public String playRound(String guess) {
+        String result = null;
 
-            // Catches the first char (letter) of guess and convert it to upper case to be comparable
-            letter = guess.charAt(0);
-            letter = Character.toUpperCase(letter);
+        // Catches the first char (letter) of guess and convert it to upper case to be comparable
+        char letter = guess.charAt(0);
+        letter = Character.toUpperCase(letter);
 
-            // Checks if the letter was already found
-            letterFound = isLetterFound(lettersFound,letter,npc);
+        // Checks if the letter was already found
+        if (!isLetterFound(letter)) {
+            // Check if the letter is in the word
+            if ((this.word.indexOf(letter)) != -1) {
+                this.getNpc().talk("Well done! " +
+                        letter +
+                        " is in the word!");
 
-            if (!letterFound) {
-                // Adds the letter to lettersFound
-                lettersFound += letter;
-
-                // Check if the letter is in the word
-                if ((word.indexOf(letter)) != -1) {
-                    npc.talk("Well done! " +
-                            letter +
-                            " is in the word!");
-
-                    for (int i = 0; i < word.length(); i++) {
-
-                        if (word.charAt(i) == letter && wordToFind.charAt(i) != letter) {
-                            // To have the right element in index i
-                            wordToFind = wordToFind.replaceAll("_ ", "1");
-                            // Adds the letter found is the right place
-                            String tmp = wordToFind.substring(0, i)
-                                    + letter
-                                    + wordToFind.substring(i + 1);
-                            tmp = tmp.replaceAll("1", "_ ");
-                            wordToFind = tmp;
-                        }
-                    }
-                } else {
-                    npc.talk(letter + " is not in the word.");
-                    trials_left--;
-                }
-                trials++;
+                for (int i = 0; i < this.word.length(); i++)
+                    if (this.word.charAt(i) == letter && this.wordToFind.get().charAt(i) != letter)
+                        // Adds the letter found is the right place
+                        this.wordToFind.set(
+                                this.wordToFind.get().substring(0, i)
+                                        + letter
+                                        + this.wordToFind.get().substring(i + 1)
+                        );
+            } else {
+                this.getNpc().talk(letter + " is not in the word.");
+                this.trialsLeft.set(this.trialsLeft.get() - 1);
+                result = String.valueOf(letter);
             }
+            this.trials++;
         }
 
-        // Checks if player wins and acts accordingly
-        boolean win = this.checkWin(trials_left, wordToFind,trials,npc);
-        if(win) {
-            this.win(player);
-        }
-        else {
-            this.lose(player);
-        }
+        return result;
+    }
 
-        System.out.println("\n--- Game finished ---\n");
+    public boolean isWordFind() {
+        return !this.wordToFind.get().contains("_");
     }
 
     // Checks if lettersFound contains letter
-    private boolean isLetterFound(String lettersFound, char letter, NPC npc){
-        boolean letterFound;
-        if ((lettersFound.indexOf(letter)) != -1) {
-            npc.talk("You have already guessed this letter.");
-            letterFound = true;
+    private boolean isLetterFound(char letter) {
+        if ((this.lettersFound.indexOf(letter)) != -1) {
+            this.getNpc().talk("You have already guessed this letter.");
+            return true;
         } else {
-            letterFound = false;
+            // Adds the letter to lettersFound
+            this.lettersFound += letter;
+            return false;
         }
-        return letterFound;
     }
 
     //Chose a random word from WORDS array
-    private String randWORDS(){
+    private void randWordInWORDS() {
         Random rd = new Random();
-        int rd_num = rd.nextInt(this.getLengthWORDS());
-        String word = WORDS[rd_num];
-        return word.toUpperCase();
+        int rd_num = rd.nextInt(this.WORDS.length);
+        this.word = WORDS[rd_num].toUpperCase();
     }
 
     //Checks if player wins
-    private boolean checkWin(int trials_left, String wordToFind,int trials, NPC npc){
-       boolean win = false;
-        if (trials_left<1){
-            npc.talk("You reached the number of incorrect guesses. Sorry you lose! :/");
+    private boolean checkWin() {
+        if (this.trialsLeft.get() < 1) {
+            this.getNpc().talk("You reached the number of incorrect guesses. Sorry you lose! :/");
+            return false;
         }
         else {
-            npc.talk("Here we are! The word is: " +
-                    wordToFind +
+            this.getNpc().talk("Here we are! The word is: " +
+                    this.wordToFind.get() +
                     "\n What a winner! Work done in " +
-                    trials +
+                    this.trials +
                     " trials. Congrats dude! ;)");
-            win = true;
+            return true;
         }
-        return win;
     }
 }

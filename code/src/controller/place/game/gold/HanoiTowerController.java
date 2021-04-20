@@ -170,17 +170,17 @@ public class HanoiTowerController implements Initializable {
             if (this.hanoiTower.moveDisk(this.srcPillar, destPillar)) {
                 if (this.hanoiTower.isWin()) {
                     this.hanoiTower.hasWin(this.player, true);
-                    this.replay();
+                    this.replay(true);
                 }
             } else {
                 this.hanoiTower.hasWin(this.player, false);
-                this.replay();
+                this.replay(false);
             }
         }
     }
 
-    private void replay() {
-        if (UtilsController.getAlertFinish().showAndWait().orElse(null) == ButtonType.OK)
+    private void replay(boolean win) {
+        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
         else
             this.goGold();

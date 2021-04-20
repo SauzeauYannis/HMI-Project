@@ -26,6 +26,15 @@ public class FindNumberController implements Initializable {
 
     private final Image plusImage = new Image("view/design/image/plus.png");
     private final Image lessImage = new Image("view/design/image/minus.png");
+    private final ChangeListener<Number> numberChangeListener = new ChangeListener<Number>() {
+        @Override
+        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            attemptLabel.setText("Attempts left: " + newValue.intValue() + "!");
+            if (newValue.intValue() == 0) {
+                replay(false);
+            }
+        }
+    };
 
     private FindNumber findNumber;
 
@@ -66,7 +75,10 @@ public class FindNumberController implements Initializable {
         String chosenNumber = this.numberField.getText();
         if (!chosenNumber.equals("")) {
             int number = Integer.parseInt(chosenNumber);
-            this.findNumber.playOneTurn(this.player, number);
+
+            if (this.findNumber.playOneTurn(this.player, number))
+                this.replay(true);
+
             if (number >= 0 && number <= FindNumber.MAX_NUMBER && this.findNumber.attemptProperty().get() != 10)
                 addHistory(chosenNumber, number);
         } else
@@ -100,22 +112,13 @@ public class FindNumberController implements Initializable {
 
     public void reset() {
         this.historyBox.getChildren().clear();
+
         this.findNumber = (FindNumber) player.getPlace();
+
         this.attemptLabel.setText("Attempts left: " + this.findNumber.attemptProperty().get() + "!");
-        this.findNumber.attemptProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                attemptLabel.setText("Attempts left: " + newValue.intValue() + "!");
-                if (newValue.intValue() == 0) {
-                    findNumber.finish();
-                    findNumber.attemptProperty().removeListener(this);
-                    if (UtilsController.getAlertFinish().showAndWait().orElse(null) == ButtonType.OK)
-                        reset();
-                    else
-                        goCopper();
-                }
-            }
-        });
+
+        this.findNumber.attemptProperty().removeListener(numberChangeListener);
+        this.findNumber.attemptProperty().addListener(numberChangeListener);
         this.findNumber.start();
     }
 
@@ -134,5 +137,13 @@ public class FindNumberController implements Initializable {
         }
 
         this.historyBox.getChildren().add(hBox);
+    }
+
+    private void replay(boolean win) {
+        findNumber.finish();
+        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK) //// TODO: 20-Apr-21
+            reset();
+        else
+            goCopper();
     }
 }

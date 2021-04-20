@@ -21,6 +21,14 @@ public class RiddleController implements Initializable {
 
     private Riddle riddle;
     private String[] currentRiddle;
+    private final ChangeListener<Number> numberChangeListener = new ChangeListener<Number>() {
+        @Override
+        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            attemptLabel.setText("Attempt left: " + newValue.intValue());
+            if (newValue.intValue() == 0)
+                replay(false);
+        }
+    };
 
     private GameController gameController;
     private Player player;
@@ -49,7 +57,8 @@ public class RiddleController implements Initializable {
 
     @FXML
     void answerButtonClicked() {
-        this.riddle.giveAnswer(this.player, this.answerTextField.getText(), this.currentRiddle);
+        if (this.riddle.giveAnswer(this.player, this.answerTextField.getText(), this.currentRiddle))
+            this.replay(true);
         this.answerTextField.clear();
     }
 
@@ -62,7 +71,7 @@ public class RiddleController implements Initializable {
     @FXML
     void noButtonMouseClicked() {
         this.riddle.choseYes(false, this.currentRiddle);
-        this.replay();
+        this.replay(false);
     }
 
     @FXML
@@ -105,16 +114,8 @@ public class RiddleController implements Initializable {
         this.currentRiddle = this.riddle.startAndGetRiddle();
         this.attemptLabel.setText("Attempt left: " + Riddle.DEFAULT_ATTEMPTS);
 
-        this.riddle.attemptsProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                attemptLabel.setText("Attempt left: " + newValue.intValue());
-                if (newValue.intValue() == 0) {
-                    replay();
-                    riddle.attemptsProperty().removeListener(this);
-                }
-            }
-        });
+        this.riddle.attemptsProperty().removeListener(numberChangeListener);
+        this.riddle.attemptsProperty().addListener(numberChangeListener);
     }
 
     private void changeVisible(boolean start) {
@@ -130,10 +131,10 @@ public class RiddleController implements Initializable {
             this.questionLabel.setText(this.currentRiddle[0]);
     }
 
-    private void replay() {
+    private void replay(boolean win) {
         this.riddle.finish();
 
-        if (UtilsController.getAlertFinish().showAndWait().orElse(null) == ButtonType.OK)
+        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
         else
             this.goGold();
