@@ -16,37 +16,35 @@
     </ImageView>
     <Label layoutX="393.0" layoutY="35.0" text="Hangman">
         <font>
-          <Font name="Carlito Bold" size="20.0" />
+            <Font name="Carlito Bold" size="20.0" />
         </font>
     </Label>
-   <Line fx:id="line1" endX="150.0" layoutX="131.0" layoutY="553.0" startX="-100.0" strokeWidth="5.0" />
-   <Line fx:id="line2" endX="300.0" layoutX="57.0" layoutY="347.0" rotate="90.0" startX="-100.0" strokeWidth="5.0" />
-   <Line fx:id="line3" endX="150.0" layoutX="227.0" layoutY="144.0" startX="-100.0" strokeWidth="5.0" />
-   <Line fx:id="line4" endX="50.0" layoutX="237.0" layoutY="199.0" rotate="135.0" startX="-100.0" strokeWidth="5.0" />
-   <Line fx:id="line5" endX="-50.0" layoutX="426.0" layoutY="174.0" rotate="90.0" startX="-100.0" strokeWidth="5.0" />
+    <Line fx:id="line1" endX="150.0" layoutX="131.0" layoutY="553.0" startX="-100.0" strokeWidth="5.0" />
+    <Line fx:id="line2" endX="300.0" layoutX="57.0" layoutY="347.0" rotate="90.0" startX="-100.0" strokeWidth="5.0" />
+    <Line fx:id="line3" endX="150.0" layoutX="227.0" layoutY="144.0" startX="-100.0" strokeWidth="5.0" />
+    <Line fx:id="line4" endX="50.0" layoutX="237.0" layoutY="199.0" rotate="135.0" startX="-100.0" strokeWidth="5.0" />
+    <Line fx:id="line5" endX="-50.0" layoutX="426.0" layoutY="174.0" rotate="90.0" startX="-100.0" strokeWidth="5.0" />
     <ImageView fx:id="hangmanIcon" fitHeight="200.0" fitWidth="200.0" layoutX="259.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@../../../design/image/benjapied.gif" />
     </ImageView>
-   <HBox fx:id="wordBox" layoutX="621.0" layoutY="142.0" spacing="10.0" />
-   <Label layoutX="499.0" layoutY="144.0" text="Word to find">
-      <font>
-         <Font name="Carlito Bold" size="15.0" />
-      </font>
-   </Label>
-   <TextField fx:id="letterTextField" alignment="CENTER" layoutX="499.0" layoutY="246.0" prefWidth="130.0" promptText="Type here a letter">
-      <font>
-         <Font name="Carlito Bold" size="15.0" />
-      </font>
-   </TextField>
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="671.0" layoutY="248.0" onMouseClicked="#checkIconClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../design/image/check.png" />
-      </image>
-   </ImageView>
-   <Label layoutX="521.0" layoutY="352.0" text="Letter not in the word">
-      <font>
-         <Font name="Carlito Bold" size="15.0" />
-      </font>
-   </Label>
-   <VBox fx:id="notInWordBox" layoutX="584.0" layoutY="416.0" />
+    <HBox fx:id="wordBox" layoutX="621.0" layoutY="142.0" spacing="10.0" />
+    <Label layoutX="499.0" layoutY="144.0" text="Word to find">
+        <font>
+            <Font name="Carlito Bold" size="15.0" />
+        </font>
+    </Label>
+    <TextField fx:id="letterTextField" alignment="CENTER" layoutX="499.0" layoutY="246.0" onKeyPressed="#textFieldKeyPressed" prefWidth="130.0" promptText="Type here a letter">
+        <font>
+            <Font name="Carlito Bold" size="15.0" />
+        </font>
+    </TextField>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="671.0" layoutY="248.0" onMouseClicked="#checkIconClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../../design/image/check.png" />
+    </ImageView>
+    <Label fx:id="notInWordLabel" layoutX="521.0" layoutY="352.0" text="Letter not in the word">
+        <font>
+            <Font name="Carlito Bold" size="15.0" />
+        </font>
+    </Label>
+    <VBox fx:id="notInWordBox" layoutX="584.0" layoutY="416.0" spacing="10.0" />
 </AnchorPane>

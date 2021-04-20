@@ -185,7 +185,7 @@ public class RockPaperScissorsController implements Initializable {
         else
             this.rockPaperScissors.lose(this.player);
 
-        if (UtilsController.getAlertFinish().showAndWait().orElse(null) == ButtonType.OK)
+        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
         else
             this.goCopper();

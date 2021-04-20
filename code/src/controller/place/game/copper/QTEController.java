@@ -116,11 +116,11 @@ public class QTEController implements Initializable {
                         this.countService.start();
                     } else {
                         this.qte.finish(this.player);
-                        this.replay();
+                        this.replay(true);
                     }
                 } else {
                     this.qte.lose(this.player);
-                    this.replay();
+                    this.replay(false);
                 }
                 this.punchTextField.clear();
             }
@@ -192,8 +192,8 @@ public class QTEController implements Initializable {
         this.countService.start();
     }
 
-    private void replay() {
-        if (UtilsController.getAlertFinish().showAndWait().orElse(null) == ButtonType.OK) {
+    private void replay(boolean win) {
+        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK) {
             this.timerService.cancel();
             this.timerService.reset();
             this.reset();

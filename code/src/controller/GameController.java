@@ -249,6 +249,7 @@ public class GameController {
                 this.gameScene.getChildren().add(this.platinumHubPane);
                 break;
             case "Hangman":
+                this.hangmanController.reset();
                 this.gameScene.getChildren().add(this.hangmanHubPane);
                 break;
             case "Karaoke":

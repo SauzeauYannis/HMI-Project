@@ -52,8 +52,10 @@ public class Riddle extends Game {
 
         String[] riddle = startAndGetRiddle();
 
+        boolean win = false;
+
         // while attempts isn't equal to 0
-        while(attempts.get() != 0){
+        while(!win || attempts.get() != 0){
 
             System.out.print(player);
             System.out.print("-> Choice (yes or no): ");
@@ -63,7 +65,7 @@ public class Riddle extends Game {
             if (answer.equals("yes") || answer.equals("no")) {
 
                 // Check if the player is a joker
-                if(answer.equals("no")) {
+                if (answer.equals("no")) {
                     choseYes(false, riddle);
 
                     // To go out of the loop
@@ -78,7 +80,7 @@ public class Riddle extends Game {
                         System.out.print("-> Answer: ");
                         answer = scan.nextLine().toLowerCase();
 
-                        giveAnswer(player, answer, riddle);
+                        win = giveAnswer(player, answer, riddle);
                     }
                 }
             }
@@ -129,7 +131,7 @@ public class Riddle extends Game {
                     " your opinion, and come back traveler...");
     }
 
-    public void giveAnswer(Player player, String answer, String[] riddle) {
+    public boolean giveAnswer(Player player, String answer, String[] riddle) {
         // Check the answer for the riddle
         if (answer.equals(riddle[1].toLowerCase())) {
             this.getNpc().talk("INCREDIBLE TRAVELER !!!!\n" +
@@ -137,8 +139,7 @@ public class Riddle extends Game {
                     "You have deserved your reward traveler! Take it!");
             this.win(player);
 
-            // To go out of the loop
-            attempts.set(0);
+            return true;
         }
 
         // Check if this is the last attempt
@@ -162,6 +163,8 @@ public class Riddle extends Game {
 
             this.lose(player);
         }
+
+        return false;
     }
 
     public void finish() {

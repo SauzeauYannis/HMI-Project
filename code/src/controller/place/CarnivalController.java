@@ -2,6 +2,7 @@ package controller.place;
 
 import controller.GameController;
 import controller.UtilsController;
+import javafx.animation.PathTransition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +16,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.VLineTo;
 import javafx.util.Duration;
 import model.character.Player;
 import model.command.Interpreter;
@@ -77,8 +82,21 @@ public class CarnivalController implements Initializable {
 
     @FXML
     void gameSceneClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
-            movePlayerIcon(Duration.seconds(1), mouseEvent.getX(), mouseEvent.getY());
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+            if (mouseEvent.getTarget().equals(this.goldHubIcon)) {
+                Path path = new Path();
+                path.getElements().add(new MoveTo(50, 50));
+                path.getElements().add(new VLineTo(250));
+                path.getElements().add(new HLineTo(485));
+                path.getElements().add(new VLineTo(150));
+                PathTransition pathTransition = new PathTransition();
+                pathTransition.setDuration(Duration.seconds(3));
+                pathTransition.setPath(path);
+                pathTransition.setNode(this.playerIcon);
+                pathTransition.play();
+            } else
+                movePlayerIcon(Duration.seconds(1), mouseEvent.getX(), mouseEvent.getY());
+        }
     }
 
     @FXML
