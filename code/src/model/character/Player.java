@@ -243,11 +243,9 @@ public class Player extends Character {
 
 						// Check if 'place' is an instance of Ending
 					} else if (place instanceof Ending) {
-						System.out.println("You don't know why but this place attracts you but it's locked.\n" +
-								"Try to type \"unlock sparkling\" to to get inside.");
+						System.out.println("You don't know why but this place attracts you but it's locked.");
 					}
 				} else {
-
 					// Change definitively the player's current place
 					place.getNpc().talk("Welcome to " + placeName + "!");
 					changePlace(place);

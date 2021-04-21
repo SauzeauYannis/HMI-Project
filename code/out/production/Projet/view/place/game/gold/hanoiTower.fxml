@@ -14,9 +14,9 @@
     <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
         <Image url="@../../../design/image/gold_hub.png" />
     </ImageView>
-    <Label layoutX="379.0" layoutY="35.0" text="Hanoi Tower">
+    <Label layoutX="366.0" layoutY="31.0" text="Hanoi tower">
         <font>
-            <Font name="Carlito Bold" size="20.0" />
+            <Font name="Carlito Bold" size="25.0" />
         </font>
     </Label>
     <HBox layoutX="169.0" layoutY="486.0" spacing="250.0">

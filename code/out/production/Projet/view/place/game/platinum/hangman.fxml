@@ -14,9 +14,9 @@
     <ImageView fx:id="platinumHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#goPlatinum" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
         <Image url="@../../../design/image/platinum_hub.png" />
     </ImageView>
-    <Label layoutX="393.0" layoutY="35.0" text="Hangman">
+    <Label layoutX="383.0" layoutY="31.0" text="Hangman">
         <font>
-            <Font name="Carlito Bold" size="20.0" />
+            <Font name="Carlito Bold" size="25.0" />
         </font>
     </Label>
     <Line fx:id="line1" endX="150.0" layoutX="131.0" layoutY="553.0" startX="-100.0" strokeWidth="5.0" />
