@@ -25,6 +25,7 @@ public class HanoiTowerController implements Initializable {
 
     private HanoiTower hanoiTower;
     private String srcPillar;
+    private boolean diskSelected;
 
     private GameController gameController;
     private Player player;
@@ -75,7 +76,9 @@ public class HanoiTowerController implements Initializable {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
         Pane parent = (Pane) diskIcon.getParent();
 
-        if (parent instanceof VBox && parent.getChildren().get(0).equals(diskIcon)) {
+        if (parent instanceof VBox && parent.getChildren().get(0).equals(diskIcon) && !this.diskSelected) {
+            this.diskSelected = true;
+
             resetSrcPillar(parent);
 
             diskIcon.setLayoutX(695);
@@ -165,17 +168,16 @@ public class HanoiTowerController implements Initializable {
     }
 
     private void moveDisk(String destPillar, VBox pillarBox, Ellipse diskIcon) {
-        if (!this.hanoiTower.wrongCommand(this.srcPillar + " " + destPillar)) {
-            pillarBox.getChildren().add(0, diskIcon);
-            if (this.hanoiTower.moveDisk(this.srcPillar, destPillar)) {
-                if (this.hanoiTower.isWin()) {
-                    this.hanoiTower.hasWin(this.player, true);
-                    this.replay(true);
-                }
-            } else {
-                this.hanoiTower.hasWin(this.player, false);
-                this.replay(false);
+        pillarBox.getChildren().add(0, diskIcon);
+        this.diskSelected = false;
+        if (this.hanoiTower.moveDisk(this.srcPillar, destPillar)) {
+            if (this.hanoiTower.isWin()) {
+                this.hanoiTower.hasWin(this.player, true);
+                this.replay(true);
             }
+        } else {
+            this.hanoiTower.hasWin(this.player, false);
+            this.replay(false);
         }
     }
 

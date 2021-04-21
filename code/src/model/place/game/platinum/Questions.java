@@ -17,7 +17,10 @@ public class Questions extends Game {
 
     //ATTRIBUTES
     private final static int NB_ROUND = 5; //Must be <= nb of questions
-    private final static int DEFAULT_REWARD = 5;
+    private final static int DEFAULT_REWARD_EASY = 2;
+    private final static int DEFAULT_REWARD_DIFFICULT = 5;
+
+    private int reward;
 
         // Here, correct answers are always put in index 1
     private final String[][] QUESTIONS_EASY = {
@@ -25,9 +28,8 @@ public class Questions extends Game {
             {"In which country can we find Catalonia, Andalusia and Castile ?","Spain","Italy","France","Portugal"},
             {"Who said: The die is cast (Alea jacta est)?","Ceasar","Attila","Auguste","Vercingetorix"},
             {"Which country won the soccer world cup in 2014?","Germany","Argentina","Italy","Brazil"},
-            {"Who was the god of war in Greek mythology?","Ares","Ares","Hades","Hermes"},
+            {"Who was the god of war in Greek mythology?","Ares","Athena","Hades","Hermes"},
             {"In which Italian city is the action of Shakespeare's play Romeo and Juliet located?","Verona","Venice","Rome","Milan"},
-            {"Which animal is a drosophila, used in genetic experiments?","A fly","A guinea pig","A goat","A rat"},
             {"In mathematics, how do we call the half-line that divides an angle into two equal angles?","bisector","median","mediator","fore height"}
     };
     private final String[][] QUESTIONS_DIFFICULT = {
@@ -98,7 +100,7 @@ public class Questions extends Game {
             // To chose a question that had not be already chosen
              do {
                 id_quest = randNum(QUESTIONS.length);
-            } while (!(isUsableQuestionId(id_quest,round-1,quest_used)));
+            } while (!(isUsableQuestionId(id_quest, round-1, quest_used)));
 
             // Stocks id of used question
             quest_used[round-1] = id_quest;
@@ -116,7 +118,7 @@ public class Questions extends Game {
                 System.out.println("\nROUND " + round + " :");
 
                 // Displays question and answers
-                good_answer = displayQuestionBoard(id_quest,QUESTIONS);
+                good_answer = displayQuestionBoard(id_quest, QUESTIONS);
 
                 // To get the player's answer
                 while ((answer!=1) && (answer!=2) && (answer!=3) && (answer!=4)) {
@@ -141,14 +143,14 @@ public class Questions extends Game {
                     npc.talk("Well played! It was the correct answer.");
                 }
 
-                jackpot += DEFAULT_REWARD;
+                jackpot += reward;
                 jackpot *= round;
                 round++;
             }
         }
 
         // Displays NPC reaction
-        endGame(lose,round,npc);
+        endGame(lose, round, npc);
 
         // Checks if player wins and acts accordingly
         if (lose) {
@@ -178,7 +180,7 @@ public class Questions extends Game {
         String response = "";
 
         System.out.println("Jackpot: " + jackpot + " coins.");
-        npc.talk("Do you want to stop the game and cash your jackpot ?");
+        npc.talk("Do you want to stop the game and cash your jackpot?\nOr you want to continue to improve the jackpot?");
 
         while ((response.compareTo("YES")!=0) && (response.compareTo("NO")!=0)) {
            System.out.println("\t(TAPE: \"yes\" or \"no\")");
@@ -225,13 +227,15 @@ public class Questions extends Game {
         }
 
         // Create an array of easy or diffucult questions according to the choice
-        if (lvl_chosen.compareTo("EASY")==0) {
+        if (lvl_chosen.compareTo("EASY") == 0) {
+            reward = DEFAULT_REWARD_EASY;
             npc.talk("You choose \"easy\". Well, easily but surely!");
             QUESTIONS = new String[getLengthQUESTEASY()][];
             cloneEASY(QUESTIONS,getLengthQUESTEASY());
         } else {
+            reward = DEFAULT_REWARD_DIFFICULT;
             npc.talk("You choose \"difficult\". Such a warrior!");
-            QUESTIONS = new String[getLengthQUESTDIFF()][5];
+            QUESTIONS = new String[getLengthQUESTDIFF()][];
             cloneDIFFICULT(QUESTIONS,getLengthQUESTDIFF());
         }
 
@@ -301,5 +305,4 @@ public class Questions extends Game {
             target[i] = QUESTIONS_DIFFICULT[i].clone();
         }
     }
-
 }
