@@ -256,6 +256,7 @@ public class GameController {
                 this.gameScene.getChildren().add(this.karaokeHubPane);
                 break;
             case "Questions":
+                this.questionsController.reset();
                 this.gameScene.getChildren().add(this.questionsHubPane);
                 break;
             case "Sparkling caravan":

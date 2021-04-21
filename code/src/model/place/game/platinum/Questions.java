@@ -1,10 +1,14 @@
 package model.place.game.platinum;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import model.Gameplay;
 import model.character.NPC;
 import model.character.Player;
 import model.Level;
 import model.place.Game;
+
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -16,11 +20,24 @@ public class Questions extends Game {
      *****************************/
 
     //ATTRIBUTES
-    private final static int NB_ROUND = 5; //Must be <= nb of questions
+    public final static int NB_ROUND = 5; //Must be <= nb of questions
+    public final static String EASY = "EASY";
+    public final static String DIFFICULT = "DIFFICULT";
+    public final static String YES = "YES";
+    public final static String NO = "NO";
     private final static int DEFAULT_REWARD_EASY = 2;
     private final static int DEFAULT_REWARD_DIFFICULT = 5;
 
+    private IntegerProperty jackpot;
+    private IntegerProperty round;
+
+    private Random random;
+    private String[][] QUESTIONS;
+    private int[] questionUsed;
+    private int goodAnswer;
+    private int idQuestion;
     private int reward;
+    private boolean lose;
 
         // Here, correct answers are always put in index 1
     private final String[][] QUESTIONS_EASY = {
@@ -55,73 +72,31 @@ public class Questions extends Game {
      * Methods
      **********/
 
-    //GETTERS
-    private int getLengthQUESTEASY(){
-        return this.QUESTIONS_EASY.length;
-    }
-
-    private int getLengthQUESTDIFF(){
-        return this.QUESTIONS_DIFFICULT.length;
-    }
-
     //OVERRIDE METHODS
     @Override
     public void play(Player player) {
-        NPC npc = this.getNpc();
         Scanner scanner;
 
-        System.out.println("\n--- Game launched ---\n");
-
-        npc.talk("Laddies and Gentlemen, welcome to my stand! " +
-                "Here your culture would be roughly tested...\n" +
-                "To start, you have to choose the level of questions:\n" +
-                "easy or difficult ?"
-        );
+        start();
 
         // To chose the level so to chose the string array we will work with
-        String[][] QUESTIONS = getQUESTIONS(npc, player);
-
-        npc.talk("Right. Get ready, get set, go!");
-
-        // To declare variable needed for the game
-        int round = 1;
-        boolean lose = false;
-        boolean stop = false;
-        int jackpot = 0;
-        int[] quest_used = new int[NB_ROUND];
+        generateQuestions(player);
 
         // Here starts the game loop
-        while ((NB_ROUND + 1 > round) && (!stop) && (!lose)) {
+        while ((NB_ROUND + 1 > round.get()) && (!lose)) {
+            // Asks if the player wants to continue if it is NOt the first loop
+            if (!wantStop(player)) {
+                nextQuestion();
 
-            int id_quest;
-            int answer = 0;
-            int good_answer;
-
-            // To chose a question that had not be already chosen
-             do {
-                id_quest = randNum(QUESTIONS.length);
-            } while (!(isUsableQuestionId(id_quest, round-1, quest_used)));
-
-            // Stocks id of used question
-            quest_used[round-1] = id_quest;
-
-            // Asks if the player wants to continue if it is not the first loop
-            if (round > 1) {
-                stop = wantStop(jackpot, npc, player);
-            }
-
-            if (!stop) {
-                if (round > 1) {
-                    npc.talk("Let's move to the next question...");
-                }
-
-                System.out.println("\nROUND " + round + " :");
+                System.out.println("\nROUND " + round.get() + " :");
 
                 // Displays question and answers
-                good_answer = displayQuestionBoard(id_quest, QUESTIONS);
+                displayQuestionBoard(getShuffleQuestion());
+
+                int answer = 0;
 
                 // To get the player's answer
-                while ((answer!=1) && (answer!=2) && (answer!=3) && (answer!=4)) {
+                while (answer < 1 || answer > 4) {
                     System.out.println("\t(TAPE: \"1\", \"2\", \"3\" or \"4\")");
 
                     scanner = Gameplay.scanner;
@@ -134,30 +109,18 @@ public class Questions extends Game {
                     }
                 }
 
-                // Verifies if player's answer is good
-                if (answer != good_answer){
-                    npc.talk("It was not the correct answer. Sorry, you lose the game and your jackpot.\n" +
-                            "Next time will be the good one!");
-                    lose = true;
-                } else {
-                    npc.talk("Well played! It was the correct answer.");
-                }
-
-                jackpot += reward;
-                jackpot *= round;
-                round++;
+                lose = !isCorrectAnswer(answer);
             }
         }
 
         // Displays NPC reaction
-        endGame(lose, round, npc);
+        endGame();
 
         // Checks if player wins and acts accordingly
-        if (lose) {
+        if (lose)
             this.lose(player);
-        } else {
-            this.win(player, jackpot);
-        }
+        else
+            this.win(player, jackpot.get());
 
         // To flush scanner
         Gameplay.scanner.nextLine();
@@ -165,144 +128,186 @@ public class Questions extends Game {
         System.out.println("\n--- Game finished ---\n");
     }
 
-    //To pick a random num
-    private int randNum(int length){
-        Random rd = new Random();
-        rd.nextInt(length);
-        return rd.nextInt(length);
+    //GETTERS
+    public IntegerProperty jackpotProperty() {
+        return jackpot;
+    }
+
+    public IntegerProperty roundProperty() {
+        return round;
+    }
+
+    //METHODS
+    public void start() {
+        // To declare variable needed for the game
+        this.round = new SimpleIntegerProperty(1);
+        this.jackpot = new SimpleIntegerProperty(0);
+
+        random = new Random();
+        lose = false;
+        questionUsed = new int[NB_ROUND];
+
+        System.out.println("\n--- Game launched ---\n");
+
+        this.getNpc().talk("Laddies and Gentlemen, welcome to my stand! " +
+                "Here your culture would be roughly tested...\n" +
+                "To start, you have to choose the level of questions:\n" +
+                EASY + " or " + DIFFICULT + "?"
+        );
+    }
+
+    public void chooseEasyQuestion() {
+        this.chooseQuestionLevel(true);
+    }
+
+    public void chooseDifficultQuestion() {
+        this.chooseQuestionLevel(false);
+    }
+
+    public void nextQuestion() {
+        if (round.get() > 1)
+            this.getNpc().talk("Let's move to the next question...");
+
+        // To chose a question that had not be already chosen
+        do
+            idQuestion = random.nextInt(QUESTIONS.length);
+        while (Arrays.stream(questionUsed).anyMatch(value -> value == idQuestion));
+
+        // Stocks id of used question
+        questionUsed[round.get() - 1] = idQuestion;
+    }
+
+    //Displays question and answers
+    public String[] getShuffleQuestion() {
+        String[] question = new String[5];
+        question[4] = QUESTIONS[idQuestion][0];
+
+        int rd = random.nextInt(100);      // To display randomly answers
+        int num_answer = 1;
+
+        for (int i = rd; i < rd + 5; i++) {
+            int index = i % 5;
+            if (index != 0) {
+                if (index == 1)
+                    goodAnswer = num_answer; // Stocks the number of the correct question
+                question[num_answer - 1] = num_answer + " - " + QUESTIONS[idQuestion][index];
+                num_answer++;
+            }
+        }
+
+        return question;
+    }
+
+    public boolean isCorrectAnswer(int answer) {
+        boolean isGoodAnswer = answer == goodAnswer;
+        // Verifies if player's answer is good
+        if (!isGoodAnswer)
+            this.getNpc().talk("It was not the correct answer. Sorry, you lose the game and your jackpot.\n" +
+                    "Next time will be the good one!");
+        else
+            this.getNpc().talk("Well played! It was the correct answer.");
+
+        jackpot.set(jackpot.get() + reward);
+        jackpot.set(jackpot.get() * round.get());
+        round.set(round.get() + 1);
+
+        return isGoodAnswer;
     }
 
     //Asks if player wants stop
-    private boolean wantStop(int jackpot, NPC npc, Player player) {
-        Scanner scanner = Gameplay.scanner;
-        scanner.nextLine();
-        boolean stop = false;
-        String response = "";
+    private boolean wantStop(Player player) {
+        if (round.get() > 1) {
+            Scanner scanner = Gameplay.scanner;
+            scanner.nextLine();
+            String response = "";
 
-        System.out.println("Jackpot: " + jackpot + " coins.");
-        npc.talk("Do you want to stop the game and cash your jackpot?\nOr you want to continue to improve the jackpot?");
+            System.out.println("Jackpot: " + jackpot.get() + " coins.");
+            this.getNpc().talk("Do you want to stop the game and cash your jackpot?\nOr you want to continue to improve the jackpot?");
 
-        while ((response.compareTo("YES")!=0) && (response.compareTo("NO")!=0)) {
-           System.out.println("\t(TAPE: \"yes\" or \"no\")");
-            System.out.print(player);
-           response = scanner.nextLine();
-           response = response.toUpperCase();
-        }
-
-        if (response.compareTo("YES")==0) {
-           stop = true;
-        }
-
-       return stop;
-    }
-
-    //Checks if question has been already used
-    private boolean isUsableQuestionId(int id_quest, int index, int[] quest_used) {
-        boolean found = true;
-        //Cheks in used id array if id chosen randomly exists
-        if (index != 0) {
-            for (int i = 0; i < index; i++) {
-                if (quest_used[i] == id_quest) {
-                    found = false;
-                    break;
-                }
+            while ((response.compareTo(YES) != 0) && (response.compareTo(NO) != 0)) {
+                System.out.println("\t(TYPE: \"" + YES + "\" or \"" + NO + "\")");
+                System.out.print(player);
+                response = scanner.nextLine().toUpperCase();
             }
+
+            return response.equals(YES);
         }
-        return found;
+        return false;
     }
 
     //Provides an questions array from level that player wants
-    private String[][] getQUESTIONS(NPC npc, Player player){
+    private void generateQuestions(Player player) {
         Scanner scanner;
         String lvl_chosen = "";
-        String[][] QUESTIONS;
 
         // Asks to the player level he/she wants
-        while ((lvl_chosen.compareTo("EASY")!=0) && (lvl_chosen.compareTo("DIFFICULT")!=0)) {
-            System.out.println("\t(TAPE: \"easy\" or \"difficult\")");
+        while ((lvl_chosen.compareTo(EASY) != 0) && (lvl_chosen.compareTo(DIFFICULT) != 0)) {
+            System.out.println("\t(TAPE: \"" + EASY + "\" or \"" + DIFFICULT + "\")");
             scanner = Gameplay.scanner;
             System.out.print(player);
             lvl_chosen = scanner.nextLine();
             lvl_chosen = lvl_chosen.toUpperCase();
         }
 
-        // Create an array of easy or diffucult questions according to the choice
-        if (lvl_chosen.compareTo("EASY") == 0) {
-            reward = DEFAULT_REWARD_EASY;
-            npc.talk("You choose \"easy\". Well, easily but surely!");
-            QUESTIONS = new String[getLengthQUESTEASY()][];
-            cloneEASY(QUESTIONS,getLengthQUESTEASY());
-        } else {
-            reward = DEFAULT_REWARD_DIFFICULT;
-            npc.talk("You choose \"difficult\". Such a warrior!");
-            QUESTIONS = new String[getLengthQUESTDIFF()][];
-            cloneDIFFICULT(QUESTIONS,getLengthQUESTDIFF());
-        }
-
-        return QUESTIONS;
+        chooseQuestionLevel(lvl_chosen.compareTo(EASY) == 0);
     }
 
-    //Displays question and answers
-    private int displayQuestionBoard(int id_quest, String[][] QUESTIONS) {
-        String question = QUESTIONS[id_quest][0];
-        System.out.println("\"" + question + "\"");
-
-        int rd = randNum(100);      // To display randomly answers
-        int num_answer = 1;
-        int num_corr = -1;
-
-        for (int i = rd; i < rd + 6; i++) {
-            int index = i % 5;
-            if (index != 0) {
-                switch (num_answer) {
-                    case 1:
-                    case 3:
-                        System.out.print(num_answer +
-                                " - " +
-                                QUESTIONS[id_quest][index]);
-                        if (index == 1) {
-                            num_corr = num_answer;      // Stocks the number of the correct answer
-                        }
-                        break;
-                    case 2:
-                    case 4:
-                        System.out.println("\t\t\t" +
-                                num_answer +
-                                " - " +
-                                QUESTIONS[id_quest][index]);
-                        if (index == 1) {
-                            num_corr = num_answer;      // Stocks the number of the correct answer
-                        }
-                        break;
-                    default:
-                }
-                num_answer++;
-            }
+    private void displayQuestionBoard(String[] question) {
+        System.out.println("\"" + question[4] + "\"");
+        for (int i = 0; i < question.length; i++) {
+            if (i % 2 == 0)
+                System.out.print(question[i]);
+            else
+                System.out.println("\t\t\t" + question[i]);
         }
-        return num_corr;
     }
 
     //Gives NPC's reactions according to player's conditions
-    private void endGame(boolean lose, int round, NPC npc) {
-        if (round==NB_ROUND+1) {
-            npc.talk("A faultless! You win the ultimate reward. A real winner, congratulations!");
-        } else if (!lose){
-            npc.talk("You've made a good beginning but it is a wise decision!");
-        }
-        npc.talk("I hope I will see soon ! :)");
+    private void endGame() {
+        if (round.get() == NB_ROUND + 1)
+            this.getNpc().talk("A faultless! You win the ultimate reward. A real winner, congratulations!");
+        else if (!lose)
+            this.getNpc().talk("You've made a good beginning but it is a wise decision!");
+        this.getNpc().talk("I hope I will see soon ! :)");
+    }
+
+    private void chooseQuestionLevel(boolean isEASY) {
+        // Create an array of EASY or diffucult questions according to the choice
+        if (isEASY)
+            QUESTIONS = chooseEASY();
+        else
+            QUESTIONS = chooseDIFFICULT();
+
+        this.getNpc().talk("Right. Get ready, get set, go!");
+    }
+
+    private String[][] chooseEASY() {
+        String[][] QUESTIONS;
+        reward = DEFAULT_REWARD_EASY;
+        this.getNpc().talk("You choose \"" + EASY + "\". Well, easily but surely!");
+        QUESTIONS = new String[this.QUESTIONS_EASY.length][];
+        cloneEASY(QUESTIONS, this.QUESTIONS_EASY.length);
+        return QUESTIONS;
+    }
+
+    private String[][] chooseDIFFICULT() {
+        String[][] QUESTIONS;
+        reward = DEFAULT_REWARD_DIFFICULT;
+        this.getNpc().talk("You choose \"" + DIFFICULT + "\". Such a warrior!");
+        QUESTIONS = new String[this.QUESTIONS_DIFFICULT.length][];
+        cloneDIFFICULT(QUESTIONS, this.QUESTIONS_DIFFICULT.length);
+        return QUESTIONS;
     }
 
     //Copies QUESTIONS_EASY to an targeted array
     private void cloneEASY(String[][] target, int length) {
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++)
             target[i] = QUESTIONS_EASY[i].clone();
-        }
     }
 
     //Copies QUESTIONS_DIFFICULT to an targeted array
     private void cloneDIFFICULT(String[][] target, int length) {
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++)
             target[i] = QUESTIONS_DIFFICULT[i].clone();
-        }
     }
 }
