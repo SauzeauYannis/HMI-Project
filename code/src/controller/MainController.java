@@ -20,11 +20,13 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.character.Player;
 import model.command.Interpreter;
+import model.place.Place;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -44,6 +46,9 @@ public class MainController implements Initializable {
 
     @FXML
     private GameController gameController;
+
+    @FXML
+    private MapController mapController;
 
     @FXML
     private PlayerInfoController playerInfoController;
@@ -75,12 +80,12 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    public void iconMouseEntered(MouseEvent mouseEvent) {
+    void iconMouseEntered(MouseEvent mouseEvent) {
         UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    public void iconMouseExited(MouseEvent mouseEvent) {
+    void iconMouseExited(MouseEvent mouseEvent) {
         UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
     }
 
@@ -142,14 +147,26 @@ public class MainController implements Initializable {
                         Duration.seconds(1),
                         new KeyValue(this.scrollPaneDialog.vvalueProperty(), 1))
         );
+
         this.downArrowIcon.visibleProperty().bind(
                 this.scrollPaneDialog.vvalueProperty().lessThan(1)
         );
+
+        this.labelDialog.heightProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.doubleValue() > oldValue.doubleValue())
+                this.scrollAnimation();
+        });
+
+        this.scrollPaneDialog.vvalueProperty().setValue(1);
 
         Tooltip.install(this.downArrowIcon, new Tooltip("Click to scroll down"));
         Tooltip.install(this.lookIcon, new Tooltip("Click to look the place"));
         Tooltip.install(this.helpIcon, new Tooltip("Click to go to help page"));
         Tooltip.install(this.quitIcon, new Tooltip("Click to quit the game"));
+    }
+
+    public void setPlaceList(List<Place> placeList) {
+        this.mapController.setPlaceList(placeList);
     }
 
     public void setPlayer(Player player) {

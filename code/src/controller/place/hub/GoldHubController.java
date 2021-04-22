@@ -159,7 +159,7 @@ public class GoldHubController implements Initializable {
                 case "Riddle":
                     this.padlockRiddleIcon.visibleProperty().bind(exit.isLockProperty());
                     break;
-                case "Tic Tac Toe":
+                case "Tic tac toe":
                     this.padlockTicTacToeIcon.visibleProperty().bind(exit.isLockProperty());
                     break;
             }

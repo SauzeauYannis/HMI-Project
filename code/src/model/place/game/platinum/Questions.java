@@ -83,7 +83,7 @@ public class Questions extends Game {
         generateQuestions(player);
 
         // Here starts the game loop
-        while ((NB_ROUND + 1 > round.get()) && (!lose)) {
+        while (isNotTheLastRound() && !lose) {
             // Asks if the player wants to continue if it is NOt the first loop
             if (!wantStop(player)) {
                 nextQuestion();
@@ -120,7 +120,7 @@ public class Questions extends Game {
         if (lose)
             this.lose(player);
         else
-            this.win(player, jackpot.get());
+            winJackpot(player);
 
         // To flush scanner
         Gameplay.scanner.nextLine();
@@ -214,6 +214,27 @@ public class Questions extends Game {
         return isGoodAnswer;
     }
 
+    public void npcAskForNextTurn() {
+        this.getNpc().talk("Do you want to stop the game and cash your jackpot?\nOr you want to continue to improve the jackpot?");
+    }
+
+    public boolean isNotTheLastRound() {
+        return NB_ROUND + 1 > round.get();
+    }
+
+    //Gives NPC's reactions according to player's conditions
+    public void endGame() {
+        if (round.get() == NB_ROUND + 1)
+            this.getNpc().talk("A faultless! You win the ultimate reward. A real winner, congratulations!");
+        else if (!lose)
+            this.getNpc().talk("You've made a good beginning but it is a wise decision!");
+        this.getNpc().talk("I hope I will see soon ! :)");
+    }
+
+    public void winJackpot(Player player) {
+        this.win(player, jackpot.get());
+    }
+
     //Asks if player wants stop
     private boolean wantStop(Player player) {
         if (round.get() > 1) {
@@ -222,7 +243,7 @@ public class Questions extends Game {
             String response = "";
 
             System.out.println("Jackpot: " + jackpot.get() + " coins.");
-            this.getNpc().talk("Do you want to stop the game and cash your jackpot?\nOr you want to continue to improve the jackpot?");
+            npcAskForNextTurn();
 
             while ((response.compareTo(YES) != 0) && (response.compareTo(NO) != 0)) {
                 System.out.println("\t(TYPE: \"" + YES + "\" or \"" + NO + "\")");
@@ -260,15 +281,6 @@ public class Questions extends Game {
             else
                 System.out.println("\t\t\t" + question[i]);
         }
-    }
-
-    //Gives NPC's reactions according to player's conditions
-    private void endGame() {
-        if (round.get() == NB_ROUND + 1)
-            this.getNpc().talk("A faultless! You win the ultimate reward. A real winner, congratulations!");
-        else if (!lose)
-            this.getNpc().talk("You've made a good beginning but it is a wise decision!");
-        this.getNpc().talk("I hope I will see soon ! :)");
     }
 
     private void chooseQuestionLevel(boolean isEASY) {

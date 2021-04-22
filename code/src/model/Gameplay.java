@@ -3,6 +3,7 @@ package model;
 import model.command.Interpreter;
 import model.character.Player;
 import model.place.Place;
+import model.place.exit.Exit;
 
 import java.util.List;
 import java.util.Scanner;
@@ -28,8 +29,7 @@ public class Gameplay {
 		List<Place> placeList = Place.generateAllPlaces();
 
 		// Create the player
-		Player player = new Player("Benjapied Tablenuit", placeList.get(14));
-
+		Player player = new Player("Benjapied Tablenuit", placeList.get(0));
 
 		player.getPlace().getNpc().talk("Welcome to Gypsy's Carnival!\n" +
 					"Type \"help\" to have the commands list.");
