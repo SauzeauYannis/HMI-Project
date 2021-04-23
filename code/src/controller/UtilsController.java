@@ -8,8 +8,19 @@ import javafx.scene.image.ImageView;
 
 public abstract class UtilsController {
 
-    private static final Alert alertFinish = new Alert(Alert.AlertType.CONFIRMATION);
+    public static final int DEFAULT_SCALE = 1;
+    private static final Alert ALERT_FINISH = new Alert(Alert.AlertType.CONFIRMATION);
 
+    public static void rescaleNode(Node node, double newScale) {
+        node.setScaleX(newScale);
+        node.setScaleY(newScale);
+    }
+
+    public static void defaultScaleNode(Node node) {
+        rescaleNode(node, DEFAULT_SCALE);
+    }
+
+    // TODO: 23-Apr-21 Enlever cette fonction
     public static void rescaleNode(Scene scene, Node node, double newScale) {
         node.setScaleX(newScale);
         node.setScaleY(newScale);
@@ -30,15 +41,15 @@ public abstract class UtilsController {
     }
 
     public static Alert getAlertFinish(boolean win) {
-        alertFinish.setTitle("Game finished");
-        alertFinish.setContentText("Do you want to replay?");
+        ALERT_FINISH.setTitle("Game finished");
+        ALERT_FINISH.setContentText("Do you want to replay?");
 
         if (win)
-            alertFinish.setHeaderText("You win!");
+            ALERT_FINISH.setHeaderText("You win!");
         else
-            alertFinish.setHeaderText("You lose!");
+            ALERT_FINISH.setHeaderText("You lose!");
 
-        return alertFinish;
+        return ALERT_FINISH;
     }
 
     public static double getMiddleWidth(ImageView imageView) {
@@ -47,13 +58,5 @@ public abstract class UtilsController {
 
     public static double getMiddleHeight(ImageView imageView) {
         return imageView.getFitHeight() / 2;
-    }
-
-    public static double getTranslateCenterX(ImageView imageView) {
-        return imageView.getTranslateX() + getMiddleWidth(imageView);
-    }
-
-    public static double getTranslateCenterY(ImageView imageView) {
-        return imageView.getTranslateY() + getMiddleHeight(imageView);
     }
 }
