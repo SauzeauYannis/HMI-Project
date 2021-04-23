@@ -1,5 +1,7 @@
 package model.place.game.platinum;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import model.Gameplay;
 import model.character.NPC;
 import model.character.Player;
@@ -18,6 +20,11 @@ public class Karaoke extends Game {
 
     //ATTRIBUTES
     private final static int NB_TRY = 3;
+
+    private String word;
+    private String sentence;
+    private IntegerProperty left_trials;
+    private String guess;
 
     private final String[][] LYRICS = {
             {"I believe I can fly! I believe I can touch the ___!","sky"},
@@ -60,65 +67,134 @@ public class Karaoke extends Game {
         return this.LYRICS.length;
     }
 
+    public IntegerProperty getLeftTrials() {
+        return this.left_trials;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public String getSentence() {
+        return sentence;
+    }
+
+    public String getGuess() {
+        return guess;
+    }
+
+    //SETTERS
+
+    public void setGuess(String guess) {
+        this.guess = guess.toUpperCase();
+    }
+
     //OVERRIDE METHODS
     @Override
     public void play(Player player) {
-        NPC npc = this.getNpc();
         Scanner scanner;
 
+        //Initialize the game
+        start();
+
+        // Here starts the game loop
+        while (continueGame()) {
+
+            // Displays when it's not the first loop
+            reactionCommentary();
+
+            this.getNpc().talk("Find the words to complete the song :" );
+            System.out.println("\"" + sentence + "\"");
+
+            // Displays a commentary from NPC if it's the first loop
+            firstCommentary();
+
+            // Displays NPC's question
+            eachTrialQuestion();
+
+            // Catches player guess' and convert it to upper case to be comparable
+            System.out.print(player);
+            scanner = Gameplay.scanner;
+            setGuess(scanner.nextLine());
+
+            // Leads to the next trials
+            nextTrial();
+        }
+
+        // Ends the game
+        end(player);
+
+        // To flush scanner
+        Gameplay.scanner.nextLine();
+
+        System.out.println("\n--- Game finished ---\n");
+    }
+
+    //METHODS TO PLAY
+
+    //Initializes the game
+    public void start() {
         System.out.println("\n--- Game launched ---\n");
 
-        npc.talk("Laddies and Gentlemen, welcome to my stand! " +
+        left_trials = new SimpleIntegerProperty();
+        left_trials.set(NB_TRY);
+        guess = "";
+
+        // To choose randomly a lyrics and the word to find associated from the words array
+        int index = randNum(this.getLengthSENTENCES());
+        sentence = LYRICS[index][0];
+        word = LYRICS[index][1];
+        word = word.toUpperCase();
+
+
+
+        this.getNpc().talk("Laddies and Gentlemen, welcome to my stand! " +
                 "Here your music culture would be roughly tested...\n" +
                 "You have " + NB_TRY + " guesses. Good luck!\n" +
                 "Get ready, get set, go!\n");
 
-        // To choose randomly a lyrics and the word to find associated from the words array
-        int index = randNum(this.getLengthSENTENCES());
-        String sentence = LYRICS[index][0];
-        String word = LYRICS[index][1];
-        word = word.toUpperCase();
+    }
 
-        // To declare variable needed for the game
-        int trials_left = NB_TRY;
-        String guess = "";
-
-        // Here starts the game loop
-        while ((guess.compareTo(word)!=0) && (trials_left>0)) {
-
-            // Displays when it's not the first loop
-            if (trials_left != NB_TRY) {
-                npc.talk(guess + " is not what I expected... Maybe a typing mistake?");
-                npc.talk("You still have " + trials_left + " trial(s) to find it. Think carefully...\n");
-            }
-
-            npc.talk("Find the words to complete the song :" );
-            System.out.println("\"" + sentence + "\"");
-
-            // Displays a commentary from NPC if it's the first loop
-            if (trials_left == NB_TRY) {
-                int rd_index = randNum(this.getLengthCOMMENTARY());
-                npc.talk(COMMENTARY[rd_index]);
-            }
-
-            // Catches player guess' and convert it to upper case to be comparable
-            npc.talk("What is your guess ?");
-            System.out.print(player);
-            scanner = Gameplay.scanner;
-            guess = scanner.nextLine();
-            guess = guess.toUpperCase();
-
-            trials_left--;
-        }
-
-        // Test if player wins and acts accordingly
-        boolean win = this.checkWin(trials_left, word,npc);
-        if(win)
+    // Checks if player wins and acts accordingly
+    public boolean end(Player player) {
+        if(this.checkWin()) {
             this.win(player);
-        else
+            return true;
+        }
+        else {
             this.lose(player);
+            return false;
+        }
+    }
 
-        System.out.println("\n--- Game finished ---\n");
+    public boolean continueGame() {
+        return (guess.compareTo(word)!=0) && (left_trials.get() >0);
+    }
+
+    //Makes first commentary from NPC
+    public void firstCommentary() {
+        if (left_trials.get() == NB_TRY) {
+            int rd_index = randNum(this.getLengthCOMMENTARY());
+            this.getNpc().talk(COMMENTARY[rd_index]);
+        }
+    }
+
+    //Makes reaction commentary from NPC about player response
+    public void reactionCommentary() {
+        if (left_trials.get() != NB_TRY) {
+            this.getNpc().talk(guess + " is not what I expected... Maybe a typing mistake?");
+            this.getNpc().talk("You still have " + left_trials.get() + " trial(s) to find it. Think carefully...\n");
+        }
+    }
+
+    // Displays NPC's question on each trial
+    public void eachTrialQuestion() {
+        this.getNpc().talk("What is your guess ?");
+    }
+
+    // Goes on next trial
+    public void nextTrial() {
+        left_trials.setValue(left_trials.get()-1);
     }
 
     //Provides a random number
@@ -129,17 +205,16 @@ public class Karaoke extends Game {
     }
 
     //Checks if player wins
-    private boolean checkWin(int trials_left, String word, NPC npc){
-        boolean win = false;
-        if (trials_left<1){
-            npc.talk("Sorry for your lack of culture :/ (You're a miss...)");
+    private boolean checkWin(){
+        if (left_trials.get() <1){
+            this.getNpc().talk("Sorry for your lack of culture :/ (You're a miss...)");
+            return false;
         }
         else {
-            npc.talk("Here we are! \"" +
+            this.getNpc().talk("Here we are! \"" +
                     word + "\" was the missing lyric." +
                     "\n Hell yeah, you find it ! What a singer ! ;)");
-            win = true;
+            return true;
         }
-        return win;
     }
 }
