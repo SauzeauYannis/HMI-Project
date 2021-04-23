@@ -154,7 +154,7 @@ public class CopperHubController implements Initializable {
     public void generatePadlocks() {
         for (Exit exit: this.player.getPlace().getExitList()) {
             switch (exit.getPlace().getName()) {
-                case "Find Number":
+                case "Find number":
                     this.padlockFindNumberIcon.visibleProperty().bind(exit.isLockProperty());
                     break;
                 case "QTE":

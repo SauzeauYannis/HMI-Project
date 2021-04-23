@@ -1,7 +1,6 @@
 import controller.StartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -38,6 +37,7 @@ public class Game extends Application {
 
         Scene scene = new Scene(root);
 
+        startController.setPlaceList(placeList);
         startController.setPlayer(player);
         startController.setScene(scene);
 

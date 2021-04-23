@@ -18,13 +18,7 @@
             <fx:include fx:id="game" source="game.fxml" />
         </Tab>
         <Tab text="Map scene">
-            <AnchorPane style="-fx-border-color: black;">
-                <Label layoutX="244.0" layoutY="256.0" text="TODO: Carte du jeu">
-                    <font>
-                        <Font name="Carlito Bold" size="50.0" />
-                    </font>
-                </Label>
-            </AnchorPane>
+            <fx:include fx:id="map" source="map.fxml" />
         </Tab>
     </TabPane>
     <VBox layoutX="890.0" prefHeight="800.0" prefWidth="100.0" spacing="15.0">

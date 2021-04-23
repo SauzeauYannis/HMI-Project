@@ -184,29 +184,19 @@ public class QuestionsController implements Initializable {
             if (this.currentPolygon.equals(this.answer1Polygon)) {
                 if (this.answer1Label.getText().equals(Questions.EASY)) {
                     this.winCurrentPolygonColor();
-
-                    this.waitService.setOnSucceeded(event -> {
-                        this.questions.chooseEasyQuestion();
-                        this.generateNextQuestion();
-                        this.currentPolygon = null;
-                        this.waitService.reset();
-                    });
-
-                    this.waitService.start();
+                    this.chooseEasy();
+                } else if (this.answer1Label.getText().equals(Questions.YES)) {
+                    this.winCurrentPolygonColor();
+                    this.winGame();
                 } else
                     this.checkAnswer(1);
             } else if (this.currentPolygon.equals(this.answer2Polygon)) {
                 if (this.answer2Label.getText().equals(Questions.DIFFICULT)) {
                     this.winCurrentPolygonColor();
-
-                    this.waitService.setOnSucceeded(event -> {
-                        this.questions.chooseDifficultQuestion();
-                        this.generateNextQuestion();
-                        this.currentPolygon = null;
-                        this.waitService.reset();
-                    });
-
-                    this.waitService.start();
+                    this.chooseDifficult();
+                } else if (this.answer2Label.getText().equals(Questions.NO)) {
+                    this.winCurrentPolygonColor();
+                    this.nextRound();
                 } else
                     this.checkAnswer(2);
             }  else if (this.currentPolygon.equals(this.answer3Polygon)) {
@@ -214,6 +204,7 @@ public class QuestionsController implements Initializable {
             } else {
                 this.checkAnswer(4);
             }
+            this.waitService.start();
         }
     }
 
@@ -264,26 +255,33 @@ public class QuestionsController implements Initializable {
     private void checkAnswer(int answer) {
         if (this.questions.isCorrectAnswer(answer)) {
             this.winCurrentPolygonColor();
-
-            this.waitService.setOnSucceeded(event -> {
-                this.generateNextQuestion();
-                this.currentPolygon = null;
-                this.waitService.reset();
-            });
-
-            this.waitService.start();
+            if (this.questions.isNotTheLastRound())
+                this.askForStop();
+            else
+                this.winGame();
         }
         else {
             this.loseCurrentPolygonColor();
-
-            this.waitService.setOnSucceeded(event -> {
-                this.questions.lose(this.player);
-                this.replay(false);
-                this.waitService.reset();
-            });
-
-            this.waitService.start();
+            this.loseGame();
         }
+    }
+
+    private void chooseEasy() {
+        this.waitService.setOnSucceeded(event -> {
+            this.questions.chooseEasyQuestion();
+            this.generateNextQuestion();
+            this.currentPolygon = null;
+            this.waitService.reset();
+        });
+    }
+
+    private void chooseDifficult() {
+        this.waitService.setOnSucceeded(event -> {
+            this.questions.chooseDifficultQuestion();
+            this.generateNextQuestion();
+            this.currentPolygon = null;
+            this.waitService.reset();
+        });
     }
 
     private void generateNextQuestion() {
@@ -295,6 +293,46 @@ public class QuestionsController implements Initializable {
         this.answer3Label.setText(question[2]);
         this.answer4Label.setText(question[3]);
         this.questionLabel.setText(question[4]);
+    }
+
+    private void nextRound() {
+        this.waitService.setOnSucceeded(event -> {
+            this.generateNextQuestion();
+            this.currentPolygon = null;
+            this.waitService.reset();
+        });
+    }
+
+    private void askForStop() {
+        this.waitService.setOnSucceeded(event -> {
+            this.resetInterface();
+            this.questions.npcAskForNextTurn();
+
+            this.questionLabel.setText("Do you want to stop and cash your jackpot?");
+            this.answer1Label.setText(Questions.YES);
+            this.answer2Label.setText(Questions.NO);
+
+            this.currentPolygon = null;
+            this.waitService.reset();
+        });
+    }
+
+    private void winGame() {
+        this.waitService.setOnSucceeded(event -> {
+            this.questions.winJackpot(this.player);
+            this.questions.endGame();
+            this.replay(true);
+            this.waitService.reset();
+        });
+    }
+
+    private void loseGame() {
+        this.waitService.setOnSucceeded(event -> {
+            this.questions.lose(this.player);
+            this.questions.endGame();
+            this.replay(false);
+            this.waitService.reset();
+        });
     }
 
     private void resetInterface() {

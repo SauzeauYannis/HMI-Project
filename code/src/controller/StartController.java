@@ -14,9 +14,11 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import model.character.Player;
 import model.command.Interpreter;
+import model.place.Place;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -99,21 +101,15 @@ public class StartController implements Initializable {
         }
     }
 
-    /**
-     * Sets player.
-     *
-     * @param player the player
-     */
+    public void setPlaceList(List<Place> placeList) {
+        this.mainController.setPlaceList(placeList);
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
         this.mainController.setPlayer(player);
     }
 
-    /**
-     * Sets scene.
-     *
-     * @param scene the scene
-     */
     public void setScene(Scene scene) {
         this.scene = scene;
     }
