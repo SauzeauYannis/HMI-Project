@@ -3,12 +3,13 @@ package controller.place.game.platinum;
 import controller.GameController;
 import controller.UtilsController;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -16,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.character.Player;
 import model.command.Interpreter;
-import model.place.game.copper.FindNumber;
 import model.place.game.platinum.Karaoke;
 
 import java.net.URL;
@@ -44,9 +44,6 @@ public class KaraokeController implements Initializable {
 
     @FXML
     private TextField textFieldProposition;
-
-    @FXML
-    private Button buttonSubmit;
 
     @FXML
     private Label labelTrials;
