@@ -34,19 +34,22 @@ public class MainController implements Initializable {
     private final MediaPlayer mediaPlayer = new MediaPlayer(
             new Media(Objects.requireNonNull(getClass().getResource("../view/design/sound/theme.mp3")).toExternalForm())
     );
+
+    private GameController gameController;
     private SceneController sceneController;
     private Player player;
+
     private boolean isVolumeOn = true;
     private Animation animation;
-
-    @FXML
-    private GameController gameController;
 
     @FXML
     private MapController mapController;
 
     @FXML
     private PlayerInfoController playerInfoController;
+
+    @FXML
+    private Tab gameTab;
 
     @FXML
     private ScrollPane scrollPaneDialog;
@@ -172,9 +175,11 @@ public class MainController implements Initializable {
             }
         });
 
+        this.gameController = new GameController(this.gameTab, player);
+
         this.playerInfoController.setPlayer(player);
-        this.gameController.setPlayer(player);
         this.gameController.setPlayerInfoController(this.playerInfoController);
+
         this.player.getPlace().getNpc().talk("Welcome to Gypsy's Carnival!");
     }
 

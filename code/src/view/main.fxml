@@ -9,8 +9,7 @@
             xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controller.MainController">
     <TabPane prefHeight="650.0" prefWidth="875.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="425.0"
              AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
-        <Tab text="Game scene">
-            <fx:include fx:id="game" source="game.fxml"/>
+        <Tab fx:id="gameTab" text="Game scene">
         </Tab>
         <Tab text="Map scene">
             <fx:include fx:id="map" source="map.fxml"/>
