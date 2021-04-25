@@ -36,7 +36,7 @@ public class QTE extends Game {
             10
     };
 
-    private IntegerProperty round;
+    private IntegerProperty round = new SimpleIntegerProperty(0);
 
     // Constructor
     public QTE() {
@@ -54,13 +54,13 @@ public class QTE extends Game {
     @Override
     public void play(Player player) {
         // Method variables
-        start();
+        this.start();
 
         // To play 3 rounds
-        while (round.get() < ROUND_NUMBER) {
+        while (this.round.get() < ROUND_NUMBER) {
 
             // Print the punchline of the current round
-            printPunchline(round.get());
+            this.printPunchline(this.round.get());
 
             // To know the number of seconds the player has write the punchline
             Date start = new Date();
@@ -70,20 +70,20 @@ public class QTE extends Game {
             int second = (int)((end.getTime() - start.getTime()) / 1000);
 
             // If the player lose then finish game
-            if (!winRound(playerSentence, round.get(), second)) {
+            if (!this.winRound(playerSentence, this.round.get(), second)) {
                 this.lose(player);
                 return;
             } else { // Else if he wins then next round
-                nextRound();
+                this.nextRound();
             }
         }
 
         // If the player wins the 3 rounds
-        finish(player);
+        this.finish(player);
     }
 
     public IntegerProperty roundProperty() {
-        return round;
+        return this.round;
     }
 
     public void start() {
@@ -126,7 +126,7 @@ public class QTE extends Game {
     }
 
     public void nextRound() {
-        round.set(round.get()+1);
+        this.round.set(round.get()+1);
     }
 
     public void finish(Player player) {
@@ -136,7 +136,7 @@ public class QTE extends Game {
 
     // To print the punchline
     private void printPunchline(int round) {
-        preparing(round);
+        this.preparing(round);
 
         // 3 second countdown
         for (int i = ROUND_NUMBER; i > 0; i--) {

@@ -6,6 +6,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -73,32 +74,32 @@ public class MainController implements Initializable {
     private Label labelDialog;
 
     @FXML
-    void scrollAnimation() {
+    private void scrollAnimation() {
         this.animation.play();
     }
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
+    private void iconMouseEntered(MouseEvent mouseEvent) {
         UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
+    private void iconMouseExited(MouseEvent mouseEvent) {
         UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
-    void lookMouseClicked() {
+    private void lookMouseClicked() {
         Interpreter.interpretCommand(this.player, "look");
     }
 
     @FXML
-    void helpMouseClicked() {
+    private void helpMouseClicked() {
         this.sceneController.setCurrentPane("help");
     }
 
     @FXML
-    void quitMouseClicked() {
+    private void quitMouseClicked() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Quit the game");
         alert.setHeaderText("Are you sure you want to exit the game?");
@@ -114,7 +115,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void soundMouseClicked() {
+    private void soundMouseClicked() {
         this.isVolumeOn = !this.isVolumeOn;
         changeSoundSetting();
     }
@@ -125,6 +126,10 @@ public class MainController implements Initializable {
         Tooltip.install(this.lookIcon, new Tooltip("Click to look the place"));
         Tooltip.install(this.helpIcon, new Tooltip("Click to go to help page"));
         Tooltip.install(this.quitIcon, new Tooltip("Click to quit the game"));
+
+        this.lookIcon.setCursor(Cursor.HAND);
+        this.helpIcon.setCursor(Cursor.HAND);
+        this.quitIcon.setCursor(Cursor.HAND);
 
         this.changeSoundSetting();
 

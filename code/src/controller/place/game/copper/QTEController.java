@@ -7,13 +7,15 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import model.character.Player;
@@ -61,10 +63,8 @@ public class QTEController implements Initializable {
     };
 
     private QTE qte;
-
     private GameController gameController;
     private Player player;
-    private Scene scene;
 
     @FXML
     private ImageView copperHubIcon;
@@ -82,21 +82,42 @@ public class QTEController implements Initializable {
     private Label timeLabel;
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
+    private void iconMouseEntered(MouseEvent mouseEvent) {
+        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
+    private void iconMouseExited(MouseEvent mouseEvent) {
+        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
-    void goCopper() {
+    private void goCopper() {
         Interpreter.interpretCommand(this.player, "go copper");
         this.gameController.changePlace();
         this.timerService.cancel();
         this.timerService.reset();
+    }
+
+    @FXML
+    private void punchTextFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            if (this.qte.winRound(this.punchTextField.getText(), this.qte.roundProperty().get(), Integer.parseInt(this.timerService.messageProperty().get()))) {
+                if (this.qte.roundProperty().get() < QTE.ROUND_NUMBER - 1) {
+                    this.qte.nextRound();
+                    this.punchLabel.textProperty().bind(this.countService.messageProperty());
+                    this.timerService.restart();
+                    this.countService.start();
+                } else {
+                    this.qte.finish(this.player);
+                    this.replay(true);
+                }
+            } else {
+                this.qte.lose(this.player);
+                this.replay(false);
+            }
+            this.punchTextField.clear();
+        }
     }
 
     @Override
@@ -104,53 +125,30 @@ public class QTEController implements Initializable {
         Tooltip.install(this.copperHubIcon, new Tooltip("Go to copper hub"));
         Tooltip.install(this.punchTextField, new Tooltip("Type enter when you've finished"));
 
-        this.punchTextField.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-                if (this.qte.winRound(this.punchTextField.getText(), this.qte.roundProperty().get(), Integer.parseInt(this.timerService.messageProperty().get()))) {
-                    if (this.qte.roundProperty().get() < QTE.ROUND_NUMBER - 1) {
-                        this.qte.nextRound();
-                        this.punchLabel.textProperty().bind(
-                                this.countService.messageProperty()
-                        );
-                        this.timerService.restart();
-                        this.countService.start();
-                    } else {
-                        this.qte.finish(this.player);
-                        this.replay(true);
-                    }
-                } else {
-                    this.qte.lose(this.player);
-                    this.replay(false);
-                }
-                this.punchTextField.clear();
+        this.copperHubIcon.setCursor(Cursor.HAND);
+
+        this.countService.stateProperty().addListener((observable, oldValue, newValue) -> {
+            switch (newValue) {
+                case FAILED:
+                case CANCELLED:
+                case SUCCEEDED:
+                    this.punchLabel.textProperty().unbind();
+                    this.punchLabel.setText(QTE.PUNCHLINE[this.qte.roundProperty().get()]);
+                    this.countService.reset();
             }
         });
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
-    }
+    public void setQte(QTE qte) {
+        this.qte = qte;
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public void reset() {
-        this.qte = (QTE) player.getPlace();
-        this.qte.start();
-
-        this.timeLabel.textProperty().unbind();
         this.timeLabel.textProperty().bind(
                 Bindings.createStringBinding(
                         () -> "Time: " + this.timerService.messageProperty().get() + "/" + QTE.TIME[this.qte.roundProperty().get()] + "s",
                         this.timerService.messageProperty(), this.qte.roundProperty()
                 )
         );
-        this.timeLabel.textFillProperty().unbind();
+
         this.timeLabel.textFillProperty().bind(
                 Bindings.when(
                         Bindings.createBooleanBinding(
@@ -166,28 +164,26 @@ public class QTEController implements Initializable {
                         .then(Color.valueOf("green"))
                         .otherwise(Color.valueOf("red"))
         );
-        this.roundLabel.textProperty().unbind();
+
         this.roundLabel.textProperty().bind(
                 Bindings.createStringBinding(
                         () -> "Round: " + this.qte.roundProperty().add(1).get() + "/" + QTE.ROUND_NUMBER,
                         this.qte.roundProperty()
                 )
         );
-        this.punchLabel.textProperty().bind(
-                this.countService.messageProperty()
-        );
+    }
 
-        this.countService.stateProperty().addListener((observable, oldValue, newValue) -> {
-            switch (newValue) {
-                case FAILED:
-                case CANCELLED:
-                case SUCCEEDED:
-                    this.punchLabel.textProperty().unbind();
-                    this.punchLabel.setText(QTE.PUNCHLINE[this.qte.roundProperty().get()]);
-                    this.countService.reset();
-            }
-        });
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void reset() {
+        this.qte.start();
+        this.punchLabel.textProperty().bind(this.countService.messageProperty());
         this.timerService.start();
         this.countService.start();
     }

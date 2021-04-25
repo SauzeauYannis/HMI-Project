@@ -31,6 +31,7 @@ public abstract class UtilsController {
             scene.setCursor(Cursor.HAND);
     }
 
+    // TODO: 23-Apr-21 Enlever cette fonction
     public static void changeOpacity(Scene scene, Node node, double newOpacity, boolean isCursorHand) {
         node.setOpacity(newOpacity);
 

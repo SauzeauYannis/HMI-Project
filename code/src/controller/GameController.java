@@ -21,8 +21,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import model.character.Player;
+import model.place.exit.Exit;
+import model.place.game.copper.FindNumber;
+import model.place.game.copper.QTE;
+import model.place.game.copper.RockPaperScissors;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GameController {
 
@@ -74,41 +79,9 @@ public class GameController {
             this.carnivalController.setGameController(this);
             this.carnivalController.setPlayer(player);
 
-            FXMLLoader keyShopLoader = new FXMLLoader(getClass().getResource("../view/place/shop/keyShop.fxml"));
-            this.keyShopPane = keyShopLoader.load();
-            this.keyShopController = keyShopLoader.getController();
-            this.keyShopController.setGameController(this);
-            this.keyShopController.setPlayer(player);
+            generateShop(player);
 
-            FXMLLoader foodShopLoader = new FXMLLoader(getClass().getResource("../view/place/shop/foodShop.fxml"));
-            this.foodShopPane = foodShopLoader.load();
-            this.foodShopController = foodShopLoader.getController();
-            this.foodShopController.setGameController(this);
-            this.foodShopController.setPlayer(player);
-
-            FXMLLoader copperHubLoader = new FXMLLoader(getClass().getResource("../view/place/hub/copperHub.fxml"));
-            this.copperHubPane = copperHubLoader.load();
-            this.copperHubController = copperHubLoader.getController();
-            this.copperHubController.setGameController(this);
-            this.copperHubController.setPlayer(player);
-
-            FXMLLoader findNumberLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/findNumber.fxml"));
-            this.findNumberPane = findNumberLoader.load();
-            this.findNumberController = findNumberLoader.getController();
-            this.findNumberController.setGameController(this);
-            this.findNumberController.setPlayer(player);
-
-            FXMLLoader qteLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/qte.fxml"));
-            this.qtePane = qteLoader.load();
-            this.qteController = qteLoader.getController();
-            this.qteController.setGameController(this);
-            this.qteController.setPlayer(player);
-
-            FXMLLoader rockPaperScissorsLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/rockPaperScissors.fxml"));
-            this.rockPaperScissorsPane = rockPaperScissorsLoader.load();
-            this.rockPaperScissorsController = rockPaperScissorsLoader.getController();
-            this.rockPaperScissorsController.setGameController(this);
-            this.rockPaperScissorsController.setPlayer(player);
+            generateCopper(player);
 
             FXMLLoader goldHubLoader = new FXMLLoader(getClass().getResource("../view/place/hub/goldHub.fxml"));
             this.goldHubPane = goldHubLoader.load();
@@ -183,9 +156,6 @@ public class GameController {
         this.keyShopController.setScene(scene);
         this.foodShopController.setScene(scene);
         this.copperHubController.setScene(scene);
-        this.findNumberController.setScene(scene);
-        this.qteController.setScene(scene);
-        this.rockPaperScissorsController.setScene(scene);
         this.goldHubController.setScene(scene);
         this.hanoiTowerController.setScene(scene);
         this.riddleController.setScene(scene);
@@ -215,7 +185,7 @@ public class GameController {
                 this.copperHubController.generatePadlocks();
                 this.gameTab.setContent(this.copperHubPane);
                 break;
-            case "Find Number":
+            case "Find number":
                 this.findNumberController.reset();
                 this.gameTab.setContent(this.findNumberPane);
                 break;
@@ -239,7 +209,7 @@ public class GameController {
                 this.riddleController.reset();
                 this.gameTab.setContent(this.riddlePane);
                 break;
-            case "Tic Tac Toe":
+            case "Tic tac toe":
                 this.gameTab.setContent(this.ticTacToePane);
                 break;
             case "Platinum hub":
@@ -261,5 +231,50 @@ public class GameController {
             case "Sparkling caravan":
                 this.gameTab.setContent(this.endingPane);
         }
+    }
+
+    private void generateShop(Player player) throws IOException {
+        FXMLLoader keyShopLoader = new FXMLLoader(getClass().getResource("../view/place/shop/keyShop.fxml"));
+        this.keyShopPane = keyShopLoader.load();
+        this.keyShopController = keyShopLoader.getController();
+        this.keyShopController.setGameController(this);
+        this.keyShopController.setPlayer(player);
+
+        FXMLLoader foodShopLoader = new FXMLLoader(getClass().getResource("../view/place/shop/foodShop.fxml"));
+        this.foodShopPane = foodShopLoader.load();
+        this.foodShopController = foodShopLoader.getController();
+        this.foodShopController.setGameController(this);
+        this.foodShopController.setPlayer(player);
+    }
+
+    private void generateCopper(Player player) throws IOException {
+        FXMLLoader copperHubLoader = new FXMLLoader(getClass().getResource("../view/place/hub/copperHub.fxml"));
+        this.copperHubPane = copperHubLoader.load();
+        this.copperHubController = copperHubLoader.getController();
+        this.copperHubController.setGameController(this);
+        this.copperHubController.setPlayer(player);
+
+        List<Exit> copperHubExitList = player.getPlace().getExitList().get(0).getPlace().getExitList();
+
+        FXMLLoader findNumberLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/findNumber.fxml"));
+        this.findNumberPane = findNumberLoader.load();
+        this.findNumberController = findNumberLoader.getController();
+        this.findNumberController.setFindNumber((FindNumber) copperHubExitList.get(1).getPlace());
+        this.findNumberController.setGameController(this);
+        this.findNumberController.setPlayer(player);
+
+        FXMLLoader qteLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/qte.fxml"));
+        this.qtePane = qteLoader.load();
+        this.qteController = qteLoader.getController();
+        this.qteController.setQte((QTE) copperHubExitList.get(2).getPlace());
+        this.qteController.setGameController(this);
+        this.qteController.setPlayer(player);
+
+        FXMLLoader rockPaperScissorsLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/rockPaperScissors.fxml"));
+        this.rockPaperScissorsPane = rockPaperScissorsLoader.load();
+        this.rockPaperScissorsController = rockPaperScissorsLoader.getController();
+        this.rockPaperScissorsController.setPlayer(player);
+        this.rockPaperScissorsController.setRockPaperScissors((RockPaperScissors) copperHubExitList.get(3).getPlace());
+        this.rockPaperScissorsController.setGameController(this);
     }
 }

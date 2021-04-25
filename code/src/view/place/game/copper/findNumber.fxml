@@ -18,7 +18,7 @@
          <Font name="Carlito Bold" size="25.0" />
       </font>
    </Label>
-   <TextField fx:id="numberField" layoutX="396.0" layoutY="294.0" maxWidth="75.0" promptText="Type...">
+   <TextField fx:id="numberField" layoutX="396.0" layoutY="294.0" maxWidth="75.0" onKeyPressed="#numberFieldKeyPressed" promptText="Type...">
       <font>
          <Font name="Carlito Bold" size="15.0" />
       </font></TextField>

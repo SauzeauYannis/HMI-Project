@@ -173,7 +173,6 @@ public class CarnivalController implements Initializable {
         this.player = player;
         // TODO: 14-Apr-21 Enlever lors du rendu
         player.earnMoney(1000);
-        this.reset();
     }
 
     public void setScene(Scene scene) {
