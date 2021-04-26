@@ -1,9 +1,9 @@
 package model.place.game.gold;
 
 import model.Gameplay;
+import model.Level;
 import model.character.NPC;
 import model.character.Player;
-import model.Level;
 import model.place.Game;
 
 import java.util.Scanner;
@@ -45,10 +45,10 @@ public class HanoiTower extends Game {
         String command = "";
         String[] commandTab;
 
-        start();
+        this.start();
 
         // To print the pillars
-        printPillars();
+        this.printPillars();
 
         // To force the player to write "a c"
         while (!command.equalsIgnoreCase("A C")) {
@@ -58,40 +58,38 @@ public class HanoiTower extends Game {
         }
         // To execute the first disk move of a pillar to c pillar
         commandTab = command.toLowerCase().split(" ");
-        moveDisk(commandTab[0], commandTab[1]);
-        printPillars();
+        this.canMoveDisk(commandTab[0], commandTab[1]);
+        this.printPillars();
 
         // Play while the player has not win (or lose)
-        while (!isWin()) {
+        while (!this.isWin()) {
             // Re-init the command and check the next command
             command = "";
-            while (wrongCommand(command)) {
+            while (this.wrongCommand(command)) {
                 npc.talk("What is your next move?");
                 System.out.print(player);
                 command = scanner.nextLine();
-                if (wrongCommand(command)) {
+
+                if (this.wrongCommand(command))
                     System.out.println("| Unknown command");
-                }
             }
 
             commandTab = command.toLowerCase().split(" ");
 
             // To check if the move is possible
-            if (!canMove(commandTab[0])) {
+            if (!this.canMove(commandTab[0])) {
                 npc.talk("You need to choose a non empty pillar!");
                 continue;
             }
 
             // If the move is correct then print the pillars and go to the next step
-            if (moveDisk(commandTab[0], commandTab[1])) {
-                printPillars();
-            } else { // Else the player lose and the game stop
-                hasWin(player, false);
-                return;
-            }
+            if (this.canMoveDisk(commandTab[0], commandTab[1]))
+                this.printPillars();
+            else // Else the player lose and the game stop
+                this.hasWin(player, false);
         }
 
-        hasWin(player, true);
+        this.hasWin(player, true);
     }
 
     public void start() {
@@ -104,24 +102,11 @@ public class HanoiTower extends Game {
                 "-You can only move a disk to an empty slot or a smaller disk.");
 
         // To initialize the stacks
-        initialize();
-    }
-
-    // To check the command
-    public boolean wrongCommand(String cmd) {
-        // The command need to have the first and second part a, b or c
-        String[] cmdTab = cmd.toLowerCase().split(" ");
-        String match = "[abc]";
-        // The command need have at least 2 string matches with regex [abc] to represent pillars
-        if (cmdTab.length >= 2) {
-            return !cmdTab[0].matches(match) || !cmdTab[1].matches(match) || cmdTab[0].equals(cmdTab[1]);
-        } else {
-            return true;
-        }
+        this.initialize();
     }
 
     // To move a disk
-    public boolean moveDisk(String src, String dest) {
+    public boolean canMoveDisk(String src, String dest) {
         // Variables method
         int disk;
         boolean isWin;
@@ -133,19 +118,18 @@ public class HanoiTower extends Game {
         disk = srcPillar.pop();
 
         // If the destination pillar is empty the move is possible
-        if (destPillar.empty()) {
+        if (destPillar.empty())
             isWin = true;
-        } else { // Else the disk move need to be lower than the head of the destination pillar
+        else // Else the disk move need to be lower than the head of the destination pillar
             isWin = disk < destPillar.peek();
-        }
 
         // If the player lose
-        if (!isWin) {
+        if (!isWin)
             return false;
-        } else { // Else if the move is correct
+        else { // Else if the move is correct
             // Push the disk at the head of the destination pillar
             destPillar.push(disk);
-            changeGame(src, dest, srcLength, destPillar.size());
+            this.changeGame(src, dest, srcLength, destPillar.size());
             return true;
         }
     }
@@ -157,16 +141,13 @@ public class HanoiTower extends Game {
 
     public void hasWin(Player player, boolean win) {
         if (win) {
-            // The player has win
             this.win(player);
-
             this.getNpc().talk("Oh thanks a lot for helping me!");
-            System.out.println("\n--- Game finished ---\n");
         } else {
             this.lose(player);
-
             this.getNpc().talk("Oh no you've lose!");
         }
+        System.out.println("\n--- Game finished ---\n");
     }
 
     // Getter
@@ -181,19 +162,28 @@ public class HanoiTower extends Game {
         }
     }
 
+    // To check the command
+    private boolean wrongCommand(String cmd) {
+        // The command need to have the first and second part a, b or c
+        String[] cmdTab = cmd.toLowerCase().split(" ");
+        String match = "[abc]";
+        // The command need have at least 2 string matches with regex [abc] to represent pillars
+        if (cmdTab.length >= 2)
+            return !cmdTab[0].matches(match) || !cmdTab[1].matches(match) || cmdTab[0].equals(cmdTab[1]);
+        else
+            return true;
+    }
+
     // To initialize the game
     private void initialize() {
         // Init the print matrix
         this.game = new String[DISK_NUMBER][DISK_NUMBER];
-        for (int i = 0; i < DISK_NUMBER; i++) {
-            for (int j = 0; j < DISK_NUMBER; j++) {
-                if (j == 0) {
-                    this.game[i][j] = Integer.toString(i+1);
-                } else {
+        for (int i = 0; i < DISK_NUMBER; i++)
+            for (int j = 0; j < DISK_NUMBER; j++)
+                if (j == 0)
+                    this.game[i][j] = Integer.toString(i + 1);
+                else
                     this.game[i][j] = "|";
-                }
-            }
-        }
 
         // Init the 3 stacks
         this.aPillar = new Stack<>();
@@ -201,26 +191,23 @@ public class HanoiTower extends Game {
         this.cPillar = new Stack<>();
 
         // Add the disk on the first pillar
-        for (int i = DISK_NUMBER; i > 0; i--) {
-            aPillar.push(i);
-        }
+        for (int i = DISK_NUMBER; i > 0; i--)
+            this.aPillar.push(i);
     }
 
     // To print the pillars
     private void printPillars() {
         for (int i = 0; i < DISK_NUMBER; i++) {
-            for (int j = 0; j < DISK_NUMBER; j++) {
+            for (int j = 0; j < DISK_NUMBER; j++)
                 System.out.print(this.game[i][j] + "\t");
-            }
             System.out.println();
         }
-        System.out.println("-\t-\t-\t");
-        System.out.println("a\tb\tc\t");
+        System.out.println("-\t-\t-\t\na\tb\tc\t");
     }
 
     // To check if the player can move the disks
     private boolean canMove(String src) {
-        return !getPillar(src).empty();
+        return !this.getPillar(src).empty();
     }
 
     // To change the screen print of the pillars
@@ -231,8 +218,8 @@ public class HanoiTower extends Game {
         int d = dest.charAt(0) - 97;
 
         // To switch the values in the print matrix
-        String tmp = this.game[DISK_NUMBER-srcLength][s];
-        this.game[DISK_NUMBER-srcLength][s] = this.game[DISK_NUMBER-destLength][d];
-        this.game[DISK_NUMBER-destLength][d] = tmp;
+        String tmp = this.game[DISK_NUMBER - srcLength][s];
+        this.game[DISK_NUMBER - srcLength][s] = this.game[DISK_NUMBER - destLength][d];
+        this.game[DISK_NUMBER - destLength][d] = tmp;
     }
 }

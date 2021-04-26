@@ -50,12 +50,12 @@ public class Riddle extends Game {
         Scanner scan = Gameplay.scanner;
         String answer;
 
-        String[] riddle = startAndGetRiddle();
+        String[] riddle = this.startAndGetRiddle();
 
         boolean win = false;
 
         // while attempts isn't equal to 0
-        while(!win || attempts.get() != 0){
+        while(!win && canContinue()) {
 
             System.out.print(player);
             System.out.print("-> Choice (yes or no): ");
@@ -66,36 +66,35 @@ public class Riddle extends Game {
 
                 // Check if the player is a joker
                 if (answer.equals("no")) {
-                    choseYes(false, riddle);
+                    this.choseNo(riddle);
 
                     // To go out of the loop
-                    attempts.set(0);
+                    this.attempts.set(0);
                 }
                 else {
-                    choseYes(true, riddle);
+                    this.choseYes(riddle);
 
                     // While attempts isn't equal to 0
-                    while(attempts.get() != 0) {
+                    while(!win && canContinue()) {
                         System.out.print(player);
                         System.out.print("-> Answer: ");
                         answer = scan.nextLine().toLowerCase();
 
-                        win = giveAnswer(player, answer, riddle);
+                        win = isGoodAnswer(player, answer, riddle);
                     }
                 }
             }
-            else {
+            else
                 this.getNpc().talk("What did you said ? Sorry but I am an old man you know ... bla bla bla ...\n" +
                         "... and this is how I am became what I am today ! OH ! So-Sorry, I have started again...\n" +
                         "So ?\n");
-            }
         }
 
-        finish();
+        this.finish();
     }
 
     public IntegerProperty attemptsProperty() {
-        return attempts;
+        return this.attempts;
     }
 
     public String[] startAndGetRiddle() {
@@ -118,20 +117,15 @@ public class Riddle extends Game {
         return riddle;
     }
 
-    public void choseYes(boolean yes, String[] riddle) {
-        if (yes) {
-            this.getNpc().talk("Oh oh perfect! Ok ok, let's begin!\n" +
-                    "Sit down, calm down and listen:\n");
-
-            System.out.println("|[ " + riddle[0] + " ]|\n");
-
-            this.getNpc().talk("So traveler, what is your answer? O.O");
-        } else
-            this.getNpc().talk("Oh...Ok...So, goodbye kid. I hope you will change\n" +
-                    " your opinion, and come back traveler...");
+    public void choseYes(String[] riddle) {
+        this.choseYesOrNo(true, riddle);
     }
 
-    public boolean giveAnswer(Player player, String answer, String[] riddle) {
+    public void choseNo(String[] riddle) {
+        this.choseYesOrNo(false, riddle);
+    }
+
+    public boolean isGoodAnswer(Player player, String answer, String[] riddle) {
         // Check the answer for the riddle
         if (answer.equals(riddle[1].toLowerCase())) {
             this.getNpc().talk("INCREDIBLE TRAVELER !!!!\n" +
@@ -143,19 +137,19 @@ public class Riddle extends Game {
         }
 
         // Check if this is the last attempt
-        else if (attempts.get() > 1) {
+        else if (this.attempts.get() > 1) {
             // Remove 1 attempt
-            attempts.set(attempts.get() - 1);
+            this.attempts.set(this.attempts.get() - 1);
 
             this.getNpc().talk("Ok traveler, this isn't the end ! You can take sometime\n" +
                     "to say a new proposal");
 
-            System.out.println("| Attempts left : " + attempts.get() + "\n");
+            System.out.println("| Attempts left : " + this.attempts.get() + "\n");
         }
 
         else {
             // Remove the last attempt, to arrive to 0
-            attempts.set(attempts.get() - 1);
+            this.attempts.set(this.attempts.get() - 1);
 
             this.getNpc().talk("Oh no traveler, this isn't the good answer ...\n" +
                     "I am so sorry to tell you this, but ...\n" +
@@ -167,7 +161,24 @@ public class Riddle extends Game {
         return false;
     }
 
+    public boolean canContinue() {
+        return this.attempts.get() > 0;
+    }
+
     public void finish() {
         System.out.println("\n--- Game finished ---\n");
+    }
+
+    private void choseYesOrNo(boolean choseYes, String[] riddle) {
+        if (choseYes) {
+            this.getNpc().talk("Oh oh perfect! Ok ok, let's begin!\n" +
+                    "Sit down, calm down and listen:\n");
+
+            System.out.println("|[ " + riddle[0] + " ]|\n");
+
+            this.getNpc().talk("So traveler, what is your answer? O.O");
+        } else
+            this.getNpc().talk("Oh...Ok...So, goodbye kid. I hope you will change\n" +
+                    " your opinion, and come back traveler...");
     }
 }

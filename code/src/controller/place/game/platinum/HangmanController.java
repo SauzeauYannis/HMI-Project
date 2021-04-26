@@ -3,16 +3,17 @@ package controller.place.game.platinum;
 import controller.GameController;
 import controller.UtilsController;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -29,34 +30,8 @@ import java.util.ResourceBundle;
 public class HangmanController implements Initializable {
 
     private Hangman hangman;
-    private final ChangeListener<Number> numberChangeListener = new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            switch (newValue.intValue()) {
-                case 4:
-                    line1.setVisible(true);
-                    break;
-                case 3:
-                    line2.setVisible(true);
-                    break;
-                case 2:
-                    line3.setVisible(true);
-                    break;
-                case 1:
-                    line4.setVisible(true);
-                    break;
-                case 0:
-                    line5.setVisible(true);
-                    hangmanIcon.setVisible(true);
-                    hangman.lose(player);
-                    replay(false);
-            }
-        }
-    };
-
     private GameController gameController;
     private Player player;
-    private Scene scene;
 
     @FXML
     private ImageView platinumHubIcon;
@@ -92,13 +67,13 @@ public class HangmanController implements Initializable {
     private VBox notInWordBox;
 
     @FXML
-    void checkIconClicked() {
+    private void checkIconClicked() {
         String guess = this.letterTextField.getText();
 
         if (guess.length() > 0) {
             String letter = this.hangman.playRound(guess);
 
-            if (letter != null && this.hangman.trialsLeftProperty().get() != Hangman.NB_TRY) {
+            if (letter != null) {
                 Label letterLabel = new Label(letter);
                 letterLabel.setFont(Font.font("Carlito", FontWeight.BOLD, 17));
 
@@ -106,13 +81,15 @@ public class HangmanController implements Initializable {
                     this.notInWordLabel.setVisible(true);
 
                 this.notInWordBox.getChildren().add(letterLabel);
-            } else if (this.hangman.isWordFind()) {
-                    this.hangman.win(this.player);
-                    this.replay(true);
-                    return;
             }
 
-            if (this.hangman.trialsLeftProperty().get() > 0) {
+            if (this.hangman.isWordFind()) {
+                this.hangman.win(this.player);
+                this.replay(true);
+            } else if (!this.hangman.canContinue()) {
+                this.hangman.lose(this.player);
+                this.replay(false);
+            } else {
                 this.hangman.startRound();
                 this.letterTextField.clear();
             }
@@ -120,29 +97,63 @@ public class HangmanController implements Initializable {
     }
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
+    private void iconMouseEntered(MouseEvent mouseEvent) {
+        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
+    private void iconMouseExited(MouseEvent mouseEvent) {
+        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
-    void goPlatinum() {
+    private void goPlatinum() {
         Interpreter.interpretCommand(this.player, "go platinum");
         this.gameController.changePlace();
     }
 
     @FXML
-    void textFieldKeyPressed() {
-        this.letterTextField.clear();
+    private void textFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER))
+            this.checkIconClicked();
+        else
+            this.letterTextField.clear();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tooltip.install(this.platinumHubIcon, new Tooltip("Go to platinum hub"));
+
+        this.platinumHubIcon.setCursor(Cursor.HAND);
+        this.letterTextField.setCursor(Cursor.TEXT);
+    }
+
+    public void setHangman(Hangman hangman) {
+        this.hangman = hangman;
+
+        this.line1.visibleProperty().bind(
+                this.hangman.trialsLeftProperty().lessThanOrEqualTo(4)
+        );
+
+        this.line2.visibleProperty().bind(
+                this.hangman.trialsLeftProperty().lessThanOrEqualTo(3)
+        );
+
+        this.line3.visibleProperty().bind(
+                this.hangman.trialsLeftProperty().lessThanOrEqualTo(2)
+        );
+
+        this.line4.visibleProperty().bind(
+                this.hangman.trialsLeftProperty().lessThanOrEqualTo(1)
+        );
+
+        this.line5.visibleProperty().bind(
+                this.hangman.trialsLeftProperty().isEqualTo(0)
+        );
+
+        this.hangmanIcon.visibleProperty().bind(
+                this.hangman.trialsLeftProperty().isEqualTo(0)
+        );
     }
 
     public void setGameController(GameController gameController) {
@@ -153,29 +164,19 @@ public class HangmanController implements Initializable {
         this.player = player;
     }
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
     public void reset() {
-        this.line1.setVisible(false);
-        this.line2.setVisible(false);
-        this.line3.setVisible(false);
-        this.line4.setVisible(false);
-        this.line5.setVisible(false);
-        this.hangmanIcon.setVisible(false);
         this.notInWordLabel.setVisible(false);
+
         this.wordBox.getChildren().clear();
         this.notInWordBox.getChildren().clear();
         this.letterTextField.clear();
 
-        this.hangman = (Hangman) this.player.getPlace();
         this.hangman.start();
-        this.hangman.startRound();
 
         for (int i = 0; i < this.hangman.getWordToFind().get().length(); i++) {
             Label letter = new Label();
             letter.setFont(Font.font("Carlito", FontWeight.BOLD, 20));
+
             int finalI = i;
             letter.textProperty().bind(
                     Bindings.createStringBinding(
@@ -187,8 +188,7 @@ public class HangmanController implements Initializable {
             this.wordBox.getChildren().add(letter);
         }
 
-        this.hangman.trialsLeftProperty().removeListener(numberChangeListener);
-        this.hangman.trialsLeftProperty().addListener(numberChangeListener);
+        this.hangman.startRound();
     }
 
     private void replay(boolean win) {

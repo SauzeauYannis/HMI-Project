@@ -126,6 +126,7 @@ public class QTEController implements Initializable {
         Tooltip.install(this.punchTextField, new Tooltip("Type enter when you've finished"));
 
         this.copperHubIcon.setCursor(Cursor.HAND);
+        this.punchTextField.setCursor(Cursor.TEXT);
 
         this.countService.stateProperty().addListener((observable, oldValue, newValue) -> {
             switch (newValue) {

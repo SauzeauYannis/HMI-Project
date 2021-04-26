@@ -77,6 +77,7 @@ public class FindNumberController implements Initializable {
         Tooltip.install(this.copperHubIcon, new Tooltip("Go to copper hub"));
 
         this.copperHubIcon.setCursor(Cursor.HAND);
+        this.numberField.setCursor(Cursor.TEXT);
 
         this.numberField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
     }
