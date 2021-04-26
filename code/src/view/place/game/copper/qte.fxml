@@ -16,7 +16,7 @@
          <Font name="Carlito Bold" size="25.0" />
       </font>
    </Label>
-   <TextField fx:id="punchTextField" layoutX="283.0" layoutY="294.0" minWidth="300.0" promptText="Type the punch here">
+   <TextField fx:id="punchTextField" layoutX="283.0" layoutY="294.0" minWidth="300.0" onKeyPressed="#punchTextFieldKeyPressed" promptText="Type the punch here">
       <font>
          <Font name="Carlito Bold" size="15.0" />
       </font>

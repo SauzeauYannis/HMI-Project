@@ -1,9 +1,12 @@
+import controller.HelpController;
+import controller.MainController;
+import controller.SceneController;
 import controller.StartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.character.Player;
 import model.place.Place;
@@ -11,16 +14,8 @@ import model.place.Place;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * The type Game.
- */
 public class Game extends Application {
 
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }
@@ -29,21 +24,40 @@ public class Game extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         List<Place> placeList = Place.generateAllPlaces();
-        Player player = new Player("Benjapied Tablenuit", placeList.get(0));
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/start.fxml"));
-        AnchorPane root = loader.load();
-        StartController startController = loader.getController();
+        FXMLLoader startLoader = new FXMLLoader(getClass().getResource("view/start.fxml"));
+        Pane startPane = startLoader.load();
+        StartController startController = startLoader.getController();
 
-        Scene scene = new Scene(root);
+        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("view/main.fxml"));
+        Pane mainPane = mainLoader.load();
+        MainController mainController = mainLoader.getController();
 
-        startController.setPlaceList(placeList);
-        startController.setPlayer(player);
-        startController.setScene(scene);
+        FXMLLoader helpLoader = new FXMLLoader(getClass().getResource("view/help.fxml"));
+        Pane helpPane = helpLoader.load();
+        HelpController helpController = helpLoader.getController();
+
+        Scene scene = new Scene(startPane);
+
+        SceneController sceneController = new SceneController(scene);
+        sceneController.addPane("start", startPane);
+        sceneController.addPane("main", mainPane);
+        sceneController.addPane("help", helpPane);
+
+        startController.setSceneController(sceneController);
+
+        mainController.setSceneController(sceneController);
+        mainController.setPlaceList(placeList);
+        mainController.setPlayer(new Player("Benjapied Tablenuit", placeList.get(0)));
+        mainController.setScene(scene);
+
+        helpController.setSceneController(sceneController);
+
+        sceneController.setCurrentPane("start");
 
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image("view/design/image/carnival.png"));
-        primaryStage.setTitle("Gypsy's Carnaval");
+        primaryStage.setTitle("Gypsy's Carnival");
         primaryStage.setResizable(false);
         primaryStage.show();
     }

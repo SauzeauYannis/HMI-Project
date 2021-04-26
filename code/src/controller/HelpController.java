@@ -1,59 +1,41 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import model.character.Player;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-/**
- * The type Help controller.
- */
-public class HelpController {
+public class HelpController implements Initializable {
 
-    private AnchorPane root;
-    private Scene scene;
+    private SceneController sceneController;
 
     @FXML
     private ImageView backIcon;
 
-    /**
-     * Back mouse clicked.
-     *
-     * @throws IOException the io exception
-     */
     @FXML
-    void backMouseClicked() throws IOException {
-        this.scene.setRoot(this.root);
+    void backMouseClicked() {
+        sceneController.setCurrentPane("main");
     }
 
-    /**
-     * Back mouse entered.
-     */
     @FXML
     void backMouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.backIcon, 1.2);
+        UtilsController.rescaleNode(this.backIcon, 1.2);
     }
 
-    /**
-     * Back mouse exited.
-     */
     @FXML
     void backMouseExited() {
-        UtilsController.rescaleNode(this.scene, this.backIcon, 1);
-        scene.setCursor(Cursor.DEFAULT);
+        UtilsController.defaultScaleNode(this.backIcon);
     }
 
-    public void setRoot(AnchorPane root) {
-        this.root = root;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.backIcon.setCursor(Cursor.HAND);
     }
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
+    public void setSceneController(SceneController sceneController) {
+        this.sceneController = sceneController;
     }
 }

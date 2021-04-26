@@ -2,11 +2,11 @@ package controller.place.game.gold;
 
 import controller.GameController;
 import controller.UtilsController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,20 +19,11 @@ import java.util.ResourceBundle;
 
 public class RiddleController implements Initializable {
 
-    private Riddle riddle;
     private String[] currentRiddle;
-    private final ChangeListener<Number> numberChangeListener = new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            attemptLabel.setText("Attempt left: " + newValue.intValue());
-            if (newValue.intValue() == 0)
-                replay(false);
-        }
-    };
 
+    private Riddle riddle;
     private GameController gameController;
     private Player player;
-    private Scene scene;
 
     @FXML
     private ImageView goldHubIcon;
@@ -56,36 +47,39 @@ public class RiddleController implements Initializable {
     private Button answerButton;
 
     @FXML
-    void answerButtonClicked() {
-        if (this.riddle.giveAnswer(this.player, this.answerTextField.getText(), this.currentRiddle))
+    private void answerButtonClicked() {
+        if (this.riddle.isGoodAnswer(this.player, this.answerTextField.getText(), this.currentRiddle))
             this.replay(true);
-        this.answerTextField.clear();
+        else if (!this.riddle.canContinue())
+            this.replay(false);
+        else
+            this.answerTextField.clear();
     }
 
     @FXML
-    void yesButtonMouseClicked() {
+    private void yesButtonMouseClicked() {
+        this.riddle.choseYes(this.currentRiddle);
         this.changeVisible(false);
-        this.riddle.choseYes(true, this.currentRiddle);
     }
 
     @FXML
-    void noButtonMouseClicked() {
-        this.riddle.choseYes(false, this.currentRiddle);
+    private void noButtonMouseClicked() {
+        this.riddle.choseNo(this.currentRiddle);
         this.replay(false);
     }
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
+    private void iconMouseEntered(MouseEvent mouseEvent) {
+        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
+    private void iconMouseExited(MouseEvent mouseEvent) {
+        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
-    void goGold() {
+    private void goGold() {
         Interpreter.interpretCommand(this.player, "go gold");
         this.gameController.changePlace();
     }
@@ -93,6 +87,20 @@ public class RiddleController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tooltip.install(this.goldHubIcon, new Tooltip("Go to gold hub"));
+
+        this.goldHubIcon.setCursor(Cursor.HAND);
+        this.answerTextField.setCursor(Cursor.TEXT);
+    }
+
+    public void setRiddle(Riddle riddle) {
+        this.riddle = riddle;
+
+        this.attemptLabel.textProperty().bind(
+                Bindings.createStringBinding(
+                        () -> "Attempt left: " + this.riddle.attemptsProperty().get(),
+                        this.riddle.attemptsProperty()
+                )
+        );
     }
 
     public void setGameController(GameController gameController) {
@@ -103,19 +111,12 @@ public class RiddleController implements Initializable {
         this.player = player;
     }
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
     public void reset() {
         this.changeVisible(true);
 
-        this.riddle = (Riddle) this.player.getPlace();
-        this.currentRiddle = this.riddle.startAndGetRiddle();
-        this.attemptLabel.setText("Attempt left: " + Riddle.DEFAULT_ATTEMPTS);
+        this.answerTextField.clear();
 
-        this.riddle.attemptsProperty().removeListener(numberChangeListener);
-        this.riddle.attemptsProperty().addListener(numberChangeListener);
+        this.currentRiddle = this.riddle.startAndGetRiddle();
     }
 
     private void changeVisible(boolean start) {

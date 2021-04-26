@@ -52,7 +52,7 @@ public class Hangman extends Game {
             "Cucumber"
     };
 
-    private IntegerProperty trialsLeft;
+    private final IntegerProperty trialsLeft = new SimpleIntegerProperty(NB_TRY);
     private StringProperty wordToFind;
 
     private String word;
@@ -75,19 +75,18 @@ public class Hangman extends Game {
     @Override
     public void play(Player player) {
         Scanner scanner = Gameplay.scanner;
-
         String guess;
 
         this.start();
 
         // Here starts the game loop
-        while (!this.isWordFind() && (this.trialsLeft.get() > 0)) {
-            startRound();
+        while (!this.isWordFind() && this.canContinue()) {
+            this.startRound();
 
             System.out.print(player);
             guess = scanner.nextLine();
 
-            playRound(guess);
+            this.playRound(guess);
         }
 
         // Checks if player wins and acts accordingly
@@ -101,11 +100,11 @@ public class Hangman extends Game {
 
     //GETTERS
     public StringProperty getWordToFind() {
-        return wordToFind;
+        return this.wordToFind;
     }
 
     public IntegerProperty trialsLeftProperty() {
-        return trialsLeft;
+        return this.trialsLeft;
     }
 
     //METHODS
@@ -127,7 +126,7 @@ public class Hangman extends Game {
         this.wordToFind = new SimpleStringProperty(this.word.replaceAll("[A-Z]", "_"));
 
         // To declare variable needed for the game
-        this.trialsLeft = new SimpleIntegerProperty(NB_TRY);
+        this.trialsLeft.set(NB_TRY);
         this.trials = 0;
 
         // To store and know if a letter was already guessed
@@ -154,7 +153,7 @@ public class Hangman extends Game {
         letter = Character.toUpperCase(letter);
 
         // Checks if the letter was already found
-        if (!isLetterFound(letter)) {
+        if (!this.isLetterFound(letter)) {
             // Check if the letter is in the word
             if ((this.word.indexOf(letter)) != -1) {
                 this.getNpc().talk("Well done! " +
@@ -182,6 +181,10 @@ public class Hangman extends Game {
 
     public boolean isWordFind() {
         return !this.wordToFind.get().contains("_");
+    }
+
+    public boolean canContinue() {
+        return this.trialsLeft.get() > 0;
     }
 
     // Checks if lettersFound contains letter

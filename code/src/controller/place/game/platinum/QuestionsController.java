@@ -7,8 +7,8 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -25,9 +25,6 @@ import java.util.ResourceBundle;
 
 public class QuestionsController implements Initializable {
 
-    private Questions questions;
-
-    private Polygon currentPolygon;
     private final Service<Void> waitService = new Service<Void>() {
         @Override
         protected Task<Void> createTask() {
@@ -40,10 +37,11 @@ public class QuestionsController implements Initializable {
             };
         }
     };
+    private Polygon currentPolygon;
 
+    private Questions questions;
     private GameController gameController;
     private Player player;
-    private Scene scene;
 
     @FXML
     private ImageView platinumHubIcon;
@@ -85,101 +83,101 @@ public class QuestionsController implements Initializable {
     private Polygon validatePolygon;
 
     @FXML
-    void answer1MouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.answer1Polygon, 1.05);
+    private void answer1MouseEntered() {
+        UtilsController.rescaleNode(this.answer1Polygon, 1.05);
     }
 
     @FXML
-    void answer1MouseExited() {
-        UtilsController.rescaleNode(this.scene, this.answer1Polygon, 1);
+    private void answer1MouseExited() {
+        UtilsController.defaultScaleNode(this.answer1Polygon);
     }
 
     @FXML
-    void answer1MouseClicked() {
+    private void answer1MouseClicked() {
         this.resetCurrentPolygonColor();
         this.answer1Polygon.setFill(Color.web("#fb9a11"));
         this.currentPolygon = answer1Polygon;
     }
 
     @FXML
-    void answer2MouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.answer2Polygon, 1.05);
+    private void answer2MouseEntered() {
+        UtilsController.rescaleNode(this.answer2Polygon, 1.05);
     }
 
     @FXML
-    void answer2MouseExited() {
-        UtilsController.rescaleNode(this.scene, this.answer2Polygon, 1);
+    private void answer2MouseExited() {
+        UtilsController.defaultScaleNode(this.answer2Polygon);
     }
 
     @FXML
-    void answer2MouseClicked() {
+    private void answer2MouseClicked() {
         this.resetCurrentPolygonColor();
         this.answer2Polygon.setFill(Color.web("#fb9a11"));
         this.currentPolygon = answer2Polygon;
     }
 
     @FXML
-    void answer3MouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.answer3Polygon, 1.05);
+    private void answer3MouseEntered() {
+        UtilsController.rescaleNode(this.answer3Polygon, 1.05);
     }
 
     @FXML
-    void answer3MouseExited() {
-        UtilsController.rescaleNode(this.scene, this.answer3Polygon, 1);
+    private void answer3MouseExited() {
+        UtilsController.defaultScaleNode(this.answer3Polygon);
     }
 
     @FXML
-    void answer3MouseClicked() {
+    private void answer3MouseClicked() {
         this.resetCurrentPolygonColor();
         this.answer3Polygon.setFill(Color.web("#fb9a11"));
         this.currentPolygon = answer3Polygon;
     }
 
     @FXML
-    void answer4MouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.answer4Polygon, 1.05);
+    private void answer4MouseEntered() {
+        UtilsController.rescaleNode(this.answer4Polygon, 1.05);
     }
 
     @FXML
-    void answer4MouseExited() {
-        UtilsController.rescaleNode(this.scene, this.answer4Polygon, 1);
+    private void answer4MouseExited() {
+        UtilsController.defaultScaleNode(this.answer4Polygon);
     }
 
     @FXML
-    void answer4MouseClicked() {
+    private void answer4MouseClicked() {
         this.resetCurrentPolygonColor();
         this.answer4Polygon.setFill(Color.web("#fb9a11"));
         this.currentPolygon = answer4Polygon;
     }
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (Node) mouseEvent.getTarget(), 1.2);
+    private void iconMouseEntered(MouseEvent mouseEvent) {
+        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (Node) mouseEvent.getTarget(), 1);
+    private void iconMouseExited(MouseEvent mouseEvent) {
+        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
-    void goPlatinum() {
+    private void goPlatinum() {
         Interpreter.interpretCommand(this.player, "go platinum");
         this.gameController.changePlace();
     }
 
     @FXML
-    void validateMouseEntered() {
-        UtilsController.rescaleNode(this.scene, this.validatePolygon, 1.05);
+    private void validateMouseEntered() {
+        UtilsController.rescaleNode(this.validatePolygon, 1.05);
     }
 
     @FXML
-    void validateMouseExited() {
-        UtilsController.rescaleNode(this.scene, this.validatePolygon, 1);
+    private void validateMouseExited() {
+        UtilsController.defaultScaleNode(this.validatePolygon);
     }
 
     @FXML
-    void validateMouseClicked() {
+    private void validateMouseClicked() {
         if (this.currentPolygon != null) {
             if (this.currentPolygon.equals(this.answer1Polygon)) {
                 if (this.answer1Label.getText().equals(Questions.EASY)) {
@@ -211,6 +209,31 @@ public class QuestionsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tooltip.install(this.platinumHubIcon, new Tooltip("Go to platinum hub"));
+
+        this.platinumHubIcon.setCursor(Cursor.HAND);
+        this.answer1Polygon.setCursor(Cursor.HAND);
+        this.answer2Polygon.setCursor(Cursor.HAND);
+        this.answer3Polygon.setCursor(Cursor.HAND);
+        this.answer4Polygon.setCursor(Cursor.HAND);
+        this.validatePolygon.setCursor(Cursor.HAND);
+    }
+
+    public void setQuestions(Questions questions) {
+        this.questions = questions;
+
+        this.roundLabel.textProperty().bind(
+                Bindings.createStringBinding(
+                        () -> "Round: " + this.questions.roundProperty().get() + "/" + Questions.NB_ROUND,
+                        this.questions.roundProperty()
+                )
+        );
+
+        this.jackpotLabel.textProperty().bind(
+                Bindings.createStringBinding(
+                        () -> "Jackpot: " + this.questions.jackpotProperty().get() + " coins",
+                        this.questions.jackpotProperty()
+                )
+        );
     }
 
     public void setGameController(GameController gameController) {
@@ -221,31 +244,10 @@ public class QuestionsController implements Initializable {
         this.player = player;
     }
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
     public void reset() {
         this.resetInterface();
 
-        this.questions = (Questions) this.player.getPlace();
         this.questions.start();
-
-        this.roundLabel.textProperty().unbind();
-        this.roundLabel.textProperty().bind(
-                Bindings.createStringBinding(
-                        () -> "Round: " + this.questions.roundProperty().get() + "/" + Questions.NB_ROUND,
-                        this.questions.roundProperty()
-                )
-        );
-
-        this.jackpotLabel.textProperty().unbind();
-        this.jackpotLabel.textProperty().bind(
-                Bindings.createStringBinding(
-                        () -> "Jackpot: " + this.questions.jackpotProperty().get() + " coins",
-                        this.questions.jackpotProperty()
-                )
-        );
 
         this.questionLabel.setText("Choose the difficulty");
         this.answer1Label.setText(Questions.EASY);
@@ -255,10 +257,10 @@ public class QuestionsController implements Initializable {
     private void checkAnswer(int answer) {
         if (this.questions.isCorrectAnswer(answer)) {
             this.winCurrentPolygonColor();
-            if (this.questions.isNotTheLastRound())
-                this.askForStop();
-            else
+            if (this.questions.isTheLastRound())
                 this.winGame();
+            else
+                this.askForStop();
         }
         else {
             this.loseCurrentPolygonColor();
@@ -287,7 +289,9 @@ public class QuestionsController implements Initializable {
     private void generateNextQuestion() {
         this.resetInterface();
         this.questions.nextQuestion();
+
         String[] question = this.questions.getShuffleQuestion();
+
         this.answer1Label.setText(question[0]);
         this.answer2Label.setText(question[1]);
         this.answer3Label.setText(question[2]);

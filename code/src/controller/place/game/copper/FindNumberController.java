@@ -2,15 +2,16 @@ package controller.place.game.copper;
 
 import controller.GameController;
 import controller.UtilsController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,21 +27,10 @@ public class FindNumberController implements Initializable {
 
     private final Image plusImage = new Image("view/design/image/plus.png");
     private final Image lessImage = new Image("view/design/image/minus.png");
-    private final ChangeListener<Number> numberChangeListener = new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            attemptLabel.setText("Attempts left: " + newValue.intValue() + "!");
-            if (newValue.intValue() == 0) {
-                replay(false);
-            }
-        }
-    };
 
     private FindNumber findNumber;
-
     private GameController gameController;
     private Player player;
-    private Scene scene;
 
     @FXML
     private ImageView copperHubIcon;
@@ -55,35 +45,30 @@ public class FindNumberController implements Initializable {
     private VBox historyBox;
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
+    private void iconMouseEntered(MouseEvent mouseEvent) {
+        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
+    private void iconMouseExited(MouseEvent mouseEvent) {
+        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
-    void goCopper() {
+    private void goCopper() {
         Interpreter.interpretCommand(this.player, "go copper");
         this.gameController.changePlace();
     }
 
     @FXML
-    void submitMouseClicked() {
-        String chosenNumber = this.numberField.getText();
-        if (!chosenNumber.equals("")) {
-            int number = Integer.parseInt(chosenNumber);
+    void numberFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER))
+            this.playTurn();
+    }
 
-            if (this.findNumber.playOneTurn(this.player, number))
-                this.replay(true);
-
-            if (number >= 0 && number <= FindNumber.MAX_NUMBER && this.findNumber.attemptProperty().get() != 10)
-                addHistory(chosenNumber, number);
-        } else
-            this.findNumber.mustBeNumber();
-        this.numberField.clear();
+    @FXML
+    private void submitMouseClicked() {
+        this.playTurn();
     }
 
     @Override
@@ -91,11 +76,21 @@ public class FindNumberController implements Initializable {
         Tooltip.install(this.numberField, new Tooltip("Type enter or press submit button to validate"));
         Tooltip.install(this.copperHubIcon, new Tooltip("Go to copper hub"));
 
+        this.copperHubIcon.setCursor(Cursor.HAND);
+        this.numberField.setCursor(Cursor.TEXT);
+
         this.numberField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
-        this.numberField.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER))
-                this.submitMouseClicked();
-        });
+    }
+
+    public void setFindNumber(FindNumber findNumber) {
+        this.findNumber = findNumber;
+
+        this.attemptLabel.textProperty().bind(
+                Bindings.createStringBinding(
+                        () -> "Attempts left: " + this.findNumber.attemptProperty().get() + "!",
+                        this.findNumber.attemptProperty()
+                )
+        );
     }
 
     public void setGameController(GameController gameController) {
@@ -106,24 +101,32 @@ public class FindNumberController implements Initializable {
         this.player = player;
     }
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
     public void reset() {
         this.historyBox.getChildren().clear();
-
-        this.findNumber = (FindNumber) player.getPlace();
-
-        this.attemptLabel.setText("Attempts left: " + this.findNumber.attemptProperty().get() + "!");
-
-        this.findNumber.attemptProperty().removeListener(numberChangeListener);
-        this.findNumber.attemptProperty().addListener(numberChangeListener);
         this.findNumber.start();
+    }
+
+    private void playTurn() {
+        String chosenNumber = this.numberField.getText();
+
+        if (!chosenNumber.equals("")) {
+            int number = Integer.parseInt(chosenNumber);
+
+            if (this.findNumber.playOneTurn(this.player, number)) {
+                if (this.findNumber.canContinue())
+                    this.addHistory(chosenNumber, number);
+                else
+                    this.replay(this.findNumber.isWin());
+            }
+        } else
+            this.findNumber.mustBeNumber();
+
+        this.numberField.clear();
     }
 
     private void addHistory(String chosenNumber, int number) {
         HBox hBox = new HBox(20, new Label(chosenNumber));
+
         if (number < this.findNumber.getRand()) {
             ImageView plusIcon = new ImageView(this.plusImage);
             plusIcon.setFitHeight(20);
@@ -140,10 +143,10 @@ public class FindNumberController implements Initializable {
     }
 
     private void replay(boolean win) {
-        findNumber.finish();
-        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK) //// TODO: 20-Apr-21
-            reset();
+        this.findNumber.finish();
+        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
+            this.reset();
         else
-            goCopper();
+            this.goCopper();
     }
 }

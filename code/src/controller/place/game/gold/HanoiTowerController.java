@@ -5,7 +5,7 @@ import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
@@ -23,13 +23,12 @@ import java.util.ResourceBundle;
 
 public class HanoiTowerController implements Initializable {
 
-    private HanoiTower hanoiTower;
     private String srcPillar;
     private boolean diskSelected;
 
+    private HanoiTower hanoiTower;
     private GameController gameController;
     private Player player;
-    private Scene scene;
 
     @FXML
     private ImageView goldHubIcon;
@@ -56,23 +55,23 @@ public class HanoiTowerController implements Initializable {
     private VBox cPillarBox;
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
+    private void iconMouseEntered(MouseEvent mouseEvent) {
+        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
+    private void iconMouseExited(MouseEvent mouseEvent) {
+        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
-    void goGold() {
+    private void goGold() {
         Interpreter.interpretCommand(this.player, "go gold");
         this.gameController.changePlace();
     }
 
     @FXML
-    void diskMouseClicked(MouseEvent mouseEvent) {
+    private void diskMouseClicked(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
         Pane parent = (Pane) diskIcon.getParent();
 
@@ -90,47 +89,55 @@ public class HanoiTowerController implements Initializable {
     }
 
     @FXML
-    void diskMouseDragged(MouseEvent mouseEvent) {
-        this.scene.setCursor(Cursor.CLOSED_HAND);
-
+    private void diskMouseDragged(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
         Pane parent = (Pane) diskIcon.getParent();
 
         if (parent instanceof AnchorPane) {
+            diskIcon.setCursor(Cursor.CLOSED_HAND);
             diskIcon.setLayoutX(mouseEvent.getSceneX() - 15);
             diskIcon.setLayoutY(mouseEvent.getSceneY() - 45);
         }
     }
 
     @FXML
-    void diskMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.changeOpacity(this.scene, (Ellipse) mouseEvent.getTarget(), 0.5, true);
+    private void diskMouseEntered(MouseEvent mouseEvent) {
+        ((Node) mouseEvent.getTarget()).setOpacity(0.5);
     }
 
     @FXML
-    void diskMouseExited(MouseEvent mouseEvent) {
-        UtilsController.changeOpacity(this.scene, (Ellipse) mouseEvent.getTarget(), 1, false);
+    private void diskMouseExited(MouseEvent mouseEvent) {
+        ((Node) mouseEvent.getTarget()).setOpacity(1);
     }
 
     @FXML
-    void diskMouseReleased(MouseEvent mouseEvent) {
+    private void diskMouseReleased(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
         Pane parent = (Pane) diskIcon.getParent();
 
         if (parent instanceof AnchorPane) {
-            if (diskIcon.getBoundsInParent().intersects(this.aPillarBox.getBoundsInParent())) {
+            diskIcon.setCursor(Cursor.HAND);
+            if (diskIcon.getBoundsInParent().intersects(this.aPillarBox.getBoundsInParent()))
                 this.moveDisk("a", this.aPillarBox, diskIcon);
-            } else if (diskIcon.getBoundsInParent().intersects(this.bPillarBox.getBoundsInParent())) {
+            else if (diskIcon.getBoundsInParent().intersects(this.bPillarBox.getBoundsInParent()))
                 this.moveDisk("b", this.bPillarBox, diskIcon);
-            } else if (diskIcon.getBoundsInParent().intersects(this.cPillarBox.getBoundsInParent())) {
+            else if (diskIcon.getBoundsInParent().intersects(this.cPillarBox.getBoundsInParent()))
                 this.moveDisk("c", this.cPillarBox, diskIcon);
-            }
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tooltip.install(this.goldHubIcon, new Tooltip("Go to gold hub"));
+
+        this.goldHubIcon.setCursor(Cursor.HAND);
+        this.disk1.setCursor(Cursor.HAND);
+        this.disk2.setCursor(Cursor.HAND);
+        this.disk3.setCursor(Cursor.HAND);
+    }
+
+    public void setHanoiTower(HanoiTower hanoiTower) {
+        this.hanoiTower = hanoiTower;
     }
 
     public void setGameController(GameController gameController) {
@@ -141,21 +148,16 @@ public class HanoiTowerController implements Initializable {
         this.player = player;
     }
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
     public void reset() {
-        this.hanoiTower = (HanoiTower) this.player.getPlace();
         this.hanoiTower.start();
 
         this.aPillarBox.getChildren().clear();
         this.bPillarBox.getChildren().clear();
         this.cPillarBox.getChildren().clear();
 
-        this.aPillarBox.getChildren().add(this.disk1);
-        this.aPillarBox.getChildren().add(this.disk2);
-        this.aPillarBox.getChildren().add(this.disk3);
+        this.aPillarBox.getChildren().addAll(this.disk1, this.disk2, this.disk3);
+
+        this.diskSelected = false;
     }
 
     private void resetSrcPillar(Pane parent) {
@@ -169,12 +171,13 @@ public class HanoiTowerController implements Initializable {
 
     private void moveDisk(String destPillar, VBox pillarBox, Ellipse diskIcon) {
         pillarBox.getChildren().add(0, diskIcon);
-        this.diskSelected = false;
-        if (this.hanoiTower.moveDisk(this.srcPillar, destPillar)) {
+
+        if (this.hanoiTower.canMoveDisk(this.srcPillar, destPillar)) {
             if (this.hanoiTower.isWin()) {
                 this.hanoiTower.hasWin(this.player, true);
                 this.replay(true);
-            }
+            } else
+                this.diskSelected = false;
         } else {
             this.hanoiTower.hasWin(this.player, false);
             this.replay(false);

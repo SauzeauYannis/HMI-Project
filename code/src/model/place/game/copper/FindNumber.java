@@ -23,6 +23,7 @@ public class FindNumber extends Game {
 
     private final IntegerProperty attempt = new SimpleIntegerProperty(DEFAULT_ATTEMPT);
     private int rand;
+    private boolean win;
 
     // Constructor
     public FindNumber() {
@@ -43,13 +44,10 @@ public class FindNumber extends Game {
         Scanner scanner = Gameplay.scanner;
         int chosenNumber;
 
-        start();
-
-        boolean win = false;
+        this.start();
 
         // While the player still has attempt
-        while (!win || attempt.get() > 0) {
-
+        while (this.canContinue()) {
             System.out.print(player);
 
             // Check if the player choose only a number
@@ -57,75 +55,86 @@ public class FindNumber extends Game {
                 chosenNumber = scanner.nextInt();
             } catch (Exception exception) {
                 scanner.nextLine();
-                mustBeNumber();
+                this.mustBeNumber();
                 continue;
             }
 
-            win = playOneTurn(player, chosenNumber);
+            this.playOneTurn(player, chosenNumber);
         }
 
         // Prevent a bug at the end of the game
         scanner.nextLine();
 
-        finish();
-    }
-
-    public int getRand() {
-        return rand;
+        this.finish();
     }
 
     public IntegerProperty attemptProperty() {
-        return attempt;
+        return this.attempt;
     }
 
-    public void finish() {
-        System.out.println("\n--- Game finished ---\n");
+    public int getRand() {
+        return this.rand;
     }
 
-    public void mustBeNumber() {
-        this.getNpc().talk("You need to write a number!");
+    public boolean isWin() {
+        return this.win;
     }
 
     public void start() {
-        attempt.set(DEFAULT_ATTEMPT);
-        rand = (int) (Math.random() * (MAX_NUMBER));
+        this.attempt.set(DEFAULT_ATTEMPT);
+        this.rand = (int) (Math.random() * (MAX_NUMBER));
+        this.win = false;
 
         System.out.println("\n--- Game launched ---\n");
 
         this.getNpc().talk("You need to find my number between 0 and " + MAX_NUMBER + " in " + DEFAULT_ATTEMPT + " attempts!");
     }
 
+    public boolean canContinue() {
+        return this.attempt.get() > 0;
+    }
+
+    public void mustBeNumber() {
+        this.getNpc().talk("You need to write a number!");
+    }
 
     public boolean playOneTurn(Player player, int chosenNumber) {
         // Check if the player type a valid number
         if (chosenNumber > MAX_NUMBER || chosenNumber < 0) {
             this.getNpc().talk("Please entry a valid number!");
+            return false;
         } else {
             // The player has abandoned
-            if (attempt.get() == 1 && chosenNumber != rand) {
-                this.getNpc().talk("The number was " + rand);
+            if (this.attempt.get() == 1 && chosenNumber != this.rand) {
+                this.getNpc().talk("The number was " + this.rand);
                 this.lose(player);
-                attempt.set(0);
+                this.attempt.set(0);
             } else {
-                attempt.set(attempt.get()-1);
+                this. attempt.set(this.attempt.get() - 1);
 
                 //Check where is the number chosen
-                if (rand > chosenNumber) {
-                    this.getNpc().talk("It's more!");
-                    this.getNpc().talk("You only have " +
-                            attempt.get() +
+                if (this.rand > chosenNumber)
+                    this.getNpc().talk("It's more!\n" +
+                            "You only have " +
+                            this.attempt.get() +
                             " attempts left!");
-                } else if (rand < chosenNumber) {
-                    this.getNpc().talk("It's less!");
-                    this.getNpc().talk("You only have " +
-                            attempt.get() +
+                else if (rand < chosenNumber)
+                    this.getNpc().talk("It's less!\n" +
+                            "You only have " +
+                            this.attempt.get() +
                             " attempts left!");
-                } else {
+                else {
+                    this.getNpc().talk(this.rand + " is the correct number, you win, well done!");
                     this.win(player);
-                    return true;
+                    this.win = true;
+                    this.attempt.set(0);
                 }
             }
+            return true;
         }
-        return false;
+    }
+
+    public void finish() {
+        System.out.println("\n--- Game finished ---\n");
     }
 }

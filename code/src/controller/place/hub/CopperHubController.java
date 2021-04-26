@@ -3,7 +3,6 @@ package controller.place.hub;
 import controller.GameController;
 import controller.PlayerInfoController;
 import controller.UtilsController;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;

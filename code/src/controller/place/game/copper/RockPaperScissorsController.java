@@ -2,11 +2,11 @@ package controller.place.game.copper;
 
 import controller.GameController;
 import controller.UtilsController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -23,10 +23,8 @@ import java.util.ResourceBundle;
 public class RockPaperScissorsController implements Initializable {
 
     private RockPaperScissors rockPaperScissors;
-
     private GameController gameController;
     private Player player;
-    private Scene scene;
 
     @FXML
     private ImageView copperHubIcon;
@@ -59,17 +57,17 @@ public class RockPaperScissorsController implements Initializable {
     private Button nextTurnButton;
 
     @FXML
-    void copperHubIconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
+    private void copperHubIconMouseEntered(MouseEvent mouseEvent) {
+        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
     }
 
     @FXML
-    void copperHubIconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
+    private void copperHubIconMouseExited(MouseEvent mouseEvent) {
+        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
-    void iconMouseClicked(MouseEvent mouseEvent) {
+    private void iconMouseClicked(MouseEvent mouseEvent) {
         if (this.nextTurnButton.isDisabled()) {
             int npcTurn = this.rockPaperScissors.getNPCTurn();
 
@@ -92,23 +90,32 @@ public class RockPaperScissorsController implements Initializable {
                 this.rockPaperScissors.checkWinner(RockPaperScissors.ROSHAMBO[1], npcTurn);
             else
                 this.rockPaperScissors.checkWinner(RockPaperScissors.ROSHAMBO[2], npcTurn);
-        } else System.out.println("You need to click on the next turn button");
+
+            if (this.rockPaperScissors.isPlayerWin()) {
+                this.rockPaperScissors.win(this.player);
+                this.replay(true);
+            } else if (this.rockPaperScissors.isNPCWin()) {
+                this.rockPaperScissors.lose(this.player);
+                this.replay(false);
+            }
+        } else
+            System.out.println("You need to click on the next turn button");
     }
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
+    private void iconMouseEntered(MouseEvent mouseEvent) {
         if (this.nextTurnButton.isDisabled())
-            UtilsController.changeOpacity(this.scene, (ImageView) mouseEvent.getTarget(), 1, true);
+            ((Node) mouseEvent.getTarget()).setOpacity(1);
     }
 
     @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
+    private void iconMouseExited(MouseEvent mouseEvent) {
         if (this.nextTurnButton.isDisabled())
-            UtilsController.changeOpacity(this.scene, (ImageView) mouseEvent.getTarget(), 0.25, false);
+            ((Node) mouseEvent.getTarget()).setOpacity(0.25);
     }
 
     @FXML
-    void newTurn() {
+    private void newTurn() {
         this.rockIcon.setOpacity(0.25);
         this.paperIcon.setOpacity(0.25);
         this.scissorsIcon.setOpacity(0.25);
@@ -120,7 +127,7 @@ public class RockPaperScissorsController implements Initializable {
     }
 
     @FXML
-    void goCopper() {
+    private void goCopper() {
         Interpreter.interpretCommand(this.player, "go copper");
         this.gameController.changePlace();
     }
@@ -131,6 +138,29 @@ public class RockPaperScissorsController implements Initializable {
         Tooltip.install(this.rockIcon, new Tooltip("Click to play rock"));
         Tooltip.install(this.paperIcon, new Tooltip("Click to play paper"));
         Tooltip.install(this.scissorsIcon, new Tooltip("Click to play scissors"));
+
+        this.copperHubIcon.setCursor(Cursor.HAND);
+        this.rockIcon.setCursor(Cursor.HAND);
+        this.paperIcon.setCursor(Cursor.HAND);
+        this.scissorsIcon.setCursor(Cursor.HAND);
+    }
+
+    public void setRockPaperScissors(RockPaperScissors rockPaperScissors) {
+        this.rockPaperScissors = rockPaperScissors;
+
+        this.playerPointLabel.textProperty().bind(
+                Bindings.createStringBinding(
+                        () -> player.getName() + ": " + this.rockPaperScissors.playerPointProperty().get() + " point(s)",
+                        this.rockPaperScissors.playerPointProperty()
+                )
+        );
+
+        this.npcPointLabel.textProperty().bind(
+                Bindings.createStringBinding(
+                        () -> this.rockPaperScissors.getNpc().getName() + ": " + this.rockPaperScissors.NPCPointProperty().get() + " point(s)",
+                        this.rockPaperScissors.NPCPointProperty()
+                )
+        );
     }
 
     public void setGameController(GameController gameController) {
@@ -141,49 +171,13 @@ public class RockPaperScissorsController implements Initializable {
         this.player = player;
     }
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
     public void reset() {
-        this.newTurn();
-
-        this.rockPaperScissors = (RockPaperScissors) this.player.getPlace();
         this.rockPaperScissors.start();
-
-        this.playerPointLabel.setText(player.getName() + ": " + this.rockPaperScissors.playerPointProperty().get() + " point(s)");
-        this.npcPointLabel.setText(player.getName() + ": " + this.rockPaperScissors.NPCPointProperty().get() + " point(s)");
-
-        this.rockPaperScissors.playerPointProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                playerPointLabel.setText(player.getName() + ": " + newValue.intValue() + " point(s)");
-                if (newValue.intValue() == RockPaperScissors.POINT_TO_WIN) {
-                    hasWin(true);
-                    rockPaperScissors.playerPointProperty().removeListener(this);
-                }
-            }
-        });
-
-        this.rockPaperScissors.NPCPointProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                npcPointLabel.setText(rockPaperScissors.getNpc().getName() + ": " + newValue.intValue() + " point(s)");
-                if (newValue.intValue() == RockPaperScissors.POINT_TO_WIN) {
-                    hasWin(false);
-                    rockPaperScissors.NPCPointProperty().removeListener(this);
-                }
-            }
-        });
+        this.newTurn();
     }
 
-    private void hasWin(boolean win) {
+    private void replay(boolean win) {
         this.rockPaperScissors.finish();
-
-        if (win)
-            this.rockPaperScissors.win(this.player);
-        else
-            this.rockPaperScissors.lose(this.player);
 
         if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
