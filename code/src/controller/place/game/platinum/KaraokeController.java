@@ -1,6 +1,6 @@
 package controller.place.game.platinum;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 public class KaraokeController implements Initializable {
 
     private Karaoke karaoke;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
     private Scene scene;
 
@@ -52,8 +52,8 @@ public class KaraokeController implements Initializable {
     //  SETTERS
     // ================================
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
@@ -102,7 +102,7 @@ public class KaraokeController implements Initializable {
     @FXML
     void goPlatinum() {
         Interpreter.interpretCommand(this.player, "go platinum");
-        this.gameController.changePlace();
+        this.placeController.changePlace();
     }
 
     @Override

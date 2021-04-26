@@ -1,58 +1,26 @@
 package controller.place;
 
-import controller.GameController;
-import controller.UtilsController;
+import controller.PlaceController;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import model.character.Player;
 import model.command.Interpreter;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class EndingController {
 
-public class EndingController implements Initializable {
-
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-    private Scene scene;
 
     @FXML
-    private ImageView carnivalIcon;
-
-    @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
-    }
-
-    @FXML
-    void goCarnival() {
+    private void goCarnival() {
         Interpreter.interpretCommand(this.player, "go carnival");
-        this.gameController.changePlace();
+        this.placeController.changePlace();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.carnivalIcon, new Tooltip("Go to carnival"));
-    }
-
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
         this.player = player;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
     }
 }

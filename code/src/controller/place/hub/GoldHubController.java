@@ -1,55 +1,38 @@
 package controller.place.hub;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.PlayerInfoController;
-import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.Place;
 import model.place.exit.Exit;
+import view.ClickableImage;
+import view.CustomAlert;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GoldHubController implements Initializable {
 
-    private final ButtonType playButton = new ButtonType("play", ButtonBar.ButtonData.OK_DONE);
-    private final ButtonType hubButton = new ButtonType("return to gold hub", ButtonBar.ButtonData.CANCEL_CLOSE);
-    private final Alert alertPlay = new Alert(Alert.AlertType.CONFIRMATION, "", this.playButton, this.hubButton);
-    private final Stage dialogStage = (Stage) this.alertPlay.getDialogPane().getScene().getWindow();
-    private final Image hanoiTowerImage = new Image("view/design/image/hanoi_tower.gif");
-    private final Image riddleImage = new Image("view/design/image/riddle.gif");
-    private final Image ticTacToeImage = new Image("view/design/image/tic_tac_toe.gif");
-
     private PlayerInfoController playerInfoController;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-    private Scene scene;
 
     @FXML
-    private ImageView carnivalIcon;
+    private ClickableImage hanoiTowerIcon;
 
     @FXML
-    private ImageView hanoiTowerIcon;
-
-    @FXML
-    private ImageView riddleIcon;
-
-    @FXML
-    private ImageView ticTacToeIcon;
+    private ClickableImage riddleIcon;
 
     @FXML
     private ImageView padlockHanoiTowerIcon;
@@ -61,57 +44,62 @@ public class GoldHubController implements Initializable {
     private ImageView padlockRiddleIcon;
 
     @FXML
-    void iconMouseClicked(MouseEvent mouseEvent) {
+    public void iconMouseClicked(MouseEvent mouseEvent) {
         Place oldPlace = this.player.getPlace();
+        CustomAlert alert;
 
         if (mouseEvent.getTarget().equals(this.hanoiTowerIcon)) {
-            this.alertPlay.setTitle("Hanoi tower");
-            this.alertPlay.setContentText("TODO: How to play");
-            this.dialogStage.getIcons().clear();
-            this.dialogStage.getIcons().add(this.hanoiTowerImage);
+            alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                    "Hanoi tower",
+                    "Once in the game you have to finish it (lose or win) to get out",
+                    "TODO: How to play",
+                    "view/design/image/hanoi_tower.gif",
+                    "play",
+                    "return to gold hub"
+            );
             Interpreter.interpretCommand(this.player, "go hanoi");
         } else if (mouseEvent.getTarget().equals(this.riddleIcon)) {
-            this.alertPlay.setTitle("Riddle");
-            this.alertPlay.setContentText("TODO: How to play");
-            this.dialogStage.getIcons().clear();
-            this.dialogStage.getIcons().add(this.riddleImage);
+            alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                    "Riddle",
+                    "Once in the game you have to finish it (lose or win) to get out",
+                    "TODO: How to play",
+                    "view/design/image/riddle.gif",
+                    "play",
+                    "return to gold hub"
+            );
             Interpreter.interpretCommand(this.player, "go riddle");
         } else {
-            this.alertPlay.setTitle("Tic tac toe");
-            this.alertPlay.setContentText("TODO: How to play");
-            this.dialogStage.getIcons().clear();
-            this.dialogStage.getIcons().add(this.ticTacToeImage);
+            alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                    "Tic tac toe",
+                    "Once in the game you have to finish it (lose or win) to get out",
+                    "TODO: How to play",
+                    "view/design/image/tic_tac_toe.gif",
+                    "play",
+                    "return to gold hub"
+            );
             Interpreter.interpretCommand(this.player, "go tic");
         }
 
+        this.placeController.changePlace();
+
         if (!oldPlace.equals(this.player.getPlace())) {
-            if (this.alertPlay.showAndWait().orElse(null) == this.playButton)
-                this.gameController.changePlace();
+            if (alert.showAndWait().orElse(null) == alert.getButtonTypes().get(0))
+                this.placeController.play();
             else {
                 Interpreter.interpretCommand(this.player, "go gold");
-                this.alertPlay.close();
+                this.placeController.changePlace();
             }
         }
     }
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
-    }
-
-    @FXML
-    void goCarnival() {
+    public void goCarnival() {
         Interpreter.interpretCommand(this.player, "go carnival");
-        this.gameController.changePlace();
+        this.placeController.changePlace();
     }
 
     @FXML
-    void padlockClicked(MouseEvent mouseEvent) {
+    public void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             if (mouseEvent.getTarget().equals(this.padlockHanoiTowerIcon))
                 this.playerInfoController.unlockGame("hanoi", Level.GOLD);
@@ -124,34 +112,18 @@ public class GoldHubController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a copper key to unlock a game or right click on the padlock!");
+        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a gold key to unlock a game or right click on the padlock!");
         Tooltip.install(this.padlockHanoiTowerIcon, tooltipPadlock);
         Tooltip.install(this.padlockRiddleIcon, tooltipPadlock);
         Tooltip.install(this.padlockTicTacToeIcon, tooltipPadlock);
-        Tooltip.install(this.hanoiTowerIcon, new Tooltip("Go to hanoi tower game"));
-        Tooltip.install(this.riddleIcon, new Tooltip("Go to riddle game"));
-        Tooltip.install(this.ticTacToeIcon, new Tooltip("Go to tic tac toe game"));
-        Tooltip.install(this.carnivalIcon, new Tooltip("Go to carnival"));
+
+        this.padlockHanoiTowerIcon.setCursor(Cursor.CROSSHAIR);
+        this.padlockRiddleIcon.setCursor(Cursor.CROSSHAIR);
+        this.padlockTicTacToeIcon.setCursor(Cursor.CROSSHAIR);
     }
 
-    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
-        this.playerInfoController = playerInfoController;
-    }
-
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public void generatePadlocks() {
-        for (Exit exit: this.player.getPlace().getExitList()) {
+    public void setGoldHubExitList(List<Exit> goldHubExitList) {
+        for (Exit exit : goldHubExitList)
             switch (exit.getPlace().getName()) {
                 case "Hanoi tower":
                     this.padlockHanoiTowerIcon.visibleProperty().bind(exit.isLockProperty());
@@ -161,8 +133,18 @@ public class GoldHubController implements Initializable {
                     break;
                 case "Tic tac toe":
                     this.padlockTicTacToeIcon.visibleProperty().bind(exit.isLockProperty());
-                    break;
             }
-        }
+    }
+
+    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
+        this.playerInfoController = playerInfoController;
+    }
+
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

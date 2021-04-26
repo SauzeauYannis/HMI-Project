@@ -1,6 +1,6 @@
 package controller.place.game.gold;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class TicTacToeController implements Initializable {
 
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
     private Scene scene;
 
@@ -36,7 +36,7 @@ public class TicTacToeController implements Initializable {
     @FXML
     void goGold() {
         Interpreter.interpretCommand(this.player, "go gold");
-        this.gameController.changePlace();
+        this.placeController.changePlace();
     }
 
     @Override
@@ -44,8 +44,8 @@ public class TicTacToeController implements Initializable {
         Tooltip.install(this.goldHubIcon, new Tooltip("Go to gold hub"));
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {

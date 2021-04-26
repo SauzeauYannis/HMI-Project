@@ -1,55 +1,38 @@
 package controller.place.hub;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.PlayerInfoController;
-import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.Place;
 import model.place.exit.Exit;
+import view.ClickableImage;
+import view.CustomAlert;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PlatinumHubController implements Initializable {
 
-    private final ButtonType playButton = new ButtonType("play", ButtonBar.ButtonData.OK_DONE);
-    private final ButtonType hubButton = new ButtonType("return to platinum hub", ButtonBar.ButtonData.CANCEL_CLOSE);
-    private final Alert alertPlay = new Alert(Alert.AlertType.CONFIRMATION, "", this.playButton, this.hubButton);
-    private final Stage dialogStage = (Stage) this.alertPlay.getDialogPane().getScene().getWindow();
-    private final Image hangmanImage = new Image("view/design/image/hangman.gif");
-    private final Image karaokeImage = new Image("view/design/image/karaoke.gif");
-    private final Image questionsImage = new Image("view/design/image/questions.gif");
-
     private PlayerInfoController playerInfoController;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-    private Scene scene;
 
     @FXML
-    private ImageView carnivalIcon;
+    private ClickableImage hangmanIcon;
 
     @FXML
-    private ImageView hangmanIcon;
-
-    @FXML
-    private ImageView karaokeIcon;
-
-    @FXML
-    private ImageView questionsIcon;
+    private ClickableImage karaokeIcon;
 
     @FXML
     private ImageView padlockHangmanTowerIcon;
@@ -61,57 +44,62 @@ public class PlatinumHubController implements Initializable {
     private ImageView padlockKaraokeIcon;
 
     @FXML
-    void iconMouseClicked(MouseEvent mouseEvent) {
+    public void iconMouseClicked(MouseEvent mouseEvent) {
         Place oldPlace = this.player.getPlace();
+        CustomAlert alert;
 
         if (mouseEvent.getTarget().equals(this.hangmanIcon)) {
-            this.alertPlay.setTitle("Hangman");
-            this.alertPlay.setContentText("TODO: How to play");
-            this.dialogStage.getIcons().clear();
-            this.dialogStage.getIcons().add(this.hangmanImage);
+            alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                    "\"Hangman",
+                    "Once in the game you have to finish it (lose or win) to get out",
+                    "TODO: How to play",
+                    "view/design/image/hangman.gif",
+                    "play",
+                    "return to platinum hub"
+            );
             Interpreter.interpretCommand(this.player, "go hangman");
         } else if (mouseEvent.getTarget().equals(this.karaokeIcon)) {
-            this.alertPlay.setTitle("Karaoke");
-            this.alertPlay.setContentText("TODO: How to play");
-            this.dialogStage.getIcons().clear();
-            this.dialogStage.getIcons().add(this.karaokeImage);
+            alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                    "Karaoke",
+                    "Once in the game you have to finish it (lose or win) to get out",
+                    "TODO: How to play",
+                    "view/design/image/karaoke.gif",
+                    "play",
+                    "return to platinum hub"
+            );
             Interpreter.interpretCommand(this.player, "go karaoke");
         } else {
-            this.alertPlay.setTitle("Questions");
-            this.alertPlay.setContentText("TODO: How to play");
-            this.dialogStage.getIcons().clear();
-            this.dialogStage.getIcons().add(this.questionsImage);
+            alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                    "Questions",
+                    "Once in the game you have to finish it (lose or win) to get out",
+                    "TODO: How to play",
+                    "view/design/image/questions.gif",
+                    "play",
+                    "return to platinum hub"
+            );
             Interpreter.interpretCommand(this.player, "go questions");
         }
 
+        this.placeController.changePlace();
+
         if (!oldPlace.equals(this.player.getPlace())) {
-            if (this.alertPlay.showAndWait().orElse(null) == this.playButton)
-                this.gameController.changePlace();
+            if (alert.showAndWait().orElse(null) == alert.getButtonTypes().get(0))
+                this.placeController.play();
             else {
                 Interpreter.interpretCommand(this.player, "go platinum");
-                this.alertPlay.close();
+                this.placeController.changePlace();
             }
         }
     }
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
-    }
-
-    @FXML
-    void goCarnival() {
+    public void goCarnival() {
         Interpreter.interpretCommand(this.player, "go carnival");
-        this.gameController.changePlace();
+        this.placeController.changePlace();
     }
 
     @FXML
-    void padlockClicked(MouseEvent mouseEvent) {
+    public void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             if (mouseEvent.getTarget().equals(this.padlockHangmanTowerIcon))
                 this.playerInfoController.unlockGame("hangman", Level.PLATINUM);
@@ -128,30 +116,14 @@ public class PlatinumHubController implements Initializable {
         Tooltip.install(this.padlockHangmanTowerIcon, tooltipPadlock);
         Tooltip.install(this.padlockKaraokeIcon, tooltipPadlock);
         Tooltip.install(this.padlockQuestionsIcon, tooltipPadlock);
-        Tooltip.install(this.hangmanIcon, new Tooltip("Go to hangman game"));
-        Tooltip.install(this.karaokeIcon, new Tooltip("Go to karaoke game"));
-        Tooltip.install(this.questionsIcon, new Tooltip("Go to questions game"));
-        Tooltip.install(this.carnivalIcon, new Tooltip("Go to carnival"));
+
+        this.padlockHangmanTowerIcon.setCursor(Cursor.CROSSHAIR);
+        this.padlockKaraokeIcon.setCursor(Cursor.CROSSHAIR);
+        this.padlockQuestionsIcon.setCursor(Cursor.CROSSHAIR);
     }
 
-    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
-        this.playerInfoController = playerInfoController;
-    }
-
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    public void generatePadlocks() {
-        for (Exit exit: this.player.getPlace().getExitList()) {
+    public void setPlatinumHubExitList(List<Exit> platinumHubExitList) {
+        for (Exit exit : platinumHubExitList)
             switch (exit.getPlace().getName()) {
                 case "Hangman":
                     this.padlockHangmanTowerIcon.visibleProperty().bind(exit.isLockProperty());
@@ -161,8 +133,18 @@ public class PlatinumHubController implements Initializable {
                     break;
                 case "Questions":
                     this.padlockQuestionsIcon.visibleProperty().bind(exit.isLockProperty());
-                    break;
             }
-        }
+    }
+
+    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
+        this.playerInfoController = playerInfoController;
+    }
+
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

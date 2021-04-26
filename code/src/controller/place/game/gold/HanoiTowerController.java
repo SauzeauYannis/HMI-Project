@@ -1,6 +1,6 @@
 package controller.place.game.gold;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,11 +27,8 @@ public class HanoiTowerController implements Initializable {
     private boolean diskSelected;
 
     private HanoiTower hanoiTower;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-
-    @FXML
-    private ImageView goldHubIcon;
 
     @FXML
     private AnchorPane pane;
@@ -55,23 +52,7 @@ public class HanoiTowerController implements Initializable {
     private VBox cPillarBox;
 
     @FXML
-    private void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    private void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
-    }
-
-    @FXML
-    private void goGold() {
-        Interpreter.interpretCommand(this.player, "go gold");
-        this.gameController.changePlace();
-    }
-
-    @FXML
-    private void diskMouseClicked(MouseEvent mouseEvent) {
+    public void diskMouseClicked(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
         Pane parent = (Pane) diskIcon.getParent();
 
@@ -89,7 +70,7 @@ public class HanoiTowerController implements Initializable {
     }
 
     @FXML
-    private void diskMouseDragged(MouseEvent mouseEvent) {
+    public void diskMouseDragged(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
         Pane parent = (Pane) diskIcon.getParent();
 
@@ -101,17 +82,17 @@ public class HanoiTowerController implements Initializable {
     }
 
     @FXML
-    private void diskMouseEntered(MouseEvent mouseEvent) {
+    public void diskMouseEntered(MouseEvent mouseEvent) {
         ((Node) mouseEvent.getTarget()).setOpacity(0.5);
     }
 
     @FXML
-    private void diskMouseExited(MouseEvent mouseEvent) {
+    public void diskMouseExited(MouseEvent mouseEvent) {
         ((Node) mouseEvent.getTarget()).setOpacity(1);
     }
 
     @FXML
-    private void diskMouseReleased(MouseEvent mouseEvent) {
+    public void diskMouseReleased(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
         Pane parent = (Pane) diskIcon.getParent();
 
@@ -128,9 +109,6 @@ public class HanoiTowerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.goldHubIcon, new Tooltip("Go to gold hub"));
-
-        this.goldHubIcon.setCursor(Cursor.HAND);
         this.disk1.setCursor(Cursor.HAND);
         this.disk2.setCursor(Cursor.HAND);
         this.disk3.setCursor(Cursor.HAND);
@@ -140,8 +118,8 @@ public class HanoiTowerController implements Initializable {
         this.hanoiTower = hanoiTower;
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
@@ -187,7 +165,9 @@ public class HanoiTowerController implements Initializable {
     private void replay(boolean win) {
         if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
-        else
-            this.goGold();
+        else {
+            Interpreter.interpretCommand(this.player, "go gold");
+            this.placeController.changePlace();
+        }
     }
 }

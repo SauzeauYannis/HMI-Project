@@ -1,14 +1,13 @@
 package controller.place;
 
-import controller.GameController;
-import controller.UtilsController;
+import controller.PlaceController;
 import javafx.animation.PathTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
-import javafx.scene.Scene;
+import javafx.scene.Cursor;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -34,9 +33,8 @@ public class CarnivalController implements Initializable {
     private PathTransition pathTransitionToKeyShop;
     private PathTransition pathTransitionToSparklingCaravan;
 
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-    private Scene scene;
 
     @FXML
     private ImageView playerIcon;
@@ -63,17 +61,7 @@ public class CarnivalController implements Initializable {
     private ImageView padlockCaravanIcon;
 
     @FXML
-    public void iconMouseEntered(MouseEvent event) {
-        UtilsController.rescaleNode(this.scene, (ImageView) event.getTarget(), 1.2);
-    }
-
-    @FXML
-    public void iconMouseExited(MouseEvent event) {
-        UtilsController.rescaleNode(this.scene, (ImageView) event.getTarget(), 1);
-    }
-
-    @FXML
-    void gameSceneClicked(MouseEvent mouseEvent) {
+    private void gameSceneClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
             if (mouseEvent.getTarget().equals(this.copperHubIcon))
                 this.pathTransitionToCopperHub.play();
@@ -95,26 +83,22 @@ public class CarnivalController implements Initializable {
     }
 
     @FXML
-    void padlockClicked(MouseEvent mouseEvent) {
+    private void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
             Interpreter.interpretCommand(this.player, "unlock sparkling");
-            if (player.getGamesFinished().isEqualTo(Game.NB_GAMES).get())
+            if (this.player.getGamesFinished().isEqualTo(Game.NB_GAMES).get())
                 this.padlockCaravanIcon.setVisible(false);
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.keyShopIcon, new Tooltip("Go to the key shop!"));
-        Tooltip.install(this.foodShopIcon, new Tooltip("Go to the food shop!"));
-        Tooltip.install(this.sparklingCaravanIcon, new Tooltip("Go to the sparkling caravan!"));
-        Tooltip.install(this.copperHubIcon, new Tooltip("Go to the copper hub!"));
-        Tooltip.install(this.goldHubIcon, new Tooltip("Go to the gold hub!"));
-        Tooltip.install(this.platinumHubIcon, new Tooltip("Go to the platinum hub!"));
         Tooltip.install(this.padlockCaravanIcon, new Tooltip("This game is lock!\nFinish the 9 games an right click on the padlock to unlock that place!"));
 
-        double xOffset = UtilsController.getMiddleWidth(this.playerIcon);
-        double yOffset  = UtilsController.getMiddleHeight(this.playerIcon);
+        this.padlockCaravanIcon.setCursor(Cursor.CROSSHAIR);
+
+        double xOffset = this.playerIcon.getFitWidth() / 2;
+        double yOffset = this.playerIcon.getFitHeight() / 2;
 
         MoveTo startMoveTo = new MoveTo(xOffset, yOffset);
 
@@ -165,18 +149,15 @@ public class CarnivalController implements Initializable {
         this.pathTransitionToSparklingCaravan = new PathTransition(Duration.seconds(4), pathToSparklingCaravan, playerIcon);
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
         this.player = player;
         // TODO: 14-Apr-21 Enlever lors du rendu
         player.earnMoney(1000);
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
+        //player.decreaseHealth(100);
     }
 
     public void reset() {
@@ -203,7 +184,7 @@ public class CarnivalController implements Initializable {
 
     private void go(String place, ChangeListener<Bounds> boundsChangeListener) {
         Interpreter.interpretCommand(this.player, "go " + place);
-        this.gameController.changePlace();
+        this.placeController.changePlace();
         this.playerIcon.boundsInParentProperty().removeListener(boundsChangeListener);
     }
 }

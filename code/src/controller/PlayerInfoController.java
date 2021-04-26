@@ -3,7 +3,6 @@ package controller;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -17,8 +16,8 @@ import javafx.stage.Stage;
 import model.Level;
 import model.character.Player;
 import model.command.Interpreter;
-import model.item.Key;
 import model.place.Game;
+import view.ClickableImage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,7 +25,6 @@ import java.util.ResourceBundle;
 public class PlayerInfoController implements Initializable {
 
     private Player player;
-    private Scene scene;
 
     @FXML
     private VBox progress_bar;
@@ -48,22 +46,22 @@ public class PlayerInfoController implements Initializable {
     private ProgressBar healthProgressBar;
 
     @FXML
-    private ImageView platinumKeyIcon;
+    private ClickableImage platinumKeyIcon;
 
     @FXML
-    private ImageView goldKeyIcon;
+    private ClickableImage goldKeyIcon;
 
     @FXML
-    private ImageView copperKeyIcon;
+    private ClickableImage copperKeyIcon;
 
     @FXML
-    private ImageView chocolateEclairIcon;
+    private ClickableImage chocolateEclairIcon;
 
     @FXML
-    private ImageView cottonCandyIcon;
+    private ClickableImage cottonCandyIcon;
 
     @FXML
-    private ImageView appleCandyIcon;
+    private ClickableImage appleCandyIcon;
 
     // --- QUANTITY
     @FXML
@@ -88,17 +86,7 @@ public class PlayerInfoController implements Initializable {
     public Label coinQuantity;
 
     @FXML
-    void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
-    }
-
-    @FXML
-    void iconMouseClicked(MouseEvent mouseEvent) {
+    public void itemMouseClicked(MouseEvent mouseEvent) {
         ImageView icon = (ImageView) mouseEvent.getTarget();
 
         if (mouseEvent.getButton() == MouseButton.PRIMARY)
@@ -109,14 +97,6 @@ public class PlayerInfoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip tooltipItem = new Tooltip("Left click to look it!\nRight click to use it!");
-        Tooltip.install(this.copperKeyIcon, tooltipItem);
-        Tooltip.install(this.goldKeyIcon, tooltipItem);
-        Tooltip.install(this.platinumKeyIcon, tooltipItem);
-        Tooltip.install(this.appleCandyIcon, tooltipItem);
-        Tooltip.install(this.cottonCandyIcon, tooltipItem);
-        Tooltip.install(this.chocolateEclairIcon, tooltipItem);
-
         Tooltip tooltipHealth = new Tooltip();
         tooltipHealth.textProperty().bind(
                 Bindings.format("%.0f/100 calories", this.healthProgressBar.progressProperty().multiply(100))
@@ -158,10 +138,6 @@ public class PlayerInfoController implements Initializable {
                 alert.showAndWait();
             }
         });
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
     }
 
     public void unlockGame(String gameName, Level level) {

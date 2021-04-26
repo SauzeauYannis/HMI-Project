@@ -5,6 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import view.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="800.0" minWidth="1200.0"
             xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controller.MainController">
     <TabPane prefHeight="650.0" prefWidth="875.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="425.0"
@@ -20,21 +21,18 @@
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
             </padding>
-            <ImageView fx:id="helpIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#helpMouseClicked"
-                       onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true"
-                       preserveRatio="true">
+            <ClickableImage fx:id="helpIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#helpMouseClicked"
+                            pickOnBounds="true" preserveRatio="true" tooltipText="Click to go to help page test">
                 <Image url="@design/image/information.png"/>
-            </ImageView>
-            <ImageView fx:id="soundIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#soundMouseClicked"
-                       onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true"
-                       preserveRatio="true">
+            </ClickableImage>
+            <ClickableImage fx:id="soundIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#soundMouseClicked"
+                            pickOnBounds="true" preserveRatio="true">
                 <Image url="@design/image/volume_on.png"/>
-            </ImageView>
-            <ImageView fx:id="quitIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#quitMouseClicked"
-                       onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true"
-                       preserveRatio="true">
+            </ClickableImage>
+            <ClickableImage fx:id="quitIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#quitMouseClicked"
+                            pickOnBounds="true" preserveRatio="true" tooltipText="Click to quit the game">
                 <Image url="@design/image/quit.png"/>
-            </ImageView>
+            </ClickableImage>
             <VBox.margin>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
             </VBox.margin>
@@ -53,14 +51,14 @@
             </padding>
         </Label>
     </ScrollPane>
-    <ImageView fx:id="downArrowIcon" fitHeight="50.0" fitWidth="50.0" layoutX="815.0" layoutY="740.0"
-               onMouseClicked="#scrollAnimation" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited"
-               pickOnBounds="true" preserveRatio="true">
+    <ClickableImage fx:id="downArrowIcon" fitHeight="50.0" fitWidth="50.0" layoutX="815.0" layoutY="740.0"
+                    onMouseClicked="#scrollAnimation" pickOnBounds="true" preserveRatio="true"
+                    tooltipText="Click to scroll down">
         <Image url="@design/image/down_arrowgif.gif"/>
-    </ImageView>
-    <ImageView fx:id="lookIcon" fitHeight="50.0" fitWidth="50.0" layoutX="830.0" layoutY="50.0"
-               onMouseClicked="#lookMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited"
-               pickOnBounds="true" preserveRatio="true">
+    </ClickableImage>
+    <ClickableImage fx:id="lookIcon" fitHeight="50.0" fitWidth="50.0" layoutX="830.0" layoutY="50.0"
+                    onMouseClicked="#lookMouseClicked" pickOnBounds="true" preserveRatio="true"
+                    tooltipText="Click to look the place">
         <Image url="@design/image/glasses.png"/>
-    </ImageView>
+    </ClickableImage>
 </AnchorPane>

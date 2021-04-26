@@ -1,6 +1,6 @@
 package controller.place.game.copper;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
@@ -8,15 +8,12 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import model.character.Player;
 import model.command.Interpreter;
@@ -45,7 +42,6 @@ public class QTEController implements Initializable {
             };
         }
     };
-
     private final Service<Void> countService = new Service<Void>() {
         @Override
         protected Task<Void> createTask() {
@@ -63,11 +59,8 @@ public class QTEController implements Initializable {
     };
 
     private QTE qte;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-
-    @FXML
-    private ImageView copperHubIcon;
 
     @FXML
     private TextField punchTextField;
@@ -82,25 +75,7 @@ public class QTEController implements Initializable {
     private Label timeLabel;
 
     @FXML
-    private void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    private void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
-    }
-
-    @FXML
-    private void goCopper() {
-        Interpreter.interpretCommand(this.player, "go copper");
-        this.gameController.changePlace();
-        this.timerService.cancel();
-        this.timerService.reset();
-    }
-
-    @FXML
-    private void punchTextFieldKeyPressed(KeyEvent keyEvent) {
+    public void punchTextFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             if (this.qte.winRound(this.punchTextField.getText(), this.qte.roundProperty().get(), Integer.parseInt(this.timerService.messageProperty().get()))) {
                 if (this.qte.roundProperty().get() < QTE.ROUND_NUMBER - 1) {
@@ -122,10 +97,8 @@ public class QTEController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.copperHubIcon, new Tooltip("Go to copper hub"));
         Tooltip.install(this.punchTextField, new Tooltip("Type enter when you've finished"));
 
-        this.copperHubIcon.setCursor(Cursor.HAND);
         this.punchTextField.setCursor(Cursor.TEXT);
 
         this.countService.stateProperty().addListener((observable, oldValue, newValue) -> {
@@ -174,8 +147,8 @@ public class QTEController implements Initializable {
         );
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
@@ -190,12 +163,14 @@ public class QTEController implements Initializable {
     }
 
     private void replay(boolean win) {
-        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK) {
-            this.timerService.cancel();
-            this.timerService.reset();
+        this.timerService.cancel();
+        this.timerService.reset();
+
+        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
+        else {
+            Interpreter.interpretCommand(this.player, "go copper");
+            this.placeController.changePlace();
         }
-        else
-            this.goCopper();
     }
 }

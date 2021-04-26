@@ -6,20 +6,17 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.Place;
+import view.ClickableImage;
+import view.CustomAlert;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -36,11 +33,11 @@ public class MainController implements Initializable {
             new Media(Objects.requireNonNull(getClass().getResource("../view/design/sound/theme.mp3")).toExternalForm())
     );
 
-    private GameController gameController;
+    private PlaceController placeController;
     private SceneController sceneController;
     private Player player;
 
-    private boolean isVolumeOn = true;
+    private boolean isVolumeOn;
     private Animation animation;
 
     @FXML
@@ -56,19 +53,10 @@ public class MainController implements Initializable {
     private ScrollPane scrollPaneDialog;
 
     @FXML
-    private ImageView downArrowIcon;
+    private ClickableImage downArrowIcon;
 
     @FXML
-    private ImageView lookIcon;
-
-    @FXML
-    private ImageView helpIcon;
-
-    @FXML
-    private ImageView quitIcon;
-
-    @FXML
-    private ImageView soundIcon;
+    private ClickableImage soundIcon;
 
     @FXML
     private Label labelDialog;
@@ -76,16 +64,6 @@ public class MainController implements Initializable {
     @FXML
     private void scrollAnimation() {
         this.animation.play();
-    }
-
-    @FXML
-    private void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    private void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
     }
 
     @FXML
@@ -100,12 +78,11 @@ public class MainController implements Initializable {
 
     @FXML
     private void quitMouseClicked() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Quit the game");
-        alert.setHeaderText("Are you sure you want to exit the game?");
-        alert.setContentText("Your progress will be lost!");
-        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
-                new Image("view/design/image/quit.png")
+        CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                "Quit the game",
+                "Are you sure you want to exit the game?",
+                "Your progress will be lost!",
+                "view/design/image/quit.png"
         );
 
         if (alert.showAndWait().orElse(null) == ButtonType.OK)
@@ -122,14 +99,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.downArrowIcon, new Tooltip("Click to scroll down"));
-        Tooltip.install(this.lookIcon, new Tooltip("Click to look the place"));
-        Tooltip.install(this.helpIcon, new Tooltip("Click to go to help page"));
-        Tooltip.install(this.quitIcon, new Tooltip("Click to quit the game"));
-
-        this.lookIcon.setCursor(Cursor.HAND);
-        this.helpIcon.setCursor(Cursor.HAND);
-        this.quitIcon.setCursor(Cursor.HAND);
+        this.isVolumeOn = true;
 
         this.changeSoundSetting();
 
@@ -169,28 +139,27 @@ public class MainController implements Initializable {
 
         player.getIsLose().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("You lose!");
-                alert.setContentText("Oh no you've have lose too much calories you can't continue!");
-                ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(
-                        new Image("view/design/image/cry.png")
+                CustomAlert alert = new CustomAlert(Alert.AlertType.INFORMATION,
+                        "You lose",
+                        "Oh no you've have lose too much calories you can't continue!",
+                        "view/design/image/cry.png"
                 );
+
                 alert.showAndWait();
                 Interpreter.interpretCommand(player, "quit");
             }
         });
 
-        this.gameController = new GameController(this.gameTab, player);
+        this.placeController = new PlaceController(this.gameTab, player);
 
         this.playerInfoController.setPlayer(player);
-        this.gameController.setPlayerInfoController(this.playerInfoController);
+        this.placeController.setPlayerInfoController(this.playerInfoController);
 
         this.player.getPlace().getNpc().talk("Welcome to Gypsy's Carnival!");
     }
 
     public void setScene(Scene scene) {
-        this.gameController.setScene(scene);
-        this.playerInfoController.setScene(scene);
+        this.placeController.setScene(scene);
     }
 
     public void setSceneController(SceneController sceneController) {
@@ -199,11 +168,11 @@ public class MainController implements Initializable {
 
     private void changeSoundSetting() {
         if (this.isVolumeOn) {
-            Tooltip.install(this.soundIcon, new Tooltip("Click to set the volume off"));
+            this.soundIcon.setTooltipText("Click to set the volume off");
             this.mediaPlayer.play();
             this.soundIcon.setImage(this.volumeOn);
         } else {
-            Tooltip.install(this.soundIcon, new Tooltip("Click to set the volume on"));
+            this.soundIcon.setTooltipText("Click to set the volume on");
             this.mediaPlayer.pause();
             this.soundIcon.setImage(this.volumeOff);
         }

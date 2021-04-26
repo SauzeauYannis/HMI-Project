@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 
+// TODO: 26-Apr-21 Virer cette classe
 public abstract class UtilsController {
 
     public static final int DEFAULT_SCALE = 1;
@@ -20,7 +21,6 @@ public abstract class UtilsController {
         rescaleNode(node, DEFAULT_SCALE);
     }
 
-    // TODO: 23-Apr-21 Enlever cette fonction
     public static void rescaleNode(Scene scene, Node node, double newScale) {
         node.setScaleX(newScale);
         node.setScaleY(newScale);
@@ -41,13 +41,5 @@ public abstract class UtilsController {
             ALERT_FINISH.setHeaderText("You lose!");
 
         return ALERT_FINISH;
-    }
-
-    public static double getMiddleWidth(ImageView imageView) {
-        return imageView.getFitWidth() / 2;
-    }
-
-    public static double getMiddleHeight(ImageView imageView) {
-        return imageView.getFitHeight() / 2;
     }
 }

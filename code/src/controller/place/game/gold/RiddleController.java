@@ -1,15 +1,15 @@
 package controller.place.game.gold;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.game.gold.Riddle;
@@ -22,11 +22,8 @@ public class RiddleController implements Initializable {
     private String[] currentRiddle;
 
     private Riddle riddle;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-
-    @FXML
-    private ImageView goldHubIcon;
 
     @FXML
     private Label questionLabel;
@@ -47,7 +44,7 @@ public class RiddleController implements Initializable {
     private Button answerButton;
 
     @FXML
-    private void answerButtonClicked() {
+    public void answerButtonClicked() {
         if (this.riddle.isGoodAnswer(this.player, this.answerTextField.getText(), this.currentRiddle))
             this.replay(true);
         else if (!this.riddle.canContinue())
@@ -57,38 +54,19 @@ public class RiddleController implements Initializable {
     }
 
     @FXML
-    private void yesButtonMouseClicked() {
+    public void yesButtonMouseClicked() {
         this.riddle.choseYes(this.currentRiddle);
         this.changeVisible(false);
     }
 
     @FXML
-    private void noButtonMouseClicked() {
+    public void noButtonMouseClicked() {
         this.riddle.choseNo(this.currentRiddle);
         this.replay(false);
     }
 
-    @FXML
-    private void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    private void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
-    }
-
-    @FXML
-    private void goGold() {
-        Interpreter.interpretCommand(this.player, "go gold");
-        this.gameController.changePlace();
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.goldHubIcon, new Tooltip("Go to gold hub"));
-
-        this.goldHubIcon.setCursor(Cursor.HAND);
         this.answerTextField.setCursor(Cursor.TEXT);
     }
 
@@ -103,8 +81,8 @@ public class RiddleController implements Initializable {
         );
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
@@ -137,7 +115,9 @@ public class RiddleController implements Initializable {
 
         if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
-        else
-            this.goGold();
+        else {
+            Interpreter.interpretCommand(this.player, "go gold");
+            this.placeController.changePlace();
+        }
     }
 }

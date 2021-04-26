@@ -1,33 +1,24 @@
 package controller.place.game.copper;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.game.copper.RockPaperScissors;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class RockPaperScissorsController implements Initializable {
+public class RockPaperScissorsController {
 
     private RockPaperScissors rockPaperScissors;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-
-    @FXML
-    private ImageView copperHubIcon;
 
     @FXML
     private Label playerPointLabel;
@@ -57,17 +48,7 @@ public class RockPaperScissorsController implements Initializable {
     private Button nextTurnButton;
 
     @FXML
-    private void copperHubIconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    private void copperHubIconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
-    }
-
-    @FXML
-    private void iconMouseClicked(MouseEvent mouseEvent) {
+    public void iconMouseClicked(MouseEvent mouseEvent) {
         if (this.nextTurnButton.isDisabled()) {
             int npcTurn = this.rockPaperScissors.getNPCTurn();
 
@@ -103,19 +84,19 @@ public class RockPaperScissorsController implements Initializable {
     }
 
     @FXML
-    private void iconMouseEntered(MouseEvent mouseEvent) {
+    public void iconMouseEntered(MouseEvent mouseEvent) {
         if (this.nextTurnButton.isDisabled())
             ((Node) mouseEvent.getTarget()).setOpacity(1);
     }
 
     @FXML
-    private void iconMouseExited(MouseEvent mouseEvent) {
+    public void iconMouseExited(MouseEvent mouseEvent) {
         if (this.nextTurnButton.isDisabled())
             ((Node) mouseEvent.getTarget()).setOpacity(0.25);
     }
 
     @FXML
-    private void newTurn() {
+    public void newTurn() {
         this.rockIcon.setOpacity(0.25);
         this.paperIcon.setOpacity(0.25);
         this.scissorsIcon.setOpacity(0.25);
@@ -124,25 +105,6 @@ public class RockPaperScissorsController implements Initializable {
         this.scissorsNPCIcon.setOpacity(0.25);
 
         this.nextTurnButton.setDisable(true);
-    }
-
-    @FXML
-    private void goCopper() {
-        Interpreter.interpretCommand(this.player, "go copper");
-        this.gameController.changePlace();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.copperHubIcon, new Tooltip("Go to copper hub"));
-        Tooltip.install(this.rockIcon, new Tooltip("Click to play rock"));
-        Tooltip.install(this.paperIcon, new Tooltip("Click to play paper"));
-        Tooltip.install(this.scissorsIcon, new Tooltip("Click to play scissors"));
-
-        this.copperHubIcon.setCursor(Cursor.HAND);
-        this.rockIcon.setCursor(Cursor.HAND);
-        this.paperIcon.setCursor(Cursor.HAND);
-        this.scissorsIcon.setCursor(Cursor.HAND);
     }
 
     public void setRockPaperScissors(RockPaperScissors rockPaperScissors) {
@@ -163,8 +125,8 @@ public class RockPaperScissorsController implements Initializable {
         );
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
@@ -181,7 +143,9 @@ public class RockPaperScissorsController implements Initializable {
 
         if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
-        else
-            this.goCopper();
+        else {
+            Interpreter.interpretCommand(this.player, "go copper");
+            this.placeController.changePlace();
+        }
     }
 }

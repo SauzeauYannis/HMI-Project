@@ -1,20 +1,17 @@
 package controller.place.game.platinum;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
@@ -30,11 +27,8 @@ import java.util.ResourceBundle;
 public class HangmanController implements Initializable {
 
     private Hangman hangman;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-
-    @FXML
-    private ImageView platinumHubIcon;
 
     @FXML
     private Line line1;
@@ -67,7 +61,7 @@ public class HangmanController implements Initializable {
     private VBox notInWordBox;
 
     @FXML
-    private void checkIconClicked() {
+    public void checkIconClicked() {
         String guess = this.letterTextField.getText();
 
         if (guess.length() > 0) {
@@ -97,23 +91,7 @@ public class HangmanController implements Initializable {
     }
 
     @FXML
-    private void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    private void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
-    }
-
-    @FXML
-    private void goPlatinum() {
-        Interpreter.interpretCommand(this.player, "go platinum");
-        this.gameController.changePlace();
-    }
-
-    @FXML
-    private void textFieldKeyPressed(KeyEvent keyEvent) {
+    public void textFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER))
             this.checkIconClicked();
         else
@@ -122,9 +100,6 @@ public class HangmanController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.platinumHubIcon, new Tooltip("Go to platinum hub"));
-
-        this.platinumHubIcon.setCursor(Cursor.HAND);
         this.letterTextField.setCursor(Cursor.TEXT);
     }
 
@@ -156,8 +131,8 @@ public class HangmanController implements Initializable {
         );
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
@@ -194,7 +169,9 @@ public class HangmanController implements Initializable {
     private void replay(boolean win) {
         if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
-        else
-            this.goPlatinum();
+        else {
+            Interpreter.interpretCommand(this.player, "go platinum");
+            this.placeController.changePlace();
+        }
     }
 }

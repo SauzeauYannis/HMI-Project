@@ -1,18 +1,16 @@
 package controller.place.game.copper;
 
-import controller.GameController;
+import controller.PlaceController;
 import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.converter.IntegerStringConverter;
@@ -29,11 +27,8 @@ public class FindNumberController implements Initializable {
     private final Image lessImage = new Image("view/design/image/minus.png");
 
     private FindNumber findNumber;
-    private GameController gameController;
+    private PlaceController placeController;
     private Player player;
-
-    @FXML
-    private ImageView copperHubIcon;
 
     @FXML
     private TextField numberField;
@@ -45,38 +40,20 @@ public class FindNumberController implements Initializable {
     private VBox historyBox;
 
     @FXML
-    private void iconMouseEntered(MouseEvent mouseEvent) {
-        UtilsController.rescaleNode((Node) mouseEvent.getTarget(), 1.2);
-    }
-
-    @FXML
-    private void iconMouseExited(MouseEvent mouseEvent) {
-        UtilsController.defaultScaleNode((Node) mouseEvent.getTarget());
-    }
-
-    @FXML
-    private void goCopper() {
-        Interpreter.interpretCommand(this.player, "go copper");
-        this.gameController.changePlace();
-    }
-
-    @FXML
-    void numberFieldKeyPressed(KeyEvent keyEvent) {
+    public void numberFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER))
             this.playTurn();
     }
 
     @FXML
-    private void submitMouseClicked() {
+    public void submitMouseClicked() {
         this.playTurn();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tooltip.install(this.numberField, new Tooltip("Type enter or press submit button to validate"));
-        Tooltip.install(this.copperHubIcon, new Tooltip("Go to copper hub"));
 
-        this.copperHubIcon.setCursor(Cursor.HAND);
         this.numberField.setCursor(Cursor.TEXT);
 
         this.numberField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
@@ -93,8 +70,8 @@ public class FindNumberController implements Initializable {
         );
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setGameController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
@@ -146,7 +123,9 @@ public class FindNumberController implements Initializable {
         this.findNumber.finish();
         if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
             this.reset();
-        else
-            this.goCopper();
+        else {
+            Interpreter.interpretCommand(this.player, "go copper");
+            this.placeController.changePlace();
+        }
     }
 }
