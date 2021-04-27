@@ -1,7 +1,6 @@
 package controller.place.game.copper;
 
 import controller.PlaceController;
-import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,11 +16,17 @@ import javafx.util.converter.IntegerStringConverter;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.game.copper.FindNumber;
+import view.CustomAlert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The Find number game controller.
+ */
 public class FindNumberController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private final Image plusImage = new Image("view/design/image/plus.png");
     private final Image lessImage = new Image("view/design/image/minus.png");
@@ -39,17 +44,14 @@ public class FindNumberController implements Initializable {
     @FXML
     private VBox historyBox;
 
-    @FXML
-    public void numberFieldKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode().equals(KeyCode.ENTER))
-            this.playTurn();
-    }
+    /*--------------------- Public methods -------------------------*/
 
-    @FXML
-    public void submitMouseClicked() {
-        this.playTurn();
-    }
-
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tooltip.install(this.numberField, new Tooltip("Type enter or press submit button to validate"));
@@ -59,6 +61,40 @@ public class FindNumberController implements Initializable {
         this.numberField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
     }
 
+    /**
+     * Number field key pressed.
+     *
+     * @param keyEvent the key event
+     */
+    @FXML
+    public void numberFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER))
+            this.submitMouseClicked();
+    }
+
+    /**
+     * Submit mouse clicked.
+     */
+    @FXML
+    public void submitMouseClicked() {
+        this.playTurn();
+    }
+
+    /**
+     * Reset the game.
+     */
+    public void reset() {
+        this.historyBox.getChildren().clear();
+        this.findNumber.start();
+    }
+
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets find number model
+     *
+     * @param findNumber the find number
+     */
     public void setFindNumber(FindNumber findNumber) {
         this.findNumber = findNumber;
 
@@ -70,19 +106,31 @@ public class FindNumberController implements Initializable {
         );
     }
 
-    public void setGameController(PlaceController placeController) {
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void reset() {
-        this.historyBox.getChildren().clear();
-        this.findNumber.start();
-    }
+    /*----------------------- Private methods --------------------------------*/
 
+    /**
+     * Play a turn.
+     *
+     * @see #submitMouseClicked()
+     */
     private void playTurn() {
         String chosenNumber = this.numberField.getText();
 
@@ -101,6 +149,13 @@ public class FindNumberController implements Initializable {
         this.numberField.clear();
     }
 
+    /**
+     * Add the chosen number in the screen with a plus or less icon
+     *
+     * @param chosenNumber the chosen number
+     * @param number       the number
+     * @see #playTurn()
+     */
     private void addHistory(String chosenNumber, int number) {
         HBox hBox = new HBox(20, new Label(chosenNumber));
 
@@ -119,9 +174,24 @@ public class FindNumberController implements Initializable {
         this.historyBox.getChildren().add(hBox);
     }
 
+    /**
+     * Ask to replay the game.
+     *
+     * @param win true if the player won the game.
+     */
     private void replay(boolean win) {
+        CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                this.player.getPlace().getName() + " - Finished",
+                win ? "You win!" : "You lose!",
+                "Do you want to replay?",
+                "view/design/image/find_number.gif",
+                "replay",
+                "return to copper hub"
+        );
+
         this.findNumber.finish();
-        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
+
+        if (alert.showAndWait().orElse(null) == alert.getButtonTypes().get(0))
             this.reset();
         else {
             Interpreter.interpretCommand(this.player, "go copper");

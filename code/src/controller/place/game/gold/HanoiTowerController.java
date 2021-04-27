@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
@@ -17,6 +18,7 @@ import javafx.scene.shape.Ellipse;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.game.gold.HanoiTower;
+import view.CustomAlert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -118,7 +120,7 @@ public class HanoiTowerController implements Initializable {
         this.hanoiTower = hanoiTower;
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
@@ -163,7 +165,16 @@ public class HanoiTowerController implements Initializable {
     }
 
     private void replay(boolean win) {
-        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
+        CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                this.player.getPlace().getName() + " - Finished",
+                win ? "You win!" : "You lose!",
+                "Do you want to replay?",
+                "view/design/image/hanoi_tower.gif",
+                "replay",
+                "return to gold hub"
+        );
+
+        if (alert.showAndWait().orElse(null) == alert.getButtonTypes().get(0))
             this.reset();
         else {
             Interpreter.interpretCommand(this.player, "go gold");

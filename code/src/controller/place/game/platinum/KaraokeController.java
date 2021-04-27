@@ -52,7 +52,7 @@ public class KaraokeController implements Initializable {
     //  SETTERS
     // ================================
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 

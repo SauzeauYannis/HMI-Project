@@ -44,7 +44,7 @@ public class TicTacToeController implements Initializable {
         Tooltip.install(this.goldHubIcon, new Tooltip("Go to gold hub"));
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 

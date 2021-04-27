@@ -50,9 +50,9 @@ public class CopperHubController implements Initializable {
 
         if (mouseEvent.getTarget().equals(this.findNumberIcon)) {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "Find number",
+                    oldPlace.getExitList().get(1).getPlace().getName(),
+                    oldPlace.getExitList().get(1).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/find_number.gif",
                     "play",
                     "return to copper hub"
@@ -60,9 +60,9 @@ public class CopperHubController implements Initializable {
             Interpreter.interpretCommand(this.player, "go find");
         } else if (mouseEvent.getTarget().equals(this.qteIcon)) {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "QTE",
+                    oldPlace.getExitList().get(2).getPlace().getName(),
+                    oldPlace.getExitList().get(2).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/qte.gif",
                     "play",
                     "return to copper hub"
@@ -70,9 +70,9 @@ public class CopperHubController implements Initializable {
             Interpreter.interpretCommand(this.player, "go qte");
         } else {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "Rock paper scissors",
+                    oldPlace.getExitList().get(3).getPlace().getName(),
+                    oldPlace.getExitList().get(3).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/rock_paper_scissors.gif",
                     "play",
                     "return to copper hub"
@@ -140,7 +140,7 @@ public class CopperHubController implements Initializable {
         this.playerInfoController = playerInfoController;
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 

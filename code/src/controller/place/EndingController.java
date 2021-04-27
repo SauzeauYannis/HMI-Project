@@ -16,7 +16,7 @@ public class EndingController {
         this.placeController.changePlace();
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 

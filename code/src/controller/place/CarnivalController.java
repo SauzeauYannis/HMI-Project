@@ -149,7 +149,7 @@ public class CarnivalController implements Initializable {
         this.pathTransitionToSparklingCaravan = new PathTransition(Duration.seconds(4), pathToSparklingCaravan, playerIcon);
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 

@@ -58,6 +58,10 @@ public class Place implements Describable {
 		return this.exitList;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
 	// Setters
 	public void addExit(Exit exit) {
 		this.exitList.add(exit);

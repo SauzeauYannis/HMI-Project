@@ -50,9 +50,9 @@ public class PlatinumHubController implements Initializable {
 
         if (mouseEvent.getTarget().equals(this.hangmanIcon)) {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "\"Hangman",
+                    oldPlace.getExitList().get(1).getPlace().getName(),
+                    oldPlace.getExitList().get(1).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/hangman.gif",
                     "play",
                     "return to platinum hub"
@@ -60,9 +60,9 @@ public class PlatinumHubController implements Initializable {
             Interpreter.interpretCommand(this.player, "go hangman");
         } else if (mouseEvent.getTarget().equals(this.karaokeIcon)) {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "Karaoke",
+                    oldPlace.getExitList().get(2).getPlace().getName(),
+                    oldPlace.getExitList().get(2).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/karaoke.gif",
                     "play",
                     "return to platinum hub"
@@ -70,9 +70,9 @@ public class PlatinumHubController implements Initializable {
             Interpreter.interpretCommand(this.player, "go karaoke");
         } else {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "Questions",
+                    oldPlace.getExitList().get(3).getPlace().getName(),
+                    oldPlace.getExitList().get(3).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/questions.gif",
                     "play",
                     "return to platinum hub"
@@ -140,7 +140,7 @@ public class PlatinumHubController implements Initializable {
         this.playerInfoController = playerInfoController;
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 

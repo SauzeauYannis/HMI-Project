@@ -67,7 +67,7 @@ public class KeyShopController {
             }
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 

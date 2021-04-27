@@ -1,14 +1,13 @@
 package controller.place.game.copper;
 
 import controller.PlaceController;
-import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -18,11 +17,17 @@ import javafx.scene.paint.Color;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.game.copper.QTE;
+import view.CustomAlert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The type Qte controller.
+ */
 public class QTEController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private final Service<Void> timerService = new Service<Void>() {
         @Override
@@ -74,6 +79,37 @@ public class QTEController implements Initializable {
     @FXML
     private Label timeLabel;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Tooltip.install(this.punchTextField, new Tooltip("Type enter when you've finished"));
+
+        this.punchTextField.setCursor(Cursor.TEXT);
+
+        this.countService.stateProperty().addListener((observable, oldValue, newValue) -> {
+            switch (newValue) {
+                case FAILED:
+                case CANCELLED:
+                case SUCCEEDED:
+                    this.punchLabel.textProperty().unbind();
+                    this.punchLabel.setText(QTE.PUNCHLINE[this.qte.roundProperty().get()]);
+                    this.countService.reset();
+            }
+        });
+    }
+
+    /**
+     * Punch text field key pressed.
+     *
+     * @param keyEvent the key event
+     */
     @FXML
     public void punchTextFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
@@ -95,24 +131,23 @@ public class QTEController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Tooltip.install(this.punchTextField, new Tooltip("Type enter when you've finished"));
-
-        this.punchTextField.setCursor(Cursor.TEXT);
-
-        this.countService.stateProperty().addListener((observable, oldValue, newValue) -> {
-            switch (newValue) {
-                case FAILED:
-                case CANCELLED:
-                case SUCCEEDED:
-                    this.punchLabel.textProperty().unbind();
-                    this.punchLabel.setText(QTE.PUNCHLINE[this.qte.roundProperty().get()]);
-                    this.countService.reset();
-            }
-        });
+    /**
+     * Reset.
+     */
+    public void reset() {
+        this.qte.start();
+        this.punchLabel.textProperty().bind(this.countService.messageProperty());
+        this.timerService.start();
+        this.countService.start();
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets QTE model.
+     *
+     * @param qte the qte
+     */
     public void setQte(QTE qte) {
         this.qte = qte;
 
@@ -147,26 +182,45 @@ public class QTEController implements Initializable {
         );
     }
 
-    public void setGameController(PlaceController placeController) {
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void reset() {
-        this.qte.start();
-        this.punchLabel.textProperty().bind(this.countService.messageProperty());
-        this.timerService.start();
-        this.countService.start();
-    }
+    /*----------------------- Private methods --------------------------------*/
 
+    /**
+     * Ask to replay the game.
+     *
+     * @param win true if the player won the game.
+     */
     private void replay(boolean win) {
+        CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                this.player.getPlace().getName() + " - Finished",
+                win ? "You win!" : "You lose!",
+                "Do you want to replay?",
+                "view/design/image/qte.gif",
+                "replay",
+                "return to copper hub"
+        );
+
         this.timerService.cancel();
         this.timerService.reset();
 
-        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
+        if (alert.showAndWait().orElse(null) == alert.getButtonTypes().get(0))
             this.reset();
         else {
             Interpreter.interpretCommand(this.player, "go copper");

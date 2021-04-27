@@ -50,9 +50,9 @@ public class GoldHubController implements Initializable {
 
         if (mouseEvent.getTarget().equals(this.hanoiTowerIcon)) {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "Hanoi tower",
+                    oldPlace.getExitList().get(1).getPlace().getName(),
+                    oldPlace.getExitList().get(1).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/hanoi_tower.gif",
                     "play",
                     "return to gold hub"
@@ -60,9 +60,9 @@ public class GoldHubController implements Initializable {
             Interpreter.interpretCommand(this.player, "go hanoi");
         } else if (mouseEvent.getTarget().equals(this.riddleIcon)) {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "Riddle",
+                    oldPlace.getExitList().get(2).getPlace().getName(),
+                    oldPlace.getExitList().get(2).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/riddle.gif",
                     "play",
                     "return to gold hub"
@@ -70,9 +70,9 @@ public class GoldHubController implements Initializable {
             Interpreter.interpretCommand(this.player, "go riddle");
         } else {
             alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                    "Tic tac toe",
+                    oldPlace.getExitList().get(3).getPlace().getName(),
+                    oldPlace.getExitList().get(3).getPlace().getDescription(),
                     "Once in the game you have to finish it (lose or win) to get out",
-                    "TODO: How to play",
                     "view/design/image/tic_tac_toe.gif",
                     "play",
                     "return to gold hub"
@@ -140,7 +140,7 @@ public class GoldHubController implements Initializable {
         this.playerInfoController = playerInfoController;
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 

@@ -80,7 +80,7 @@ public class PlaceController {
             FXMLLoader carnivalLoader = new FXMLLoader(getClass().getResource("../view/place/carnival.fxml"));
             this.carnivalPane = carnivalLoader.load();
             this.carnivalController = carnivalLoader.getController();
-            this.carnivalController.setGameController(this);
+            this.carnivalController.setPlaceController(this);
             this.carnivalController.setPlayer(this.player);
 
             this.generateShop(this.player);
@@ -91,7 +91,7 @@ public class PlaceController {
             FXMLLoader endingLoader = new FXMLLoader(getClass().getResource("../view/place/ending.fxml"));
             this.endingPane = endingLoader.load();
             EndingController endingController = endingLoader.getController();
-            endingController.setGameController(this);
+            endingController.setPlaceController(this);
             endingController.setPlayer(this.player);
 
             this.changePlace();
@@ -204,14 +204,14 @@ public class PlaceController {
         this.keyShopPane = keyShopLoader.load();
         this.keyShopController = keyShopLoader.getController();
         this.keyShopController.setKeyShop((Shop) player.getPlace().getExitList().get(3).getPlace());
-        this.keyShopController.setGameController(this);
+        this.keyShopController.setPlaceController(this);
         this.keyShopController.setPlayer(player);
 
         FXMLLoader foodShopLoader = new FXMLLoader(getClass().getResource("../view/place/shop/foodShop.fxml"));
         this.foodShopPane = foodShopLoader.load();
         this.foodShopController = foodShopLoader.getController();
         this.foodShopController.setFoodShop((Shop) player.getPlace().getExitList().get(4).getPlace());
-        this.foodShopController.setGameController(this);
+        this.foodShopController.setPlaceController(this);
         this.foodShopController.setPlayer(player);
     }
 
@@ -222,21 +222,21 @@ public class PlaceController {
         this.copperHubPane = copperHubLoader.load();
         this.copperHubController = copperHubLoader.getController();
         this.copperHubController.setCopperHubExitList(copperHubExitList);
-        this.copperHubController.setGameController(this);
+        this.copperHubController.setPlaceController(this);
         this.copperHubController.setPlayer(player);
 
         FXMLLoader findNumberLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/findNumber.fxml"));
         this.findNumberPane = findNumberLoader.load();
         this.findNumberController = findNumberLoader.getController();
         this.findNumberController.setFindNumber((FindNumber) copperHubExitList.get(1).getPlace());
-        this.findNumberController.setGameController(this);
+        this.findNumberController.setPlaceController(this);
         this.findNumberController.setPlayer(player);
 
         FXMLLoader qteLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/qte.fxml"));
         this.qtePane = qteLoader.load();
         this.qteController = qteLoader.getController();
         this.qteController.setQte((QTE) copperHubExitList.get(2).getPlace());
-        this.qteController.setGameController(this);
+        this.qteController.setPlaceController(this);
         this.qteController.setPlayer(player);
 
         FXMLLoader rockPaperScissorsLoader = new FXMLLoader(getClass().getResource("../view/place/game/copper/rockPaperScissors.fxml"));
@@ -244,7 +244,7 @@ public class PlaceController {
         this.rockPaperScissorsController = rockPaperScissorsLoader.getController();
         this.rockPaperScissorsController.setPlayer(player);
         this.rockPaperScissorsController.setRockPaperScissors((RockPaperScissors) copperHubExitList.get(3).getPlace());
-        this.rockPaperScissorsController.setGameController(this);
+        this.rockPaperScissorsController.setPlaceController(this);
     }
 
     private void generateGoldPlaces(Player player) throws IOException {
@@ -254,27 +254,27 @@ public class PlaceController {
         this.goldHubPane = goldHubLoader.load();
         this.goldHubController = goldHubLoader.getController();
         this.goldHubController.setGoldHubExitList(goldHubExitList);
-        this.goldHubController.setGameController(this);
+        this.goldHubController.setPlaceController(this);
         this.goldHubController.setPlayer(player);
 
         FXMLLoader hanoiTowerLoader = new FXMLLoader(getClass().getResource("../view/place/game/gold/hanoiTower.fxml"));
         this.hanoiTowerPane = hanoiTowerLoader.load();
         this.hanoiTowerController = hanoiTowerLoader.getController();
         this.hanoiTowerController.setHanoiTower((HanoiTower) goldHubExitList.get(1).getPlace());
-        this.hanoiTowerController.setGameController(this);
+        this.hanoiTowerController.setPlaceController(this);
         this.hanoiTowerController.setPlayer(player);
 
         FXMLLoader riddleLoader = new FXMLLoader(getClass().getResource("../view/place/game/gold/riddle.fxml"));
         this.riddlePane = riddleLoader.load();
         this.riddleController = riddleLoader.getController();
         this.riddleController.setRiddle((Riddle) goldHubExitList.get(2).getPlace());
-        this.riddleController.setGameController(this);
+        this.riddleController.setPlaceController(this);
         this.riddleController.setPlayer(player);
 
         FXMLLoader ticTacToeLoader = new FXMLLoader(getClass().getResource("../view/place/game/gold/ticTacToe.fxml"));
         this.ticTacToePane = ticTacToeLoader.load();
         this.ticTacToeController = ticTacToeLoader.getController();
-        this.ticTacToeController.setGameController(this);
+        this.ticTacToeController.setPlaceController(this);
         this.ticTacToeController.setPlayer(player);
     }
 
@@ -285,27 +285,27 @@ public class PlaceController {
         this.platinumHubPane = platinumHubLoader.load();
         this.platinumHubController = platinumHubLoader.getController();
         this.platinumHubController.setPlatinumHubExitList(platinumHubExitList);
-        this.platinumHubController.setGameController(this);
+        this.platinumHubController.setPlaceController(this);
         this.platinumHubController.setPlayer(player);
 
         FXMLLoader hangmanLoader = new FXMLLoader(getClass().getResource("../view/place/game/platinum/hangman.fxml"));
         this.hangmanHubPane = hangmanLoader.load();
         this.hangmanController = hangmanLoader.getController();
         this.hangmanController.setHangman((Hangman) platinumHubExitList.get(1).getPlace());
-        this.hangmanController.setGameController(this);
+        this.hangmanController.setPlaceController(this);
         this.hangmanController.setPlayer(player);
 
         FXMLLoader karaokeLoader = new FXMLLoader(getClass().getResource("../view/place/game/platinum/karaoke.fxml"));
         this.karaokeHubPane = karaokeLoader.load();
         this.karaokeController = karaokeLoader.getController();
-        this.karaokeController.setGameController(this);
+        this.karaokeController.setPlaceController(this);
         this.karaokeController.setPlayer(player);
 
         FXMLLoader questionsLoader = new FXMLLoader(getClass().getResource("../view/place/game/platinum/questions.fxml"));
         this.questionsHubPane = questionsLoader.load();
         this.questionsController = questionsLoader.getController();
         this.questionsController.setQuestions((Questions) platinumHubExitList.get(3).getPlace());
-        this.questionsController.setGameController(this);
+        this.questionsController.setPlaceController(this);
         this.questionsController.setPlayer(player);
     }
 }

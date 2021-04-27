@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,6 +21,7 @@ import javafx.scene.text.FontWeight;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.game.platinum.Hangman;
+import view.CustomAlert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -131,7 +133,7 @@ public class HangmanController implements Initializable {
         );
     }
 
-    public void setGameController(PlaceController placeController) {
+    public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
@@ -167,7 +169,16 @@ public class HangmanController implements Initializable {
     }
 
     private void replay(boolean win) {
-        if (UtilsController.getAlertFinish(win).showAndWait().orElse(null) == ButtonType.OK)
+        CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                this.player.getPlace().getName() + " - Finished",
+                win ? "You win!" : "You lose!",
+                "Do you want to replay?",
+                "view/design/image/hangman.gif",
+                "replay",
+                "return to platinum hub"
+        );
+
+        if (alert.showAndWait().orElse(null) == alert.getButtonTypes().get(0))
             this.reset();
         else {
             Interpreter.interpretCommand(this.player, "go platinum");

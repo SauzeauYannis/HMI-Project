@@ -26,7 +26,7 @@ public class CustomAlert extends Alert {
     }
 
     public CustomAlert(AlertType alertType, String title, String headerText, String contentText, String iconPath, String okButtonText, String cancelButtonText) {
-        this(alertType, title, contentText, headerText, iconPath);
+        this(alertType, title, headerText, contentText, iconPath);
 
         this.getButtonTypes().clear();
         this.getButtonTypes().add(new ButtonType(okButtonText, ButtonBar.ButtonData.OK_DONE));
