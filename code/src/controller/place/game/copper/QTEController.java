@@ -206,6 +206,7 @@ public class QTEController implements Initializable {
      * Ask to replay the game.
      *
      * @param win true if the player won the game.
+     * @see #punchTextFieldKeyPressed(KeyEvent)
      */
     private void replay(boolean win) {
         CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,

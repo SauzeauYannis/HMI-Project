@@ -22,7 +22,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * The Copper hub controller.
+ */
 public class CopperHubController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private PlayerInfoController playerInfoController;
     private PlaceController placeController;
@@ -43,6 +48,31 @@ public class CopperHubController implements Initializable {
     @FXML
     private ImageView padlockRockPaperScissorsIcon;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a copper key to unlock a game or right click on the padlock!");
+        Tooltip.install(this.padlockFindNumberIcon, tooltipPadlock);
+        Tooltip.install(this.padlockQteIcon, tooltipPadlock);
+        Tooltip.install(this.padlockRockPaperScissorsIcon, tooltipPadlock);
+
+        this.padlockFindNumberIcon.setCursor(Cursor.CROSSHAIR);
+        this.padlockQteIcon.setCursor(Cursor.CROSSHAIR);
+        this.padlockRockPaperScissorsIcon.setCursor(Cursor.CROSSHAIR);
+    }
+
+    /**
+     * Icon mouse clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void iconMouseClicked(MouseEvent mouseEvent) {
         Place oldPlace = this.player.getPlace();
@@ -92,12 +122,20 @@ public class CopperHubController implements Initializable {
         }
     }
 
+    /**
+     * Go carnival.
+     */
     @FXML
     public void goCarnival() {
         Interpreter.interpretCommand(this.player, "go carnival");
         this.placeController.changePlace();
     }
 
+    /**
+     * Padlock clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     private void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
@@ -110,18 +148,13 @@ public class CopperHubController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a copper key to unlock a game or right click on the padlock!");
-        Tooltip.install(this.padlockFindNumberIcon, tooltipPadlock);
-        Tooltip.install(this.padlockQteIcon, tooltipPadlock);
-        Tooltip.install(this.padlockRockPaperScissorsIcon, tooltipPadlock);
+    /*----------------------- Setters --------------------------------*/
 
-        this.padlockFindNumberIcon.setCursor(Cursor.CROSSHAIR);
-        this.padlockQteIcon.setCursor(Cursor.CROSSHAIR);
-        this.padlockRockPaperScissorsIcon.setCursor(Cursor.CROSSHAIR);
-    }
-
+    /**
+     * Sets copper hub exit list.
+     *
+     * @param copperHubExitList the copper hub exit list
+     */
     public void setCopperHubExitList(List<Exit> copperHubExitList) {
         for (Exit exit : copperHubExitList)
             switch (exit.getPlace().getName()) {
@@ -136,14 +169,29 @@ public class CopperHubController implements Initializable {
             }
     }
 
+    /**
+     * Sets player info controller.
+     *
+     * @param playerInfoController the player info controller
+     */
     public void setPlayerInfoController(PlayerInfoController playerInfoController) {
         this.playerInfoController = playerInfoController;
     }
 
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }

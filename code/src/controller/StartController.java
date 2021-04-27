@@ -14,7 +14,12 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The Start controller.
+ */
 public class StartController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private SceneController sceneController;
 
@@ -24,35 +29,14 @@ public class StartController implements Initializable {
     @FXML
     private Button quitButton;
 
-    public void playMouseClicked() {
-        this.sceneController.setCurrentPane("main");
-    }
+    /*--------------------- Public methods -------------------------*/
 
-    @FXML
-    void playMouseEntered() {
-        this.buttonFocusOn(this.playButton);
-    }
-
-    @FXML
-    void playMouseExited() {
-        this.buttonFocusOff(this.playButton);
-    }
-
-    @FXML
-    void quitMouseClicked() {
-        Platform.exit();
-    }
-
-    @FXML
-    void quitMouseEntered() {
-        this.buttonFocusOn(this.quitButton);
-    }
-
-    @FXML
-    void quitMouseExited() {
-        this.buttonFocusOff(this.quitButton);
-    }
-
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.playButton.setCursor(Cursor.HAND);
@@ -62,20 +46,92 @@ public class StartController implements Initializable {
         this.quitButton.setBackground(this.setFocusBackground(false));
     }
 
+    /**
+     * Play mouse clicked.
+     */
+    public void playMouseClicked() {
+        this.sceneController.setCurrentPane("main");
+    }
+
+    /**
+     * Play mouse entered.
+     */
+    @FXML
+    public void playMouseEntered() {
+        this.buttonFocusOn(this.playButton);
+    }
+
+    /**
+     * Play mouse exited.
+     */
+    @FXML
+    public void playMouseExited() {
+        this.buttonFocusOff(this.playButton);
+    }
+
+    /**
+     * Quit mouse clicked.
+     */
+    @FXML
+    public void quitMouseClicked() {
+        Platform.exit();
+    }
+
+    /**
+     * Quit mouse entered.
+     */
+    @FXML
+    public void quitMouseEntered() {
+        this.buttonFocusOn(this.quitButton);
+    }
+
+    /**
+     * Quit mouse exited.
+     */
+    @FXML
+    public void quitMouseExited() {
+        this.buttonFocusOff(this.quitButton);
+    }
+
+    /**
+     * Sets scene controller.
+     *
+     * @param sceneController the scene controller
+     */
     public void setSceneController(SceneController sceneController) {
         this.sceneController = sceneController;
     }
 
+    /**
+     * Button focus on.
+     *
+     * @param button the button
+     */
     private void buttonFocusOn(Button button) {
-        UtilsController.rescaleNode(button, 1.1);
+        button.setScaleX(1.1);
+        button.setScaleY(1.1);
         button.setBackground(this.setFocusBackground(true));
     }
 
+    /**
+     * Button focus off.
+     *
+     * @param button the button
+     */
     private void buttonFocusOff(Button button) {
-        UtilsController.defaultScaleNode(button);
+        button.setScaleX(1);
+        button.setScaleY(1);
         button.setBackground(this.setFocusBackground(false));
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets focus background.
+     *
+     * @param isFocus the is focus
+     * @return the focus background
+     */
     private Background setFocusBackground(boolean isFocus) {
         Color color;
 

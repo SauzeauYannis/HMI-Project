@@ -1,13 +1,11 @@
 package controller.place.game.platinum;
 
 import controller.PlaceController;
-import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -26,7 +24,12 @@ import view.CustomAlert;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The Hangman game controller.
+ */
 public class HangmanController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private Hangman hangman;
     private PlaceController placeController;
@@ -62,6 +65,22 @@ public class HangmanController implements Initializable {
     @FXML
     private VBox notInWordBox;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.letterTextField.setCursor(Cursor.TEXT);
+    }
+
+    /**
+     * Check icon clicked.
+     */
     @FXML
     public void checkIconClicked() {
         String guess = this.letterTextField.getText();
@@ -92,6 +111,11 @@ public class HangmanController implements Initializable {
         }
     }
 
+    /**
+     * Text field key pressed.
+     *
+     * @param keyEvent the key event
+     */
     @FXML
     public void textFieldKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER))
@@ -100,11 +124,43 @@ public class HangmanController implements Initializable {
             this.letterTextField.clear();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.letterTextField.setCursor(Cursor.TEXT);
+    /**
+     * Reset.
+     */
+    public void reset() {
+        this.notInWordLabel.setVisible(false);
+
+        this.wordBox.getChildren().clear();
+        this.notInWordBox.getChildren().clear();
+        this.letterTextField.clear();
+
+        this.hangman.start();
+
+        for (int i = 0; i < this.hangman.getWordToFind().get().length(); i++) {
+            Label letter = new Label();
+            letter.setFont(Font.font("Carlito", FontWeight.BOLD, 20));
+
+            int finalI = i;
+            letter.textProperty().bind(
+                    Bindings.createStringBinding(
+                            () -> String.valueOf(this.hangman.getWordToFind().get().charAt(finalI)),
+                            this.hangman.getWordToFind()
+                    )
+            );
+
+            this.wordBox.getChildren().add(letter);
+        }
+
+        this.hangman.startRound();
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets hangman model.
+     *
+     * @param hangman the hangman
+     */
     public void setHangman(Hangman hangman) {
         this.hangman = hangman;
 
@@ -133,41 +189,32 @@ public class HangmanController implements Initializable {
         );
     }
 
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void reset() {
-        this.notInWordLabel.setVisible(false);
+    /*----------------------- Private methods --------------------------------*/
 
-        this.wordBox.getChildren().clear();
-        this.notInWordBox.getChildren().clear();
-        this.letterTextField.clear();
-
-        this.hangman.start();
-
-        for (int i = 0; i < this.hangman.getWordToFind().get().length(); i++) {
-            Label letter = new Label();
-            letter.setFont(Font.font("Carlito", FontWeight.BOLD, 20));
-
-            int finalI = i;
-            letter.textProperty().bind(
-                    Bindings.createStringBinding(
-                            () -> String.valueOf(this.hangman.getWordToFind().get().charAt(finalI)),
-                            this.hangman.getWordToFind()
-                    )
-            );
-
-            this.wordBox.getChildren().add(letter);
-        }
-
-        this.hangman.startRound();
-    }
-
+    /**
+     * Ask to replay the game.
+     *
+     * @param win true if the player won the game.
+     * @see #checkIconClicked()
+     */
     private void replay(boolean win) {
         CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
                 this.player.getPlace().getName() + " - Finished",

@@ -1,7 +1,6 @@
 package controller.place.game.platinum;
 
 import controller.PlaceController;
-import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -9,8 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import model.character.Player;
@@ -21,7 +20,12 @@ import view.CustomAlert;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The Questions game controller.
+ */
 public class QuestionsController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private final Service<Void> waitService = new Service<Void>() {
         @Override
@@ -77,84 +81,44 @@ public class QuestionsController implements Initializable {
     @FXML
     private Polygon validatePolygon;
 
-    @FXML
-    public void answer1MouseEntered() {
-        UtilsController.rescaleNode(this.answer1Polygon, 1.05);
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.answer1Polygon.setCursor(Cursor.HAND);
+        this.answer2Polygon.setCursor(Cursor.HAND);
+        this.answer3Polygon.setCursor(Cursor.HAND);
+        this.answer4Polygon.setCursor(Cursor.HAND);
+        this.validatePolygon.setCursor(Cursor.HAND);
     }
 
+    /**
+     * Answer mouse clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
-    public void answer1MouseExited() {
-        UtilsController.defaultScaleNode(this.answer1Polygon);
-    }
-
-    @FXML
-    public void answer1MouseClicked() {
+    public void answerMouseClicked(MouseEvent mouseEvent) {
         this.resetCurrentPolygonColor();
-        this.answer1Polygon.setFill(Color.web("#fb9a11"));
-        this.currentPolygon = answer1Polygon;
+        if (mouseEvent.getTarget().equals(this.answer1Label) || mouseEvent.getTarget().equals(this.answer1Polygon))
+            this.selectPolygon(this.answer1Polygon);
+        else if (mouseEvent.getTarget().equals(this.answer2Label) || mouseEvent.getTarget().equals(this.answer2Polygon))
+            this.selectPolygon(this.answer2Polygon);
+        else if (mouseEvent.getTarget().equals(this.answer3Label) || mouseEvent.getTarget().equals(this.answer3Polygon))
+            this.selectPolygon(this.answer3Polygon);
+        else
+            this.selectPolygon(this.answer4Polygon);
     }
 
-    @FXML
-    public void answer2MouseEntered() {
-        UtilsController.rescaleNode(this.answer2Polygon, 1.05);
-    }
-
-    @FXML
-    public void answer2MouseExited() {
-        UtilsController.defaultScaleNode(this.answer2Polygon);
-    }
-
-    @FXML
-    public void answer2MouseClicked() {
-        this.resetCurrentPolygonColor();
-        this.answer2Polygon.setFill(Color.web("#fb9a11"));
-        this.currentPolygon = answer2Polygon;
-    }
-
-    @FXML
-    public void answer3MouseEntered() {
-        UtilsController.rescaleNode(this.answer3Polygon, 1.05);
-    }
-
-    @FXML
-    public void answer3MouseExited() {
-        UtilsController.defaultScaleNode(this.answer3Polygon);
-    }
-
-    @FXML
-    public void answer3MouseClicked() {
-        this.resetCurrentPolygonColor();
-        this.answer3Polygon.setFill(Color.web("#fb9a11"));
-        this.currentPolygon = answer3Polygon;
-    }
-
-    @FXML
-    public void answer4MouseEntered() {
-        UtilsController.rescaleNode(this.answer4Polygon, 1.05);
-    }
-
-    @FXML
-    public void answer4MouseExited() {
-        UtilsController.defaultScaleNode(this.answer4Polygon);
-    }
-
-    @FXML
-    public void answer4MouseClicked() {
-        this.resetCurrentPolygonColor();
-        this.answer4Polygon.setFill(Color.web("#fb9a11"));
-        this.currentPolygon = answer4Polygon;
-    }
-
-    @FXML
-    public void validateMouseEntered() {
-        UtilsController.rescaleNode(this.validatePolygon, 1.05);
-    }
-
-    @FXML
-    public void validateMouseExited() {
-        UtilsController.defaultScaleNode(this.validatePolygon);
-    }
-
+    /**
+     * Validate mouse clicked.
+     */
     @FXML
     public void validateMouseClicked() {
         if (this.currentPolygon != null) {
@@ -185,15 +149,76 @@ public class QuestionsController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.answer1Polygon.setCursor(Cursor.HAND);
-        this.answer2Polygon.setCursor(Cursor.HAND);
-        this.answer3Polygon.setCursor(Cursor.HAND);
-        this.answer4Polygon.setCursor(Cursor.HAND);
-        this.validatePolygon.setCursor(Cursor.HAND);
+    /**
+     * Polygon mouse entered.
+     *
+     * @param mouseEvent the mouse event
+     */
+    @FXML
+    public void polygonMouseEntered(MouseEvent mouseEvent) {
+        if (mouseEvent.getTarget().equals(this.answer1Label) || mouseEvent.getTarget().equals(this.answer1Polygon)) {
+            this.answer1Polygon.setScaleX(1.05);
+            this.answer1Polygon.setScaleY(1.05);
+        } else if (mouseEvent.getTarget().equals(this.answer2Label) || mouseEvent.getTarget().equals(this.answer2Polygon)) {
+            this.answer2Polygon.setScaleX(1.05);
+            this.answer2Polygon.setScaleY(1.05);
+        } else if (mouseEvent.getTarget().equals(this.answer3Label) || mouseEvent.getTarget().equals(this.answer3Polygon)) {
+            this.answer3Polygon.setScaleX(1.05);
+            this.answer3Polygon.setScaleY(1.05);
+        } else if (mouseEvent.getTarget().equals(this.answer4Label) || mouseEvent.getTarget().equals(this.answer4Polygon)) {
+            this.answer4Polygon.setScaleX(1.05);
+            this.answer4Polygon.setScaleY(1.05);
+        } else {
+            this.validatePolygon.setScaleX(1.05);
+            this.validatePolygon.setScaleY(1.05);
+        }
     }
 
+    /**
+     * Polygon mouse exited.
+     *
+     * @param mouseEvent the mouse event
+     */
+    @FXML
+    public void polygonMouseExited(MouseEvent mouseEvent) {
+        if (mouseEvent.getTarget().equals(this.answer1Label) || mouseEvent.getTarget().equals(this.answer1Polygon)) {
+            this.answer1Polygon.setScaleX(1);
+            this.answer1Polygon.setScaleY(1);
+        } else if (mouseEvent.getTarget().equals(this.answer2Label) || mouseEvent.getTarget().equals(this.answer2Polygon)) {
+            this.answer2Polygon.setScaleX(1);
+            this.answer2Polygon.setScaleY(1);
+        } else if (mouseEvent.getTarget().equals(this.answer3Label) || mouseEvent.getTarget().equals(this.answer3Polygon)) {
+            this.answer3Polygon.setScaleX(1);
+            this.answer3Polygon.setScaleY(1);
+        } else if (mouseEvent.getTarget().equals(this.answer4Label) || mouseEvent.getTarget().equals(this.answer4Polygon)) {
+            this.answer4Polygon.setScaleX(1);
+            this.answer4Polygon.setScaleY(1);
+        } else {
+            this.validatePolygon.setScaleX(1);
+            this.validatePolygon.setScaleY(1);
+        }
+    }
+
+    /**
+     * Reset.
+     */
+    public void reset() {
+        this.resetInterface();
+
+        this.questions.start();
+
+        this.questionLabel.setText("Choose the difficulty");
+        this.answer1Label.setText(Questions.EASY);
+        this.answer2Label.setText(Questions.DIFFICULT);
+    }
+
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets questions game.
+     *
+     * @param questions the questions
+     */
     public void setQuestions(Questions questions) {
         this.questions = questions;
 
@@ -212,24 +237,32 @@ public class QuestionsController implements Initializable {
         );
     }
 
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void reset() {
-        this.resetInterface();
+    /*----------------------- Private methods --------------------------------*/
 
-        this.questions.start();
-
-        this.questionLabel.setText("Choose the difficulty");
-        this.answer1Label.setText(Questions.EASY);
-        this.answer2Label.setText(Questions.DIFFICULT);
-    }
-
+    /**
+     * Check answer.
+     *
+     * @param answer the number of the answer
+     * @see #validateMouseClicked()
+     */
     private void checkAnswer(int answer) {
         if (this.questions.isCorrectAnswer(answer)) {
             this.winCurrentPolygonColor();
@@ -243,6 +276,11 @@ public class QuestionsController implements Initializable {
         }
     }
 
+    /**
+     * Choose easy level.
+     *
+     * @see #validateMouseClicked()
+     */
     private void chooseEasy() {
         this.waitService.setOnSucceeded(event -> {
             this.questions.chooseEasyQuestion();
@@ -252,6 +290,11 @@ public class QuestionsController implements Initializable {
         });
     }
 
+    /**
+     * Choose difficult level.
+     *
+     * @see #validateMouseClicked()
+     */
     private void chooseDifficult() {
         this.waitService.setOnSucceeded(event -> {
             this.questions.chooseDifficultQuestion();
@@ -261,6 +304,9 @@ public class QuestionsController implements Initializable {
         });
     }
 
+    /**
+     * Generate next question.
+     */
     private void generateNextQuestion() {
         this.resetInterface();
         this.questions.nextQuestion();
@@ -274,6 +320,11 @@ public class QuestionsController implements Initializable {
         this.questionLabel.setText(question[4]);
     }
 
+    /**
+     * Next round.
+     *
+     * @see #validateMouseClicked()
+     */
     private void nextRound() {
         this.waitService.setOnSucceeded(event -> {
             this.generateNextQuestion();
@@ -282,6 +333,11 @@ public class QuestionsController implements Initializable {
         });
     }
 
+    /**
+     * Ask for stop.
+     *
+     * @see #checkAnswer(int)
+     */
     private void askForStop() {
         this.waitService.setOnSucceeded(event -> {
             this.resetInterface();
@@ -296,6 +352,12 @@ public class QuestionsController implements Initializable {
         });
     }
 
+    /**
+     * Win game.
+     *
+     * @see #validateMouseClicked()
+     * @see #checkAnswer(int)
+     */
     private void winGame() {
         this.waitService.setOnSucceeded(event -> {
             this.questions.winJackpot(this.player);
@@ -305,6 +367,11 @@ public class QuestionsController implements Initializable {
         });
     }
 
+    /**
+     * Lose game.
+     *
+     * @see #checkAnswer(int)
+     */
     private void loseGame() {
         this.waitService.setOnSucceeded(event -> {
             this.questions.lose(this.player);
@@ -314,6 +381,13 @@ public class QuestionsController implements Initializable {
         });
     }
 
+    /**
+     * Reset interface.
+     *
+     * @see #generateNextQuestion()
+     * @see #reset()
+     * @see #askForStop()
+     */
     private void resetInterface() {
         this.resetCurrentPolygonColor();
         this.questionLabel.setText("");
@@ -323,19 +397,54 @@ public class QuestionsController implements Initializable {
         this.answer4Label.setText("");
     }
 
+    /**
+     * Selected current polygon color.
+     *
+     * @param polygon the selected polygon
+     * @see #answerMouseClicked(MouseEvent)
+     */
+    private void selectPolygon(Polygon polygon) {
+        polygon.setFill(Color.web("#fb9a11"));
+        this.currentPolygon = polygon;
+    }
+
+    /**
+     * Reset current polygon color.
+     *
+     * @see #answerMouseClicked(MouseEvent)
+     * @see #resetInterface()
+     */
     private void resetCurrentPolygonColor() {
         if (this.currentPolygon != null)
             this.currentPolygon.setFill(Color.web("#371a5b"));
     }
 
+    /**
+     * Win current polygon color.
+     *
+     * @see #validateMouseClicked()
+     * @see #checkAnswer(int)
+     */
     private void winCurrentPolygonColor() {
         this.currentPolygon.setFill(Color.web("#36c13d"));
     }
 
+    /**
+     * Lose current polygon color.
+     *
+     * @see #checkAnswer(int)
+     */
     private void loseCurrentPolygonColor() {
         this.currentPolygon.setFill(Color.web("#ff3232"));
     }
 
+    /**
+     * Ask to replay the game.
+     *
+     * @param win true if the player won the game.
+     * @see #winGame()
+     * @see #loseGame()
+     */
     private void replay(boolean win) {
         CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
                 this.player.getPlace().getName() + " - Finished",

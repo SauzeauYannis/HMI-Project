@@ -11,7 +11,12 @@ import model.command.Interpreter;
 import model.item.Item;
 import model.place.Shop;
 
+/**
+ * The type Key shop controller.
+ */
 public class KeyShopController {
+
+    /*--------------------- Private members -------------------------*/
 
     private PlayerInfoController playerInfoController;
     private PlaceController placeController;
@@ -32,6 +37,13 @@ public class KeyShopController {
     @FXML
     private Label platinumKeyPrice;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Buy key.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void buyKey(MouseEvent mouseEvent) {
         int oldInventorySize = this.player.getItems().size();
@@ -47,12 +59,22 @@ public class KeyShopController {
             this.playerInfoController.addItem(((ImageView) mouseEvent.getTarget()).getId());
     }
 
+    /**
+     * Go carnival.
+     */
     @FXML
     public void goCarnival() {
         Interpreter.interpretCommand(this.player, "go carnival");
         this.placeController.changePlace();
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets key shop.
+     *
+     * @param keyShop the key shop
+     */
     public void setKeyShop(Shop keyShop) {
         for (Item item : keyShop.getItemList())
             switch (item.getName()) {
@@ -67,14 +89,29 @@ public class KeyShopController {
             }
     }
 
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player info controller.
+     *
+     * @param playerInfoController the player info controller
+     */
     public void setPlayerInfoController(PlayerInfoController playerInfoController) {
         this.playerInfoController = playerInfoController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }

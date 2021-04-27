@@ -25,7 +25,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * The Main controller.
+ */
 public class MainController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private final Image volumeOn = new Image("view/design/image/volume_on.png");
     private final Image volumeOff = new Image("view/design/image/volume_off.png");
@@ -33,12 +38,12 @@ public class MainController implements Initializable {
             new Media(Objects.requireNonNull(getClass().getResource("../view/design/sound/theme.mp3")).toExternalForm())
     );
 
+    private boolean isVolumeOn;
+    private Animation animation;
+
     private PlaceController placeController;
     private SceneController sceneController;
     private Player player;
-
-    private boolean isVolumeOn;
-    private Animation animation;
 
     @FXML
     private MapController mapController;
@@ -61,42 +66,14 @@ public class MainController implements Initializable {
     @FXML
     private Label labelDialog;
 
-    @FXML
-    private void scrollAnimation() {
-        this.animation.play();
-    }
+    /*--------------------- Public methods -------------------------*/
 
-    @FXML
-    private void lookMouseClicked() {
-        Interpreter.interpretCommand(this.player, "look");
-    }
-
-    @FXML
-    private void helpMouseClicked() {
-        this.sceneController.setCurrentPane("help");
-    }
-
-    @FXML
-    private void quitMouseClicked() {
-        CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
-                "Quit the game",
-                "Are you sure you want to exit the game?",
-                "Your progress will be lost!",
-                "view/design/image/quit.png"
-        );
-
-        if (alert.showAndWait().orElse(null) == ButtonType.OK)
-            Interpreter.interpretCommand(this.player, "quit");
-        else
-            alert.close();
-    }
-
-    @FXML
-    private void soundMouseClicked() {
-        this.isVolumeOn = !this.isVolumeOn;
-        changeSoundSetting();
-    }
-
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.isVolumeOn = true;
@@ -130,10 +107,73 @@ public class MainController implements Initializable {
         this.scrollPaneDialog.vvalueProperty().setValue(1);
     }
 
+    /**
+     * Scroll animation.
+     */
+    @FXML
+    public void scrollAnimation() {
+        this.animation.play();
+    }
+
+    /**
+     * Look mouse clicked.
+     */
+    @FXML
+    public void lookMouseClicked() {
+        Interpreter.interpretCommand(this.player, "look");
+    }
+
+    /**
+     * Help mouse clicked.
+     */
+    @FXML
+    public void helpMouseClicked() {
+        this.sceneController.setCurrentPane("help");
+    }
+
+    /**
+     * Quit mouse clicked.
+     */
+    @FXML
+    public void quitMouseClicked() {
+        CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
+                "Quit the game",
+                "Are you sure you want to exit the game?",
+                "Your progress will be lost!",
+                "view/design/image/quit.png"
+        );
+
+        if (alert.showAndWait().orElse(null) == ButtonType.OK)
+            Interpreter.interpretCommand(this.player, "quit");
+        else
+            alert.close();
+    }
+
+    /**
+     * Sound mouse clicked.
+     */
+    @FXML
+    public void soundMouseClicked() {
+        this.isVolumeOn = !this.isVolumeOn;
+        changeSoundSetting();
+    }
+
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets place list.
+     *
+     * @param placeList the place list
+     */
     public void setPlaceList(List<Place> placeList) {
         this.mapController.setPlaceList(placeList);
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
 
@@ -158,14 +198,29 @@ public class MainController implements Initializable {
         this.player.getPlace().getNpc().talk("Welcome to Gypsy's Carnival!");
     }
 
+    /**
+     * Sets scene.
+     *
+     * @param scene the scene
+     */
     public void setScene(Scene scene) {
         this.placeController.setScene(scene);
     }
 
+    /**
+     * Sets scene controller.
+     *
+     * @param sceneController the scene controller
+     */
     public void setSceneController(SceneController sceneController) {
         this.sceneController = sceneController;
     }
 
+    /*----------------------- Private methods --------------------------------*/
+
+    /**
+     * Change sound setting.
+     */
     private void changeSoundSetting() {
         if (this.isVolumeOn) {
             this.soundIcon.setTooltipText("Click to set the volume off");

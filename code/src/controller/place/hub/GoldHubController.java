@@ -22,7 +22,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * The type Gold hub controller.
+ */
 public class GoldHubController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private PlayerInfoController playerInfoController;
     private PlaceController placeController;
@@ -43,6 +48,31 @@ public class GoldHubController implements Initializable {
     @FXML
     private ImageView padlockRiddleIcon;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a gold key to unlock a game or right click on the padlock!");
+        Tooltip.install(this.padlockHanoiTowerIcon, tooltipPadlock);
+        Tooltip.install(this.padlockRiddleIcon, tooltipPadlock);
+        Tooltip.install(this.padlockTicTacToeIcon, tooltipPadlock);
+
+        this.padlockHanoiTowerIcon.setCursor(Cursor.CROSSHAIR);
+        this.padlockRiddleIcon.setCursor(Cursor.CROSSHAIR);
+        this.padlockTicTacToeIcon.setCursor(Cursor.CROSSHAIR);
+    }
+
+    /**
+     * Icon mouse clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void iconMouseClicked(MouseEvent mouseEvent) {
         Place oldPlace = this.player.getPlace();
@@ -92,12 +122,20 @@ public class GoldHubController implements Initializable {
         }
     }
 
+    /**
+     * Go carnival.
+     */
     @FXML
     public void goCarnival() {
         Interpreter.interpretCommand(this.player, "go carnival");
         this.placeController.changePlace();
     }
 
+    /**
+     * Padlock clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void padlockClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
@@ -110,18 +148,13 @@ public class GoldHubController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Tooltip tooltipPadlock = new Tooltip("This game is lock!\nUse a gold key to unlock a game or right click on the padlock!");
-        Tooltip.install(this.padlockHanoiTowerIcon, tooltipPadlock);
-        Tooltip.install(this.padlockRiddleIcon, tooltipPadlock);
-        Tooltip.install(this.padlockTicTacToeIcon, tooltipPadlock);
+    /*----------------------- Setters --------------------------------*/
 
-        this.padlockHanoiTowerIcon.setCursor(Cursor.CROSSHAIR);
-        this.padlockRiddleIcon.setCursor(Cursor.CROSSHAIR);
-        this.padlockTicTacToeIcon.setCursor(Cursor.CROSSHAIR);
-    }
-
+    /**
+     * Sets gold hub exit list.
+     *
+     * @param goldHubExitList the gold hub exit list
+     */
     public void setGoldHubExitList(List<Exit> goldHubExitList) {
         for (Exit exit : goldHubExitList)
             switch (exit.getPlace().getName()) {
@@ -136,14 +169,29 @@ public class GoldHubController implements Initializable {
             }
     }
 
+    /**
+     * Sets player info controller.
+     *
+     * @param playerInfoController the player info controller
+     */
     public void setPlayerInfoController(PlayerInfoController playerInfoController) {
         this.playerInfoController = playerInfoController;
     }
 
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }

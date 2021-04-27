@@ -12,7 +12,12 @@ import model.item.Item;
 import model.place.Shop;
 import view.ClickableImage;
 
+/**
+ * The type Food shop controller.
+ */
 public class FoodShopController {
+
+    /*--------------------- Private members -------------------------*/
 
     private PlayerInfoController playerInfoController;
     private PlaceController placeController;
@@ -33,6 +38,13 @@ public class FoodShopController {
     @FXML
     private Label chocolateEclairPrice;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Buy food.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void buyFood(MouseEvent mouseEvent) {
         int oldInventorySize = this.player.getItems().size();
@@ -48,12 +60,22 @@ public class FoodShopController {
             this.playerInfoController.addItem(((ImageView) mouseEvent.getTarget()).getId());
     }
 
+    /**
+     * Go carnival.
+     */
     @FXML
     public void goCarnival() {
         Interpreter.interpretCommand(this.player, "go carnival");
         this.placeController.changePlace();
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets food shop.
+     *
+     * @param foodShop the food shop
+     */
     public void setFoodShop(Shop foodShop) {
         for (Item item : foodShop.getItemList())
             switch (item.getName()) {
@@ -69,14 +91,29 @@ public class FoodShopController {
             }
     }
 
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player info controller.
+     *
+     * @param playerInfoController the player info controller
+     */
     public void setPlayerInfoController(PlayerInfoController playerInfoController) {
         this.playerInfoController = playerInfoController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }

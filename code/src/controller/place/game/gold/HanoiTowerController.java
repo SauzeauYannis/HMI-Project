@@ -1,15 +1,11 @@
 package controller.place.game.gold;
 
 import controller.PlaceController;
-import controller.UtilsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -23,7 +19,12 @@ import view.CustomAlert;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The Hanoi tower game controller.
+ */
 public class HanoiTowerController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private String srcPillar;
     private boolean diskSelected;
@@ -53,6 +54,26 @@ public class HanoiTowerController implements Initializable {
     @FXML
     private VBox cPillarBox;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.disk1.setCursor(Cursor.HAND);
+        this.disk2.setCursor(Cursor.HAND);
+        this.disk3.setCursor(Cursor.HAND);
+    }
+
+    /**
+     * Disk mouse clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void diskMouseClicked(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
@@ -71,6 +92,11 @@ public class HanoiTowerController implements Initializable {
         }
     }
 
+    /**
+     * Disk mouse dragged.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void diskMouseDragged(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
@@ -83,16 +109,31 @@ public class HanoiTowerController implements Initializable {
         }
     }
 
+    /**
+     * Disk mouse entered.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void diskMouseEntered(MouseEvent mouseEvent) {
         ((Node) mouseEvent.getTarget()).setOpacity(0.5);
     }
 
+    /**
+     * Disk mouse exited.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void diskMouseExited(MouseEvent mouseEvent) {
         ((Node) mouseEvent.getTarget()).setOpacity(1);
     }
 
+    /**
+     * Disk mouse released.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void diskMouseReleased(MouseEvent mouseEvent) {
         Ellipse diskIcon = (Ellipse) mouseEvent.getTarget();
@@ -109,25 +150,9 @@ public class HanoiTowerController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.disk1.setCursor(Cursor.HAND);
-        this.disk2.setCursor(Cursor.HAND);
-        this.disk3.setCursor(Cursor.HAND);
-    }
-
-    public void setHanoiTower(HanoiTower hanoiTower) {
-        this.hanoiTower = hanoiTower;
-    }
-
-    public void setPlaceController(PlaceController placeController) {
-        this.placeController = placeController;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
+    /**
+     * Reset.
+     */
     public void reset() {
         this.hanoiTower.start();
 
@@ -140,6 +165,44 @@ public class HanoiTowerController implements Initializable {
         this.diskSelected = false;
     }
 
+
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets hanoi tower model.
+     *
+     * @param hanoiTower the hanoi tower
+     */
+    public void setHanoiTower(HanoiTower hanoiTower) {
+        this.hanoiTower = hanoiTower;
+    }
+
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
+    public void setPlaceController(PlaceController placeController) {
+        this.placeController = placeController;
+    }
+
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    /*----------------------- Private methods --------------------------------*/
+
+    /**
+     * Reset src pillar.
+     *
+     * @param parent the parent
+     * @see #diskMouseClicked(MouseEvent)
+     */
     private void resetSrcPillar(Pane parent) {
         if (parent.equals(this.aPillarBox))
             this.srcPillar = "a";
@@ -149,6 +212,14 @@ public class HanoiTowerController implements Initializable {
             this.srcPillar = "c";
     }
 
+    /**
+     * Move disk.
+     *
+     * @param destPillar the dest pillar
+     * @param pillarBox  the pillar box
+     * @param diskIcon   the disk icon
+     * @see #diskMouseReleased(MouseEvent)
+     */
     private void moveDisk(String destPillar, VBox pillarBox, Ellipse diskIcon) {
         pillarBox.getChildren().add(0, diskIcon);
 
@@ -164,6 +235,11 @@ public class HanoiTowerController implements Initializable {
         }
     }
 
+    /**
+     * Ask to replay the game.
+     *
+     * @param win true if the player won the game.
+     */
     private void replay(boolean win) {
         CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
                 this.player.getPlace().getName() + " - Finished",

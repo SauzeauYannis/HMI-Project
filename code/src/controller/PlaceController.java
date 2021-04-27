@@ -34,7 +34,12 @@ import model.place.game.platinum.Questions;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The Place controller.
+ */
 public class PlaceController {
+
+    /*--------------------- Private members -------------------------*/
 
     private final Tab gameTab;
     private final Player player;
@@ -72,6 +77,14 @@ public class PlaceController {
     private KaraokeController karaokeController;
     private QuestionsController questionsController;
 
+    /*--------------------- Constructor -------------------------*/
+
+    /**
+     * Instantiates a new Place controller.
+     *
+     * @param gameTab the game tab
+     * @param player  the player
+     */
     public PlaceController(Tab gameTab, Player player)  {
         this.player = player;
         this.gameTab = gameTab;
@@ -100,19 +113,11 @@ public class PlaceController {
         }
     }
 
-    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
-        this.keyShopController.setPlayerInfoController(playerInfoController);
-        this.foodShopController.setPlayerInfoController(playerInfoController);
-        this.copperHubController.setPlayerInfoController(playerInfoController);
-        this.goldHubController.setPlayerInfoController(playerInfoController);
-        this.platinumHubController.setPlayerInfoController(playerInfoController);
-    }
+    /*--------------------- Public methods -------------------------*/
 
-    public void setScene(Scene scene) {
-        this.ticTacToeController.setScene(scene);
-        this.karaokeController.setScene(scene);
-    }
-
+    /**
+     * Change place.
+     */
     public void changePlace() {
         switch (this.player.getPlace().getName()) {
             case "Carnival":
@@ -166,6 +171,9 @@ public class PlaceController {
         }
     }
 
+    /**
+     * Play.
+     */
     public void play() {
         switch (this.player.getPlace().getName()) {
             case "Find number":
@@ -199,6 +207,39 @@ public class PlaceController {
         }
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets player info controller.
+     *
+     * @param playerInfoController the player info controller
+     */
+    public void setPlayerInfoController(PlayerInfoController playerInfoController) {
+        this.keyShopController.setPlayerInfoController(playerInfoController);
+        this.foodShopController.setPlayerInfoController(playerInfoController);
+        this.copperHubController.setPlayerInfoController(playerInfoController);
+        this.goldHubController.setPlayerInfoController(playerInfoController);
+        this.platinumHubController.setPlayerInfoController(playerInfoController);
+    }
+
+    /**
+     * Sets scene.
+     *
+     * @param scene the scene
+     */
+    public void setScene(Scene scene) {
+        this.ticTacToeController.setScene(scene);
+        this.karaokeController.setScene(scene);
+    }
+
+    /*----------------------- Private methods --------------------------------*/
+
+    /**
+     * Generate shop.
+     *
+     * @param player the player
+     * @throws IOException the io exception
+     */
     private void generateShop(Player player) throws IOException {
         FXMLLoader keyShopLoader = new FXMLLoader(getClass().getResource("../view/place/shop/keyShop.fxml"));
         this.keyShopPane = keyShopLoader.load();
@@ -215,6 +256,12 @@ public class PlaceController {
         this.foodShopController.setPlayer(player);
     }
 
+    /**
+     * Generate copper places.
+     *
+     * @param player the player
+     * @throws IOException the io exception
+     */
     private void generateCopperPlaces(Player player) throws IOException {
         List<Exit> copperHubExitList = player.getPlace().getExitList().get(0).getPlace().getExitList();
 
@@ -247,6 +294,12 @@ public class PlaceController {
         this.rockPaperScissorsController.setPlaceController(this);
     }
 
+    /**
+     * Generate gold places.
+     *
+     * @param player the player
+     * @throws IOException the io exception
+     */
     private void generateGoldPlaces(Player player) throws IOException {
         List<Exit> goldHubExitList = player.getPlace().getExitList().get(1).getPlace().getExitList();
 
@@ -278,6 +331,12 @@ public class PlaceController {
         this.ticTacToeController.setPlayer(player);
     }
 
+    /**
+     * Generate platinum places.
+     *
+     * @param player the player
+     * @throws IOException the io exception
+     */
     private void generatePlatinumPlaces(Player player) throws IOException {
         List<Exit> platinumHubExitList = player.getPlace().getExitList().get(2).getPlace().getExitList();
 

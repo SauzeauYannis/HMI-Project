@@ -22,7 +22,12 @@ import view.ClickableImage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The Player info controller.
+ */
 public class PlayerInfoController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private Player player;
 
@@ -85,16 +90,14 @@ public class PlayerInfoController implements Initializable {
     @FXML
     public Label coinQuantity;
 
-    @FXML
-    public void itemMouseClicked(MouseEvent mouseEvent) {
-        ImageView icon = (ImageView) mouseEvent.getTarget();
+    /*--------------------- Public methods -------------------------*/
 
-        if (mouseEvent.getButton() == MouseButton.PRIMARY)
-            lookItem(icon);
-        else if (mouseEvent.getButton() == MouseButton.SECONDARY)
-            useItem(icon);
-    }
-
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tooltip tooltipHealth = new Tooltip();
@@ -111,6 +114,61 @@ public class PlayerInfoController implements Initializable {
         this.setBindOpacity(this.chocolateEclairIcon, this.chocolateEclairQuantity);
     }
 
+    /**
+     * Item mouse clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
+    @FXML
+    public void itemMouseClicked(MouseEvent mouseEvent) {
+        ImageView icon = (ImageView) mouseEvent.getTarget();
+
+        if (mouseEvent.getButton() == MouseButton.PRIMARY)
+            lookItem(icon);
+        else if (mouseEvent.getButton() == MouseButton.SECONDARY)
+            useItem(icon);
+    }
+
+    /**
+     * Unlock game.
+     *
+     * @param gameName the game name
+     * @param level    the level
+     */
+    public void unlockGame(String gameName, Level level) {
+        int oldInventorySize = this.player.getItems().size();
+        Interpreter.interpretCommand(this.player, "unlock " + gameName);
+        if (this.player.getItems().size() < oldInventorySize) {
+            switch (level) {
+                case COPPER:
+                    this.removeItem(this.copperKeyIcon.getId());
+                    break;
+                case GOLD:
+                    this.removeItem(this.goldKeyIcon.getId());
+                    break;
+                case PLATINUM:
+                    this.removeItem(this.platinumKeyIcon.getId());
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Add item.
+     *
+     * @param id the id
+     */
+    public void addItem(String id) {
+        this.updateItem(id, +1);
+    }
+
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
         this.coinQuantity.textProperty().bind(
@@ -140,24 +198,13 @@ public class PlayerInfoController implements Initializable {
         });
     }
 
-    public void unlockGame(String gameName, Level level) {
-        int oldInventorySize = this.player.getItems().size();
-        Interpreter.interpretCommand(this.player, "unlock " + gameName);
-        if (this.player.getItems().size() < oldInventorySize) {
-            switch (level) {
-                case COPPER:
-                    this.removeItem(this.copperKeyIcon.getId());
-                    break;
-                case GOLD:
-                    this.removeItem(this.goldKeyIcon.getId());
-                    break;
-                case PLATINUM:
-                    this.removeItem(this.platinumKeyIcon.getId());
-                    break;
-            }
-        }
-    }
+    /*----------------------- Private methods --------------------------------*/
 
+    /**
+     * Look item.
+     *
+     * @param icon the icon
+     */
     private void lookItem(ImageView icon) {
         if (icon.equals(copperKeyIcon))
             Interpreter.interpretCommand(this.player, "look copper");
@@ -173,6 +220,11 @@ public class PlayerInfoController implements Initializable {
             Interpreter.interpretCommand(this.player, "look chocolate");
     }
 
+    /**
+     * Use item.
+     *
+     * @param icon the icon
+     */
     private void useItem(ImageView icon) {
         int oldInventorySize = this.player.getItems().size();
 
@@ -193,14 +245,21 @@ public class PlayerInfoController implements Initializable {
             this.removeItem(icon.getId());
     }
 
-    public void addItem(String id) {
-        this.updateItem(id, +1);
-    }
-
+    /**
+     * Remove item.
+     *
+     * @param id the id
+     */
     private void removeItem(String id) {
         this.updateItem(id, -1);
     }
 
+    /**
+     * Update item.
+     *
+     * @param id       the id
+     * @param addValue the add value
+     */
     private void updateItem(String id, int addValue) {
         if (copperKeyIcon.getId().equals(id))
             this.updateItemQuantity(copperKeyQuantity, addValue);
@@ -216,12 +275,24 @@ public class PlayerInfoController implements Initializable {
             this.updateItemQuantity(chocolateEclairQuantity, addValue);
     }
 
+    /**
+     * Update item quantity.
+     *
+     * @param keyQuantity the key quantity
+     * @param addValue    the add value
+     */
     private void updateItemQuantity(Label keyQuantity, int addValue) {
         keyQuantity.setText(String.valueOf(
                 Integer.parseInt(keyQuantity.getText()) + addValue
         ));
     }
 
+    /**
+     * Sets bind opacity.
+     *
+     * @param icon     the icon
+     * @param quantity the quantity
+     */
     private void setBindOpacity(ImageView icon, Label quantity) {
         icon.opacityProperty().bind(
                 Bindings.when(quantity.textProperty().isEqualTo("0"))

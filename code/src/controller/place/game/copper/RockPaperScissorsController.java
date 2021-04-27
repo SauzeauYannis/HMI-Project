@@ -186,9 +186,10 @@ public class RockPaperScissorsController {
     /*----------------------- Private methods --------------------------------*/
 
     /**
-     * Replay.
+     * Ask to replay the game.
      *
-     * @param win the win
+     * @param win true if the player won the game.
+     * @see #iconMouseClicked(MouseEvent)
      */
     private void replay(boolean win) {
         CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,

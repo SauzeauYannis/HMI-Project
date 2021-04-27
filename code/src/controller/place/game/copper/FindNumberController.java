@@ -178,6 +178,7 @@ public class FindNumberController implements Initializable {
      * Ask to replay the game.
      *
      * @param win true if the player won the game.
+     * @see #playTurn()
      */
     private void replay(boolean win) {
         CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,

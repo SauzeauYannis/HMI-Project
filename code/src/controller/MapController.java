@@ -7,7 +7,12 @@ import model.place.exit.Exit;
 
 import java.util.List;
 
+/**
+ * The Map controller.
+ */
 public class MapController {
+
+    /*--------------------- Private members -------------------------*/
 
     @FXML
     private ImageView sparklingPadlockIcon;
@@ -39,6 +44,13 @@ public class MapController {
     @FXML
     private ImageView questionsPadlockIcon;
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets place list.
+     *
+     * @param placeList the place list
+     */
     public void setPlaceList(List<Place> placeList) {
         List<Exit> carnivalExitList = placeList.get(0).getExitList();
 

@@ -1,12 +1,14 @@
 package controller.place.game.gold;
 
 import controller.PlaceController;
-import controller.UtilsController;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.game.gold.Riddle;
@@ -15,7 +17,12 @@ import view.CustomAlert;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The Riddle game controller.
+ */
 public class RiddleController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private String[] currentRiddle;
 
@@ -41,6 +48,22 @@ public class RiddleController implements Initializable {
     @FXML
     private Button answerButton;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.answerTextField.setCursor(Cursor.TEXT);
+    }
+
+    /**
+     * Answer button clicked.
+     */
     @FXML
     public void answerButtonClicked() {
         if (this.riddle.isGoodAnswer(this.player, this.answerTextField.getText(), this.currentRiddle))
@@ -51,23 +74,42 @@ public class RiddleController implements Initializable {
             this.answerTextField.clear();
     }
 
+    /**
+     * Yes button mouse clicked.
+     */
     @FXML
     public void yesButtonMouseClicked() {
         this.riddle.choseYes(this.currentRiddle);
-        this.changeVisible(false);
+        this.changeVisibility(false);
     }
 
+    /**
+     * No button mouse clicked.
+     */
     @FXML
     public void noButtonMouseClicked() {
         this.riddle.choseNo(this.currentRiddle);
         this.replay(false);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.answerTextField.setCursor(Cursor.TEXT);
+    /**
+     * Reset.
+     */
+    public void reset() {
+        this.changeVisibility(true);
+
+        this.answerTextField.clear();
+
+        this.currentRiddle = this.riddle.startAndGetRiddle();
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets riddle model.
+     *
+     * @param riddle the riddle
+     */
     public void setRiddle(Riddle riddle) {
         this.riddle = riddle;
 
@@ -79,23 +121,34 @@ public class RiddleController implements Initializable {
         );
     }
 
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void reset() {
-        this.changeVisible(true);
+    /*----------------------- Private methods --------------------------------*/
 
-        this.answerTextField.clear();
-
-        this.currentRiddle = this.riddle.startAndGetRiddle();
-    }
-
-    private void changeVisible(boolean start) {
+    /**
+     * Change visibility.
+     *
+     * @param start if is the starting position.
+     * @see #yesButtonMouseClicked()
+     * @see #reset()
+     */
+    private void changeVisibility(boolean start) {
         this.yesButton.setVisible(start);
         this.noButton.setVisible(start);
         this.answerTextField.setVisible(!start);
@@ -108,6 +161,13 @@ public class RiddleController implements Initializable {
             this.questionLabel.setText(this.currentRiddle[0]);
     }
 
+    /**
+     * Ask to replay the game.
+     *
+     * @param win true if the player won the game.
+     * @see #answerButtonClicked()
+     * @see #noButtonMouseClicked()
+     */
     private void replay(boolean win) {
         CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
                 this.player.getPlace().getName() + " - Finished",

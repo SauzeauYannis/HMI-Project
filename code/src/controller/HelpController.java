@@ -1,23 +1,33 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.image.ImageView;
-import view.ClickableImage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
+/**
+ * The Help controller.
+ */
 public class HelpController {
+
+    /*--------------------- Private members -------------------------*/
 
     private SceneController sceneController;
 
+    /*--------------------- Public methods -------------------------*/
+
+    /**
+     * Back mouse clicked.
+     */
     @FXML
-    void backMouseClicked() {
+    public void backMouseClicked() {
         sceneController.setCurrentPane("main");
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets scene controller.
+     *
+     * @param sceneController the scene controller
+     */
     public void setSceneController(SceneController sceneController) {
         this.sceneController = sceneController;
     }

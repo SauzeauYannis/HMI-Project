@@ -24,7 +24,12 @@ import model.place.Game;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The type Carnival controller.
+ */
 public class CarnivalController implements Initializable {
+
+    /*--------------------- Private members -------------------------*/
 
     private PathTransition pathTransitionToCopperHub;
     private PathTransition pathTransitionToGoldHub;
@@ -60,37 +65,14 @@ public class CarnivalController implements Initializable {
     @FXML
     private ImageView padlockCaravanIcon;
 
-    @FXML
-    private void gameSceneClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-            if (mouseEvent.getTarget().equals(this.copperHubIcon))
-                this.pathTransitionToCopperHub.play();
-            else if (mouseEvent.getTarget().equals(this.goldHubIcon))
-                this.pathTransitionToGoldHub.play();
-            else if (mouseEvent.getTarget().equals(this.platinumHubIcon))
-                this.pathTransitionToPlatinumHub.play();
-            else if (mouseEvent.getTarget().equals(this.foodShopIcon))
-                this.pathTransitionToFoodShop.play();
-            else if (mouseEvent.getTarget().equals(this.keyShopIcon))
-                this.pathTransitionToKeyShop.play();
-            else if (mouseEvent.getTarget().equals(this.sparklingCaravanIcon)) {
-                if (this.padlockCaravanIcon.isVisible())
-                    Interpreter.interpretCommand(this.player, "go sparkling");
-                else
-                    this.pathTransitionToSparklingCaravan.play();
-            }
-        }
-    }
+    /*--------------------- Public methods -------------------------*/
 
-    @FXML
-    private void padlockClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-            Interpreter.interpretCommand(this.player, "unlock sparkling");
-            if (this.player.getGamesFinished().isEqualTo(Game.NB_GAMES).get())
-                this.padlockCaravanIcon.setVisible(false);
-        }
-    }
-
+    /**
+     * Initialize.
+     *
+     * @param location  the location
+     * @param resources the resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tooltip.install(this.padlockCaravanIcon, new Tooltip("This game is lock!\nFinish the 9 games an right click on the padlock to unlock that place!"));
@@ -149,17 +131,50 @@ public class CarnivalController implements Initializable {
         this.pathTransitionToSparklingCaravan = new PathTransition(Duration.seconds(4), pathToSparklingCaravan, playerIcon);
     }
 
-    public void setPlaceController(PlaceController placeController) {
-        this.placeController = placeController;
+    /**
+     * Game scene clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
+    @FXML
+    public void gameSceneClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+            if (mouseEvent.getTarget().equals(this.copperHubIcon))
+                this.pathTransitionToCopperHub.play();
+            else if (mouseEvent.getTarget().equals(this.goldHubIcon))
+                this.pathTransitionToGoldHub.play();
+            else if (mouseEvent.getTarget().equals(this.platinumHubIcon))
+                this.pathTransitionToPlatinumHub.play();
+            else if (mouseEvent.getTarget().equals(this.foodShopIcon))
+                this.pathTransitionToFoodShop.play();
+            else if (mouseEvent.getTarget().equals(this.keyShopIcon))
+                this.pathTransitionToKeyShop.play();
+            else if (mouseEvent.getTarget().equals(this.sparklingCaravanIcon)) {
+                if (this.padlockCaravanIcon.isVisible())
+                    Interpreter.interpretCommand(this.player, "go sparkling");
+                else
+                    this.pathTransitionToSparklingCaravan.play();
+            }
+        }
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-        // TODO: 14-Apr-21 Enlever lors du rendu
-        player.earnMoney(1000);
-        //player.decreaseHealth(100);
+    /**
+     * Padlock clicked.
+     *
+     * @param mouseEvent the mouse event
+     */
+    @FXML
+    public void padlockClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+            Interpreter.interpretCommand(this.player, "unlock sparkling");
+            if (this.player.getGamesFinished().isEqualTo(Game.NB_GAMES).get())
+                this.padlockCaravanIcon.setVisible(false);
+        }
     }
 
+    /**
+     * Reset.
+     */
     public void reset() {
         this.playerIcon.setTranslateX(0);
         this.playerIcon.setTranslateY(0);
@@ -182,6 +197,37 @@ public class CarnivalController implements Initializable {
         });
     }
 
+    /*----------------------- Setters --------------------------------*/
+
+    /**
+     * Sets place controller.
+     *
+     * @param placeController the place controller
+     */
+    public void setPlaceController(PlaceController placeController) {
+        this.placeController = placeController;
+    }
+
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+        // TODO: 14-Apr-21 Enlever lors du rendu
+        player.earnMoney(1000);
+        //player.decreaseHealth(100);
+    }
+
+    /*----------------------- Private methods --------------------------------*/
+
+    /**
+     * Change place.
+     *
+     * @param place                the place
+     * @param boundsChangeListener the bounds change listener
+     */
     private void go(String place, ChangeListener<Bounds> boundsChangeListener) {
         Interpreter.interpretCommand(this.player, "go " + place);
         this.placeController.changePlace();

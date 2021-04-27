@@ -22,45 +22,45 @@
             <Font name="Carlito Bold" size="20.0"/>
         </font>
     </Label>
-    <Polygon fx:id="answer1Polygon" fill="#371a5b" layoutX="470.0" layoutY="431.0" onMouseClicked="#answer1MouseClicked"
-             onMouseEntered="#answer1MouseEntered" onMouseExited="#answer1MouseExited"
+    <Polygon fx:id="answer1Polygon" fill="#371a5b" layoutX="470.0" layoutY="431.0" onMouseClicked="#answerMouseClicked"
+             onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited"
              points="-421.0, -50.0, -400.0, -26.0, -61.0, -26.0, -37.0, -50.0, -61.0, -71.0, -399.0, -71.0"
              stroke="BLACK" strokeType="INSIDE"/>
-    <Label fx:id="answer1Label" alignment="CENTER" layoutX="70.0" layoutY="360.0" onMouseClicked="#answer1MouseClicked"
-           onMouseEntered="#answer1MouseEntered" onMouseExited="#answer1MouseExited" prefHeight="45.0" prefWidth="339.0"
+    <Label fx:id="answer1Label" alignment="CENTER" layoutX="70.0" layoutY="360.0" onMouseClicked="#answerMouseClicked"
+           onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited" prefHeight="45.0" prefWidth="339.0"
            text="1 - bisector" textFill="WHITE">
         <font>
             <Font name="Carlito Bold" size="20.0"/>
         </font>
     </Label>
-    <Polygon fx:id="answer2Polygon" fill="#371a5b" layoutX="854.0" layoutY="431.0" onMouseClicked="#answer2MouseClicked"
-             onMouseEntered="#answer2MouseEntered" onMouseExited="#answer2MouseExited"
+    <Polygon fx:id="answer2Polygon" fill="#371a5b" layoutX="854.0" layoutY="431.0" onMouseClicked="#answerMouseClicked"
+             onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited"
              points="-421.0, -50.0, -400.0, -26.0, -61.0, -26.0, -37.0, -50.0, -61.0, -71.0, -399.0, -71.0"
              stroke="BLACK" strokeType="INSIDE"/>
-    <Label fx:id="answer2Label" alignment="CENTER" layoutX="454.0" layoutY="360.0" onMouseClicked="#answer2MouseClicked"
-           onMouseEntered="#answer2MouseEntered" onMouseExited="#answer2MouseExited" prefHeight="45.0" prefWidth="339.0"
+    <Label fx:id="answer2Label" alignment="CENTER" layoutX="454.0" layoutY="360.0" onMouseClicked="#answerMouseClicked"
+           onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited" prefHeight="45.0" prefWidth="339.0"
            text="2 - median" textFill="WHITE">
         <font>
             <Font name="Carlito Bold" size="20.0"/>
         </font>
     </Label>
-    <Polygon fx:id="answer3Polygon" fill="#371a5b" layoutX="469.0" layoutY="489.0" onMouseClicked="#answer3MouseClicked"
-             onMouseEntered="#answer3MouseEntered" onMouseExited="#answer3MouseExited"
+    <Polygon fx:id="answer3Polygon" fill="#371a5b" layoutX="469.0" layoutY="489.0" onMouseClicked="#answerMouseClicked"
+             onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited"
              points="-421.0, -50.0, -400.0, -26.0, -61.0, -26.0, -37.0, -50.0, -61.0, -71.0, -399.0, -71.0"
              stroke="BLACK" strokeType="INSIDE"/>
-    <Label fx:id="answer3Label" alignment="CENTER" layoutX="69.0" layoutY="418.0" onMouseClicked="#answer3MouseClicked"
-           onMouseEntered="#answer3MouseEntered" onMouseExited="#answer3MouseExited" prefHeight="45.0" prefWidth="339.0"
+    <Label fx:id="answer3Label" alignment="CENTER" layoutX="69.0" layoutY="418.0" onMouseClicked="#answerMouseClicked"
+           onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited" prefHeight="45.0" prefWidth="339.0"
            text="3 - mediator" textFill="WHITE">
         <font>
             <Font name="Carlito Bold" size="20.0"/>
         </font>
     </Label>
-    <Polygon fx:id="answer4Polygon" fill="#371a5b" layoutX="854.0" layoutY="489.0" onMouseClicked="#answer4MouseClicked"
-             onMouseEntered="#answer4MouseEntered" onMouseExited="#answer4MouseExited"
+    <Polygon fx:id="answer4Polygon" fill="#371a5b" layoutX="854.0" layoutY="489.0" onMouseClicked="#answerMouseClicked"
+             onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited"
              points="-421.0, -50.0, -400.0, -26.0, -61.0, -26.0, -37.0, -50.0, -61.0, -71.0, -399.0, -71.0"
              stroke="BLACK" strokeType="INSIDE"/>
-    <Label fx:id="answer4Label" alignment="CENTER" layoutX="454.0" layoutY="418.0" onMouseClicked="#answer4MouseClicked"
-           onMouseEntered="#answer4MouseEntered" onMouseExited="#answer4MouseExited" prefHeight="45.0" prefWidth="339.0"
+    <Label fx:id="answer4Label" alignment="CENTER" layoutX="454.0" layoutY="418.0" onMouseClicked="#answerMouseClicked"
+           onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited" prefHeight="45.0" prefWidth="339.0"
            text="4 - fore height" textFill="WHITE">
         <font>
             <Font name="Carlito Bold" size="20.0"/>
@@ -77,12 +77,12 @@
         </font>
     </Label>
     <Polygon fx:id="validatePolygon" fill="#0b2cba" layoutX="446.0" layoutY="612.0"
-             onMouseClicked="#validateMouseClicked" onMouseEntered="#validateMouseEntered"
-             onMouseExited="#validateMouseExited"
+             onMouseClicked="#validateMouseClicked" onMouseEntered="#polygonMouseEntered"
+             onMouseExited="#polygonMouseExited"
              points="-425.0, -48.0, -400.0, -26.0, 374.0, -26.0, 399.0, -48.0, 375.0, -71.0, -399.0, -71.0"
              stroke="BLACK" strokeType="INSIDE"/>
     <Label alignment="CENTER" layoutX="46.0" layoutY="541.0" onMouseClicked="#validateMouseClicked"
-           onMouseEntered="#validateMouseEntered" onMouseExited="#validateMouseExited" prefHeight="45.0"
+           onMouseEntered="#polygonMouseEntered" onMouseExited="#polygonMouseExited" prefHeight="45.0"
            prefWidth="774.0" text="Validate" textFill="WHITE">
         <font>
             <Font name="Carlito Bold" size="20.0"/>
