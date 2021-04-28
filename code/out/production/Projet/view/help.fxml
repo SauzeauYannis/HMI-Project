@@ -7,7 +7,7 @@
 <?import view.ClickableImage?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="800.0" minWidth="1200.0"
             xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controller.HelpController">
-    <ClickableImage fx:id="backIcon" fitHeight="50.0" fitWidth="50.0" layoutX="30.0" layoutY="30.0"
+    <ClickableImage fitHeight="50.0" fitWidth="50.0" layoutX="30.0" layoutY="30.0"
                     onMouseClicked="#backMouseClicked" pickOnBounds="true" preserveRatio="true"
                     tooltipText="Return in the game">
         <Image url="@design/image/back.png"/>

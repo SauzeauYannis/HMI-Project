@@ -6,8 +6,21 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * The Custom alert class.
+ */
 public class CustomAlert extends Alert {
 
+    /*--------------------- Constructors -------------------------*/
+
+    /**
+     * Instantiates a new Custom alert.
+     *
+     * @param alertType   the alert type
+     * @param title       the title
+     * @param contentText the content text
+     * @param iconPath    the icon path
+     */
     public CustomAlert(AlertType alertType, String title, String contentText, String iconPath) {
         super(alertType);
 
@@ -19,12 +32,32 @@ public class CustomAlert extends Alert {
         );
     }
 
+    /**
+     * Instantiates a new Custom alert.
+     *
+     * @param alertType   the alert type
+     * @param title       the title
+     * @param headerText  the header text
+     * @param contentText the content text
+     * @param iconPath    the icon path
+     */
     public CustomAlert(AlertType alertType, String title, String headerText, String contentText, String iconPath) {
         this(alertType, title, contentText, iconPath);
 
         this.setHeaderText(headerText);
     }
 
+    /**
+     * Instantiates a new Custom alert.
+     *
+     * @param alertType        the alert type
+     * @param title            the title
+     * @param headerText       the header text
+     * @param contentText      the content text
+     * @param iconPath         the icon path
+     * @param okButtonText     the ok button text
+     * @param cancelButtonText the cancel button text
+     */
     public CustomAlert(AlertType alertType, String title, String headerText, String contentText, String iconPath, String okButtonText, String cancelButtonText) {
         this(alertType, title, headerText, contentText, iconPath);
 

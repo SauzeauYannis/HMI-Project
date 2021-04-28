@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.*?>
+<?import view.CustomButton?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0"
             prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171"
             fx:controller="controller.place.game.gold.RiddleController">
@@ -17,20 +18,20 @@
             <Font name="Carlito Bold" size="17.0"/>
         </font>
     </Label>
-    <Button fx:id="yesButton" layoutX="235.0" layoutY="295.0" mnemonicParsing="false"
+    <CustomButton fx:id="yesButton" layoutX="235.0" layoutY="295.0" mnemonicParsing="false"
             onMouseClicked="#yesButtonMouseClicked" text="Yes">
         <font>
             <Font name="Carlito Bold" size="15.0"/>
         </font>
-    </Button>
-    <Button fx:id="noButton" layoutX="593.0" layoutY="295.0" mnemonicParsing="false"
+    </CustomButton>
+    <CustomButton fx:id="noButton" layoutX="593.0" layoutY="295.0" mnemonicParsing="false"
             onMouseClicked="#noButtonMouseClicked" text="No">
         <font>
             <Font name="Carlito Bold" size="15.0"/>
         </font>
-    </Button>
+    </CustomButton>
     <TextField fx:id="answerTextField" layoutX="346.0" layoutY="295.0" prefWidth="175.0"
-               promptText="Type your answer here!">
+               onKeyPressed="#answerTextFieldKeyPressed" promptText="Type your answer here!">
         <font>
             <Font name="Carlito Bold" size="15.0"/>
         </font>
@@ -41,10 +42,10 @@
             <Font name="Carlito Bold" size="15.0"/>
         </font>
     </Label>
-    <Button fx:id="answerButton" layoutX="399.0" layoutY="397.0" mnemonicParsing="false"
+    <CustomButton fx:id="answerButton" layoutX="399.0" layoutY="397.0" mnemonicParsing="false"
             onMouseClicked="#answerButtonClicked" text="Answer">
         <font>
             <Font name="Carlito Bold" size="15.0"/>
         </font>
-    </Button>
+    </CustomButton>
 </AnchorPane>

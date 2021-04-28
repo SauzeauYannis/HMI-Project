@@ -21,7 +21,7 @@
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
             </padding>
-            <ClickableImage fx:id="helpIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#helpMouseClicked"
+            <ClickableImage fitHeight="50.0" fitWidth="50.0" onMouseClicked="#helpMouseClicked"
                             pickOnBounds="true" preserveRatio="true" tooltipText="Click to go to help page test">
                 <Image url="@design/image/information.png"/>
             </ClickableImage>
@@ -29,7 +29,7 @@
                             pickOnBounds="true" preserveRatio="true">
                 <Image url="@design/image/volume_on.png"/>
             </ClickableImage>
-            <ClickableImage fx:id="quitIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#quitMouseClicked"
+            <ClickableImage fitHeight="50.0" fitWidth="50.0" onMouseClicked="#quitMouseClicked"
                             pickOnBounds="true" preserveRatio="true" tooltipText="Click to quit the game">
                 <Image url="@design/image/quit.png"/>
             </ClickableImage>
@@ -54,9 +54,9 @@
     <ClickableImage fx:id="downArrowIcon" fitHeight="50.0" fitWidth="50.0" layoutX="815.0" layoutY="740.0"
                     onMouseClicked="#scrollAnimation" pickOnBounds="true" preserveRatio="true"
                     tooltipText="Click to scroll down">
-        <Image url="@design/image/down_arrowgif.gif"/>
+        <Image url="@design/image/down_arrow.gif"/>
     </ClickableImage>
-    <ClickableImage fx:id="lookIcon" fitHeight="50.0" fitWidth="50.0" layoutX="830.0" layoutY="50.0"
+    <ClickableImage fitHeight="50.0" fitWidth="50.0" layoutX="830.0" layoutY="50.0"
                     onMouseClicked="#lookMouseClicked" pickOnBounds="true" preserveRatio="true"
                     tooltipText="Click to look the place">
         <Image url="@design/image/glasses.png"/>

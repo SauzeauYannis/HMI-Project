@@ -14,12 +14,26 @@ import model.place.Place;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The Game class application.
+ */
 public class Game extends Application {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Start the application..
+     *
+     * @param primaryStage the primary stage
+     * @throws IOException the io exception
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
 

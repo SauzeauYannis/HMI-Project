@@ -172,7 +172,7 @@ public class PlaceController {
     }
 
     /**
-     * Play.
+     * Play a game.
      */
     public void play() {
         switch (this.player.getPlace().getName()) {

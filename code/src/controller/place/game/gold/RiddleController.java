@@ -9,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import model.character.Player;
 import model.command.Interpreter;
 import model.place.game.gold.Riddle;
@@ -62,19 +64,6 @@ public class RiddleController implements Initializable {
     }
 
     /**
-     * Answer button clicked.
-     */
-    @FXML
-    public void answerButtonClicked() {
-        if (this.riddle.isGoodAnswer(this.player, this.answerTextField.getText(), this.currentRiddle))
-            this.replay(true);
-        else if (!this.riddle.canContinue())
-            this.replay(false);
-        else
-            this.answerTextField.clear();
-    }
-
-    /**
      * Yes button mouse clicked.
      */
     @FXML
@@ -90,6 +79,31 @@ public class RiddleController implements Initializable {
     public void noButtonMouseClicked() {
         this.riddle.choseNo(this.currentRiddle);
         this.replay(false);
+    }
+
+    /**
+     * Answer button clicked.
+     */
+    @FXML
+    public void answerButtonClicked() {
+        if (this.riddle.isGoodAnswer(this.player, this.answerTextField.getText(), this.currentRiddle))
+            this.replay(true);
+        else if (!this.riddle.canContinue())
+            this.replay(false);
+        else
+            this.answerTextField.clear();
+    }
+
+    /**
+     * Answer text field key pressed.
+     *
+     * @param keyEvent the key event
+     */
+    @FXML
+    public void answerTextFieldKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            this.answerButtonClicked();
+        }
     }
 
     /**

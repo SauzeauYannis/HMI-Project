@@ -165,7 +165,6 @@ public class HanoiTowerController implements Initializable {
         this.diskSelected = false;
     }
 
-
     /*----------------------- Setters --------------------------------*/
 
     /**
