@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<?import gypsysCarnival.view.CustomButton?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0"
+            prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171"
+            fx:controller="gypsysCarnival.controller.place.game.gold.RiddleController">
+    <Label layoutX="400.0" layoutY="31.0" text="Riddle">
+        <font>
+            <Font name="Carlito Bold" size="25.0"/>
+        </font>
+    </Label>
+    <Label fx:id="questionLabel" alignment="CENTER" layoutX="183.0" layoutY="198.0" minWidth="500.0"
+           text="Are you ready?">
+        <font>
+            <Font name="Carlito Bold" size="17.0"/>
+        </font>
+    </Label>
+    <CustomButton fx:id="yesButton" layoutX="235.0" layoutY="295.0" mnemonicParsing="false"
+            onMouseClicked="#yesButtonMouseClicked" text="Yes">
+        <font>
+            <Font name="Carlito Bold" size="15.0"/>
+        </font>
+    </CustomButton>
+    <CustomButton fx:id="noButton" layoutX="593.0" layoutY="295.0" mnemonicParsing="false"
+            onMouseClicked="#noButtonMouseClicked" text="No">
+        <font>
+            <Font name="Carlito Bold" size="15.0"/>
+        </font>
+    </CustomButton>
+    <TextField fx:id="answerTextField" layoutX="346.0" layoutY="295.0" prefWidth="175.0"
+               onKeyPressed="#answerTextFieldKeyPressed" promptText="Type your answer here!">
+        <font>
+            <Font name="Carlito Bold" size="15.0"/>
+        </font>
+    </TextField>
+    <Label fx:id="attemptLabel" alignment="CENTER" layoutX="184.0" layoutY="487.0" minWidth="500.0"
+           text="Attempt left: 0">
+        <font>
+            <Font name="Carlito Bold" size="15.0"/>
+        </font>
+    </Label>
+    <CustomButton fx:id="answerButton" layoutX="399.0" layoutY="397.0" mnemonicParsing="false"
+            onMouseClicked="#answerButtonClicked" text="Answer">
+        <font>
+            <Font name="Carlito Bold" size="15.0"/>
+        </font>
+    </CustomButton>
+</AnchorPane>
