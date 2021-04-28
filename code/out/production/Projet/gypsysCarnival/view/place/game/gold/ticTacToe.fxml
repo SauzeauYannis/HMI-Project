@@ -16,7 +16,7 @@
     <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
         <Image url="@../../../design/image/gold_hub.png" />
     </ImageView>
-   <GridPane gridLinesVisible="true" layoutX="255.0" layoutY="119.0" prefHeight="370.0" prefWidth="355.0" style="-fx-background-color: #EDEDED;" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="255.0" AnchorPane.topAnchor="120.0">
+   <GridPane fx:id="boardGame" disable="true" gridLinesVisible="true" layoutX="255.0" layoutY="119.0" opacity="0.25" prefHeight="370.0" prefWidth="355.0" style="-fx-background-color: #EDEDED;" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="255.0" AnchorPane.topAnchor="120.0">
      <columnConstraints>
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -125,26 +125,6 @@
          <Font name="Arial" size="36.0" />
       </font>
    </Label>
-   <ImageView fitHeight="42.0" fitWidth="50.0" layoutX="25.0" layoutY="287.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../design/image/cross_tictactoe.png" />
-      </image>
-   </ImageView>
-   <ImageView fitHeight="58.0" fitWidth="42.0" layoutX="703.0" layoutY="287.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../../design/image/circle_tictactoe.png" />
-      </image>
-   </ImageView>
-   <Label layoutX="75.0" layoutY="295.0" text=": You">
-      <font>
-         <Font size="20.0" />
-      </font>
-   </Label>
-   <Label layoutX="760.0" layoutY="295.0" text=": Sagrat">
-      <font>
-         <Font size="20.0" />
-      </font>
-   </Label>
    <AnchorPane fx:id="blockChoose" layoutX="331.0" layoutY="510.0" prefHeight="83.0" prefWidth="203.0" style="-fx-border-color: black; -fx-background-color: #E7E7E7;">
       <children>
          <Text layoutX="24.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose between 1 or 2">
@@ -154,6 +134,34 @@
          </Text>
          <TextField fx:id="textFieldChoose" layoutX="51.0" layoutY="40.0" prefHeight="27.0" prefWidth="35.0" />
          <Button fx:id="buttonChoose" layoutX="102.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#isButtonClicked" text="Send" />
+      </children>
+   </AnchorPane>
+   <AnchorPane fx:id="legendCross" layoutX="21.0" layoutY="254.0" opacity="0.0" prefHeight="83.0" prefWidth="117.0">
+      <children>
+         <ImageView fitHeight="42.0" fitWidth="50.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../design/image/cross_tictactoe.png" />
+            </image>
+         </ImageView>
+         <Label layoutX="59.0" layoutY="29.0" text=": You">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+      </children>
+   </AnchorPane>
+   <AnchorPane fx:id="legendCircle" layoutX="708.0" layoutY="254.0" opacity="0.0" prefHeight="83.0" prefWidth="143.0">
+      <children>
+         <ImageView fitHeight="58.0" fitWidth="42.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../design/image/circle_tictactoe.png" />
+            </image>
+         </ImageView>
+         <Label layoutX="70.0" layoutY="25.0" text=": Sagrat">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
       </children>
    </AnchorPane>
 </AnchorPane>

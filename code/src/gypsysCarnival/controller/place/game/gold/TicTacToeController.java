@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import gypsysCarnival.model.character.Player;
 import gypsysCarnival.model.command.Interpreter;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,6 +36,15 @@ public class TicTacToeController implements Initializable {
 
     @FXML
     private AnchorPane blockChoose;
+
+    @FXML
+    private GridPane boardGame;
+
+    @FXML
+    private AnchorPane legendCross;
+
+    @FXML
+    private AnchorPane legendCircle;
 
     @FXML
     private Button buttonChoose;
@@ -141,6 +151,12 @@ public class TicTacToeController implements Initializable {
     void isButtonClicked(MouseEvent mouseEvent){
         this.blockChoose.setOpacity(0);
         this.blockChoose.setDisable(true);
+
+        this.boardGame.setOpacity(1);
+        this.boardGame.setDisable(false);
+
+        this.legendCircle.setOpacity(1);
+        this.legendCross.setOpacity(1);
 
         this.tictactoe.testPrint();
     }
