@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" minHeight="800.0" minWidth="1200.0"
+            xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controller.MainController">
+    <TabPane prefHeight="650.0" prefWidth="875.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="425.0"
+             AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+        <Tab fx:id="gameTab" text="Game scene">
+        </Tab>
+        <Tab text="Map scene">
+            <fx:include fx:id="map" source="map.fxml"/>
+        </Tab>
+    </TabPane>
+    <VBox layoutX="890.0" prefHeight="800.0" prefWidth="100.0" spacing="15.0">
+        <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-border-color: black;">
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+            </padding>
+            <ImageView fx:id="helpIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#helpMouseClicked"
+                       onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true"
+                       preserveRatio="true">
+                <Image url="@design/image/information.png"/>
+            </ImageView>
+            <ImageView fx:id="soundIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#soundMouseClicked"
+                       onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true"
+                       preserveRatio="true">
+                <Image url="@design/image/volume_on.png"/>
+            </ImageView>
+            <ImageView fx:id="quitIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#quitMouseClicked"
+                       onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true"
+                       preserveRatio="true">
+                <Image url="@design/image/quit.png"/>
+            </ImageView>
+            <VBox.margin>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+            </VBox.margin>
+        </HBox>
+        <fx:include fx:id="playerInfo" source="playerInfos.fxml"/>
+    </VBox>
+    <ScrollPane fx:id="scrollPaneDialog" hbarPolicy="NEVER" layoutX="15.0" layoutY="686.0" maxHeight="100.0"
+                minHeight="100.0" minWidth="875.0">
+        <Label fx:id="labelDialog" alignment="CENTER" maxHeight="1.7976931348623157E308" minHeight="100.0"
+               minWidth="875.0">
+            <font>
+                <Font name="Carlito Bold" size="16.0"/>
+            </font>
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+            </padding>
+        </Label>
+    </ScrollPane>
+    <ImageView fx:id="downArrowIcon" fitHeight="50.0" fitWidth="50.0" layoutX="815.0" layoutY="740.0"
+               onMouseClicked="#scrollAnimation" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@design/image/down_arrowgif.gif"/>
+    </ImageView>
+    <ImageView fx:id="lookIcon" fitHeight="50.0" fitWidth="50.0" layoutX="830.0" layoutY="50.0"
+               onMouseClicked="#lookMouseClicked" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@design/image/glasses.png"/>
+    </ImageView>
+</AnchorPane>

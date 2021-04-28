@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="carnivalScene" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#gameSceneClicked" prefHeight="615.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.place.CarnivalController">
+    <ImageView fx:id="playerIcon" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../design/image/benjapied.gif" />
+    </ImageView>
+    <ImageView fx:id="keyShopIcon" fitHeight="150.0" fitWidth="150.0" layoutX="391.0" layoutY="427.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../design/image/key_shop.gif" />
+    </ImageView>
+    <ImageView fx:id="foodShopIcon" fitHeight="150.0" fitWidth="150.0" layoutX="50.0" layoutY="427.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../design/image/food_shop.gif" />
+    </ImageView>
+    <ImageView fx:id="sparklingCaravanIcon" fitHeight="150.0" fitWidth="150.0" layoutX="664.0" layoutY="427.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../design/image/sparkling_caravan.gif" />
+    </ImageView>
+    <ImageView fx:id="goldHubIcon" fitHeight="150.0" fitWidth="150.0" layoutX="460.0" layoutY="35.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../design/image/gold_hub.png" />
+    </ImageView>
+    <ImageView fx:id="platinumHubIcon" fitHeight="150.0" fitWidth="150.0" layoutX="664.0" layoutY="35.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../design/image/platinum_hub.png" />
+    </ImageView>
+    <ImageView fx:id="copperHubIcon" fitHeight="150.0" fitWidth="150.0" layoutX="227.0" layoutY="35.0" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../design/image/copper_hub.png" />
+    </ImageView>
+    <ImageView fx:id="padlockCaravanIcon" fitHeight="75.0" fitWidth="75.0" layoutX="695.0" layoutY="456.0" onMouseClicked="#padlockClicked" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../design/image/padlock.png" />
+    </ImageView>
+</AnchorPane>
