@@ -8,9 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gypsysCarnival.controller.place.game.gold.TicTacToeController">
-    <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0"
-               onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited"
-               pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="goldHubIcon" fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#goGold" onMouseEntered="#iconMouseEntered" onMouseExited="#iconMouseExited" pickOnBounds="true" preserveRatio="true">
         <Image url="@../../../design/image/gold_hub.png" />
     </ImageView>
    <GridPane gridLinesVisible="true" layoutX="255.0" layoutY="119.0" prefHeight="370.0" prefWidth="355.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="255.0" AnchorPane.topAnchor="120.0">
@@ -25,17 +23,12 @@
        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
      </rowConstraints>
       <children>
-         <ImageView id="crossCenter" fx:id="crossCenter" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <image>
-               <Image url="@../../../design/image/cross_tictactoe.png" />
-            </image>
-         </ImageView>
          <ImageView id="circleCenter" fx:id="circleCenter" fitHeight="117.0" fitWidth="130.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <image>
                <Image url="@../../../design/image/circle_tictactoe.png" />
             </image>
          </ImageView>
-         <ImageView fx:id="crossTopLeft" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView id="crossCenter" fx:id="crossCenter" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <image>
                <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
@@ -45,7 +38,7 @@
                <Image url="@../../../design/image/circle_tictactoe.png" />
             </image>
          </ImageView>
-         <ImageView fx:id="crossTop" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+         <ImageView fx:id="crossTopLeft" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
@@ -55,7 +48,7 @@
                <Image url="@../../../design/image/circle_tictactoe.png" />
             </image>
          </ImageView>
-         <ImageView fx:id="crossTopRight" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+         <ImageView fx:id="crossTop" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
             <image>
                <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
@@ -63,6 +56,11 @@
          <ImageView fx:id="circleTopRight" fitHeight="117.0" fitWidth="130.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
             <image>
                <Image url="@../../../design/image/circle_tictactoe.png" />
+            </image>
+         </ImageView>
+         <ImageView fx:id="crossTopRight" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+            <image>
+               <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
          </ImageView>
          <ImageView fx:id="circleLeft" fitHeight="117.0" fitWidth="130.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
@@ -75,17 +73,12 @@
                <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
          </ImageView>
-         <ImageView fx:id="crossRight" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-            <image>
-               <Image url="@../../../design/image/cross_tictactoe.png" />
-            </image>
-         </ImageView>
          <ImageView fx:id="circleRight" fitHeight="117.0" fitWidth="130.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
             <image>
                <Image url="@../../../design/image/circle_tictactoe.png" />
             </image>
          </ImageView>
-         <ImageView fx:id="crossBotLeft" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+         <ImageView fx:id="crossRight" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
             <image>
                <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
@@ -95,7 +88,7 @@
                <Image url="@../../../design/image/circle_tictactoe.png" />
             </image>
          </ImageView>
-         <ImageView fx:id="crossBot" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <ImageView fx:id="crossBotLeft" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
             <image>
                <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
@@ -105,7 +98,7 @@
                <Image url="@../../../design/image/circle_tictactoe.png" />
             </image>
          </ImageView>
-         <ImageView fx:id="crossBotRight" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <ImageView fx:id="crossBot" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <image>
                <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
@@ -113,6 +106,11 @@
          <ImageView fx:id="circleBotRight" fitHeight="117.0" fitWidth="130.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
             <image>
                <Image url="@../../../design/image/circle_tictactoe.png" />
+            </image>
+         </ImageView>
+         <ImageView fx:id="crossBotRight" fitHeight="121.0" fitWidth="117.0" onMouseClicked="#iconCrossMouseClicked" onMouseEntered="#iconCrossMouseEntered" onMouseExited="#iconCrossMouseExited" opacity="0.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <image>
+               <Image url="@../../../design/image/cross_tictactoe.png" />
             </image>
          </ImageView>
       </children>

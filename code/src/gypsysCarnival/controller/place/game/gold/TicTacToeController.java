@@ -62,7 +62,7 @@ public class TicTacToeController implements Initializable {
     // ================================
     //  SETTERS
     // ================================
-    
+
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
     }
@@ -102,15 +102,19 @@ public class TicTacToeController implements Initializable {
     @FXML
     void iconCrossMouseEntered(MouseEvent mouseEvent) {
         ImageView crossTarget = (ImageView) mouseEvent.getTarget();
-        crossTarget.setOpacity(0.25);
+        if(crossTarget.getOpacity() != 1) {
+            crossTarget.setOpacity(0.25);
+        }
     }
 
     @FXML
     void iconCrossMouseExited(MouseEvent mouseEvent) {
         ImageView crossTarget = (ImageView) mouseEvent.getTarget();
-        crossTarget.setOpacity(0);
-    }
+        if(crossTarget.getOpacity() != 1) {
+            crossTarget.setOpacity(0);
+        }
 
+    }
 
     @FXML
     void iconCrossMouseClicked(MouseEvent mouseEvent) {
