@@ -62,9 +62,9 @@ public class TicTacToeController implements Initializable {
     // ================================
     //  SETTERS
     // ================================
-
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    
+    public void setPlaceController(PlaceController placeController) {
+        this.placeController = placeController;
     }
 
     public void setPlayer(Player player) {
@@ -105,16 +105,12 @@ public class TicTacToeController implements Initializable {
         crossTarget.setOpacity(0.25);
     }
 
-<<<<<<< HEAD:code/src/controller/place/game/gold/TicTacToeController.java
     @FXML
     void iconCrossMouseExited(MouseEvent mouseEvent) {
         ImageView crossTarget = (ImageView) mouseEvent.getTarget();
         crossTarget.setOpacity(0);
-=======
-    public void setPlaceController(PlaceController placeController) {
-        this.placeController = placeController;
->>>>>>> main:code/src/gypsysCarnival/controller/place/game/gold/TicTacToeController.java
     }
+
 
     @FXML
     void iconCrossMouseClicked(MouseEvent mouseEvent) {
