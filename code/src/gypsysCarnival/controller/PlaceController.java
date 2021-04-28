@@ -16,6 +16,7 @@ import gypsysCarnival.controller.place.hub.GoldHubController;
 import gypsysCarnival.controller.place.hub.PlatinumHubController;
 import gypsysCarnival.controller.place.shop.FoodShopController;
 import gypsysCarnival.controller.place.shop.KeyShopController;
+import gypsysCarnival.model.place.game.gold.TicTacToe;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -327,6 +328,7 @@ public class PlaceController {
         FXMLLoader ticTacToeLoader = new FXMLLoader(getClass().getResource("../view/place/game/gold/ticTacToe.fxml"));
         this.ticTacToePane = ticTacToeLoader.load();
         this.ticTacToeController = ticTacToeLoader.getController();
+        this.ticTacToeController.setTictactoe((TicTacToe) goldHubExitList.get(3).getPlace());
         this.ticTacToeController.setPlaceController(this);
         this.ticTacToeController.setPlayer(player);
     }

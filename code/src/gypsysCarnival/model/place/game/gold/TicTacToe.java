@@ -281,4 +281,8 @@ public class TicTacToe extends Game {
         System.out.println();
     }
 
+    public void testPrint(){
+        this.getNpc().talk("Hey hey it's work !");
+    }
+
 }

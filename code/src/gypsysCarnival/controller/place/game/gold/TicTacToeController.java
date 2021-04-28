@@ -2,14 +2,18 @@ package gypsysCarnival.controller.place.game.gold;
 
 import gypsysCarnival.controller.PlaceController;
 import gypsysCarnival.controller.UtilsController;
+import gypsysCarnival.model.place.game.gold.TicTacToe;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import gypsysCarnival.model.character.Player;
 import gypsysCarnival.model.command.Interpreter;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +21,7 @@ import java.util.ResourceBundle;
 public class TicTacToeController implements Initializable {
 
     private PlaceController placeController;
+    private TicTacToe tictactoe;
     private Player player;
     private Scene scene;
 
@@ -27,6 +32,15 @@ public class TicTacToeController implements Initializable {
 
     @FXML
     private ImageView goldHubIcon;
+
+    @FXML
+    private AnchorPane blockChoose;
+
+    @FXML
+    private Button buttonChoose;
+
+    @FXML
+    private TextField textFieldChoose;
 
     @FXML
     private ImageView crossCenter;
@@ -55,9 +69,6 @@ public class TicTacToeController implements Initializable {
     @FXML
     private ImageView crossBotRight;
 
-    @FXML
-    private ImageView circleCenter;
-
 
     // ================================
     //  SETTERS
@@ -65,6 +76,10 @@ public class TicTacToeController implements Initializable {
 
     public void setPlaceController(PlaceController placeController) {
         this.placeController = placeController;
+    }
+
+    public void setTictactoe(TicTacToe tictactoe) {
+        this.tictactoe = tictactoe;
     }
 
     public void setPlayer(Player player) {
@@ -120,6 +135,14 @@ public class TicTacToeController implements Initializable {
     void iconCrossMouseClicked(MouseEvent mouseEvent) {
         ImageView crossTarget = (ImageView) mouseEvent.getTarget();
         crossTarget.setOpacity(1);
+    }
+
+    @FXML
+    void isButtonClicked(MouseEvent mouseEvent){
+        this.blockChoose.setOpacity(0);
+        this.blockChoose.setDisable(true);
+
+        this.tictactoe.testPrint();
     }
 
 
