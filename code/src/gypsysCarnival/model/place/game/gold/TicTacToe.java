@@ -31,6 +31,7 @@ public class TicTacToe extends Game {
     /// Attributes ///
     private final int[][] cases;
     private int winner;
+    private boolean win;
 
 
     /// Constructor ///
@@ -48,9 +49,29 @@ public class TicTacToe extends Game {
      * Methods *
      ***********/
 
+    public void winGame(Player player){
+        this.getNpc().talk("Ooooh, you're pretty strong darling! <3\n" +
+                "You've deserve your reward, my little boy!\n" +
+                "I hope I can see you again, maybe to show you something... new ;)");
+
+        this.win(player);
+    }
+
+    public void looseGame(Player player){
+        this.getNpc().talk("Tsss, sorry darling but you've lost this time...\n" +
+                "You're not as strong as I thought.\n" +
+                "Give me your money darling, an see you later to give it to me again ;)");
+
+        this.lose(player);
+    }
+
+    public void finish(){
+        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+    }
+
     @Override
     public void play(Player player) {
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- Game launched ---\n");
 
         // Initialize the game
         this.initGame();
@@ -109,7 +130,7 @@ public class TicTacToe extends Game {
                     "So you're cross, and I take circle.\n" +
                     "I'll choose my case!  Good luck darling ;)");
 
-            this.npcTurn(rand);
+            this.npcTurn(rand, true);
         }
 
         // While the variable 'winner' equal to NEUTRAL
@@ -118,35 +139,29 @@ public class TicTacToe extends Game {
 
             // Checked if there is a winner
             if(this.winner == NEUTRAL){
-                this.npcTurn(rand);
+                this.npcTurn(rand, true);
             }
 
         }
 
         // Check who is the winner, CROSS = player, CIRCLE = NPC
         if(winner == CROSS){
-            this.getNpc().talk("Ooooh, you're pretty strong darling! <3\n" +
-                    "You've deserve your reward, my little boy!\n" +
-                    "I hope I can see you again, maybe to show you something... new ;)");
-
-            this.win(player);
+            this.win = true;
+            this.winGame(player);
         }
         else {
-            this.getNpc().talk("Tsss, sorry darling but you've lost this time...\n" +
-                    "You're not as strong as I thought.\n" +
-                    "Give me your money darling, an see you later to give it to me again ;)");
-
-            this.lose(player);
+            this.win = false;
+            this.looseGame(player);
         }
 
         // Prevent a bug at the end of the game
         scan.nextLine();
 
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        this.finish();
     }
 
     // Initialize the game
-    private void initGame() {
+    public void initGame() {
         for (int i = 0; i < DEFAULT_SIZE; i++) {
             for (int j = 0; j < DEFAULT_SIZE; j++) {
                 this.cases[i][j] = NEUTRAL;
@@ -158,13 +173,14 @@ public class TicTacToe extends Game {
 
     // Set the case to the coordinates [i, j], with the symbol
     //if the place is valid
-    private boolean setCase(int i, int j, int symbol) {
+    public boolean setCase(int i, int j, int symbol, boolean displaying) {
         if (this.cases[i][j] == NEUTRAL) {
             this.cases[i][j] = symbol;
 
             this.isWin(i, j, symbol);
 
-            this.displayGame();
+            if(displaying)
+                this.displayGame();
 
             return true;
         }
@@ -174,7 +190,7 @@ public class TicTacToe extends Game {
     }
 
     // Check if the current player has win, with 3 sames symbols aligned
-    private void isWin(int i, int j, int symbol) {
+    public void isWin(int i, int j, int symbol) {
         if ((this.cases[i][0] == this.cases[i][1] && this.cases[i][1] == this.cases[i][2])  // horizontally
                 ||
                 (this.cases[0][j] == this.cases[1][j] && this.cases[1][j] == this.cases[2][j]) // vertically
@@ -189,7 +205,7 @@ public class TicTacToe extends Game {
     }
 
     // Carry out the NPC turn
-    private void npcTurn(Random rand){
+    private void npcTurn(Random rand, boolean display){
         boolean stop = false;
         int i;
         int j;
@@ -208,7 +224,7 @@ public class TicTacToe extends Game {
             j = rand.nextInt(DEFAULT_SIZE);
 
             // Checked if the coordinates are valid
-            if(this.setCase(i, j, CIRCLE)){
+            if(this.setCase(i, j, CIRCLE, display)){
                 stop = true;
             }
         }
@@ -249,7 +265,7 @@ public class TicTacToe extends Game {
             if((i<0 || i>2 || j<0 || j>2)){
                 System.out.println("Please choose valid case!\n(Between 1 and 3)");
             }
-            else if(!this.setCase(i, j, CROSS)){
+            else if(!this.setCase(i, j, CROSS, true)){
                 System.out.println("This case is already use, choose an over one");
             }
             else {
@@ -281,8 +297,11 @@ public class TicTacToe extends Game {
         System.out.println();
     }
 
-    public void testPrint(){
-        this.getNpc().talk("Hey hey it's work !");
+    public int getWinner(){
+        return this.winner;
     }
 
+    public boolean getWin(){
+        return  this.win;
+    }
 }
