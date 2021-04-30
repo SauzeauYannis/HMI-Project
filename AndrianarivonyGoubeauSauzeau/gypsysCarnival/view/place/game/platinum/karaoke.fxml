@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<?import gypsysCarnival.view.CustomButton?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0" prefWidth="865.0"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gypsysCarnival.controller.place.game.platinum.KaraokeController">
+    <Rectangle id="rectangleIndicator" fx:id="rectangleIndicator" arcHeight="5.0" arcWidth="5.0" fill="#d4d4d4"
+               height="96.0" layoutX="61.0" layoutY="205.0" stroke="BLACK" strokeType="INSIDE" width="743.0"/>
+    <Label id="labelLyrics" fx:id="labelLyrics" alignment="CENTER" layoutX="69.0" layoutY="216.0" prefHeight="75.0"
+           prefWidth="727.0" text="LYRICS" textAlignment="CENTER">
+        <font>
+            <Font size="19.0"/>
+        </font>
+    </Label>
+    <Label layoutX="69.0" layoutY="167.0" prefHeight="17.0" prefWidth="64.0" text="Left trials :">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <TextField id="textFieldProposition" fx:id="textFieldProposition" layoutX="172.0" layoutY="381.0" prefHeight="42.0"
+               prefWidth="521.0"/>
+    <CustomButton id="buttonSubmit" layoutX="404.0" layoutY="433.0" mnemonicParsing="false" text="SUBMIT"
+        onMouseClicked="#submitMouseClicked" >
+        <effect>
+            <Reflection>
+                <input>
+                    <ColorAdjust/>
+                </input>
+            </Reflection>
+        </effect>
+    </CustomButton>
+    <Label layoutX="378.0" layoutY="353.0" text="Your proposition :">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label id="labelTrials" fx:id="labelTrials" layoutX="142.0" layoutY="167.0" text="3">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="374.0" layoutY="28.0" text="KARAOKE" textAlignment="CENTER">
+        <font>
+            <Font name="System Bold" size="25.0"/>
+        </font>
+    </Label>
+    <Label layoutX="234.0" layoutY="137.0" prefHeight="20.0" prefWidth="456.0"
+           text="FIND THE WORD(S) TO COMPLETE THE LYRICS" textFill="#1142be">
+        <font>
+            <Font name="HoloLens MDL2 Assets" size="18.0"/>
+        </font>
+    </Label>
+</AnchorPane>
