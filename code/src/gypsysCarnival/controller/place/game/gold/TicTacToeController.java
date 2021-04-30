@@ -24,11 +24,14 @@ import java.util.ResourceBundle;
 
 public class TicTacToeController implements Initializable {
 
+    // ================================
+    //  ATTRIBUTES
+    // ================================
+
     private PlaceController placeController;
     private TicTacToe tictactoe;
     private Player player;
     private Scene scene;
-
     private Random rand;
 
 
@@ -124,22 +127,34 @@ public class TicTacToeController implements Initializable {
         this.scene = scene;
     }
 
+
     // ================================
     //  EVENTS ON ELEMENTS
     // ================================
 
-
-    //-- Icon goGold
+    /**
+     * Change the scale of the node when mouse is entered in image
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     void iconMouseEntered(MouseEvent mouseEvent) {
         UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1.2);
     }
 
+    /**
+     * Change the scale of the node when mouse is getting out of image
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     void iconMouseExited(MouseEvent mouseEvent) {
         UtilsController.rescaleNode(this.scene, (ImageView) mouseEvent.getTarget(), 1);
     }
 
+    /**
+     * Allowed to go to the golden hub
+     */
     @FXML
     void goGold() {
         this.reset();
@@ -148,7 +163,11 @@ public class TicTacToeController implements Initializable {
         this.placeController.changePlace();
     }
 
-    //-- Icon Cross
+    /**
+     * Change the opacity when mouse is entered in image
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     void iconCrossMouseEntered(MouseEvent mouseEvent) {
         ImageView crossTarget = (ImageView) mouseEvent.getTarget();
@@ -160,6 +179,11 @@ public class TicTacToeController implements Initializable {
         }
     }
 
+    /**
+     * Change the opacity when mouse is getting out of image
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     void iconCrossMouseExited(MouseEvent mouseEvent) {
         ImageView crossTarget = (ImageView) mouseEvent.getTarget();
@@ -168,6 +192,11 @@ public class TicTacToeController implements Initializable {
         }
     }
 
+    /**
+     * Change the opacity, set the case at this position, and check if the party is finished
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     void iconCrossMouseClicked(MouseEvent mouseEvent) {
         ImageView crossTarget = (ImageView) mouseEvent.getTarget();
@@ -192,6 +221,11 @@ public class TicTacToeController implements Initializable {
         }
     }
 
+    /**
+     * Button submit at the beginning of party
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     void isButtonClicked(MouseEvent mouseEvent){
         if(this.beginner()){
@@ -212,6 +246,9 @@ public class TicTacToeController implements Initializable {
         }
     }
 
+    /**
+     * Button reset
+     */
     public void buttonReset(){
         this.tictactoe.looseGame(this.player);
         this.reset();
@@ -228,7 +265,11 @@ public class TicTacToeController implements Initializable {
     }
 
 
-    // Choose who will begin
+    /**
+     * Choose who will begin
+     *
+     * @return if choice is valid or not
+     */
     public boolean beginner(){
         Integer beginner = this.rand.nextInt(2) + 1;
 
@@ -258,7 +299,9 @@ public class TicTacToeController implements Initializable {
         }
     }
 
-    // Initialize the interface of game
+    /**
+     * Reset the game.
+     */
     public void reset(){
         this.blockChoose.setOpacity(1);
         this.blockChoose.setDisable(false);
@@ -284,6 +327,11 @@ public class TicTacToeController implements Initializable {
         this.textFieldChoose.clear();
     }
 
+    /**
+     * Ask to replay the game
+     *
+     * @param win true if the player won the game
+     */
     public void replay(boolean win){
         CustomAlert alert = new CustomAlert(Alert.AlertType.CONFIRMATION,
                 this.player.getPlace().getName() + " - Finished",
@@ -306,11 +354,16 @@ public class TicTacToeController implements Initializable {
         }
     }
 
+    /**
+     * Set case for the image in parameter
+     *
+     * @param imgSymbol Image which concerned
+     * @param symbol Symbol of the player (player or Npc)
+     * @return if setting has been complete
+     */
     private boolean setCaseImage(ImageView imgSymbol, int symbol){
-        int i, j;
-
-        i = this.symbolToPosI(imgSymbol);
-        j = this.symbolToPosJ(imgSymbol);
+        int i = this.symbolToPosI(imgSymbol);
+        int j = this.symbolToPosJ(imgSymbol);
 
         boolean res = this.tictactoe.setCase(i, j, symbol, false);
 
@@ -321,11 +374,14 @@ public class TicTacToeController implements Initializable {
         return res;
     }
 
+    /**
+     * Manage turn of the npc player
+     */
     public void npcTurnImg(){
         boolean stop = false;
         ImageView circleImg;
-        int i = rand.nextInt(3);
-        int j = rand.nextInt(3);
+        int i;
+        int j;
 
         while(!stop){
 
@@ -342,9 +398,13 @@ public class TicTacToeController implements Initializable {
         }
     }
 
-
-
-    // Return the circle image at this position
+    /**
+     * Search circle image for this position
+     *
+     * @param i position in i
+     * @param j position in j
+     * @return ImageView for this position
+     */
     private ImageView posToCircle(int i, int j){
         if(i == 0 && j == 0){
             return this.circleTopLeft;
@@ -375,7 +435,13 @@ public class TicTacToeController implements Initializable {
         }
     }
 
-    // Return the cross image at this position
+    /**
+     * Search cross image for this position
+     *
+     * @param i position in i
+     * @param j position in j
+     * @return ImageView for this position
+     */
     private ImageView posToCross(int i, int j){
         if(i == 0 && j == 0){
             return this.crossTopLeft;
@@ -406,7 +472,12 @@ public class TicTacToeController implements Initializable {
         }
     }
 
-    // Return the position I for this symbol
+    /**
+     * Search the position i for this image
+     *
+     * @param symbol image view
+     * @return integer of position in i
+     */
     private int symbolToPosI(ImageView symbol){
         if(symbol == this.crossTopLeft || symbol == this.circleTopLeft || symbol == this.crossTop || symbol == this.circleTop || symbol == this.crossTopRight || symbol == this.circleTopRight){
             return 0;
@@ -419,7 +490,12 @@ public class TicTacToeController implements Initializable {
         }
     }
 
-    // Return the position J for this symbol
+    /**
+     * Search the position j for this image
+     *
+     * @param symbol image view
+     * @return integer of position in j
+     */
     private int symbolToPosJ(ImageView symbol){
         if(symbol == this.crossTopLeft || symbol == this.circleTopLeft || symbol == this.crossLeft || symbol == this.circleLeft || symbol == this.crossBotLeft || symbol == this.circleBotLeft){
             return 0;
@@ -431,6 +507,5 @@ public class TicTacToeController implements Initializable {
             return 2;
         }
     }
-
 
 }
