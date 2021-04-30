@@ -3,15 +3,14 @@ package gypsysCarnival.model.place.game.platinum;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import gypsysCarnival.model.Gameplay;
+import gypsysCarnival.model.Level;
 import gypsysCarnival.model.character.NPC;
 import gypsysCarnival.model.character.Player;
-import gypsysCarnival.model.Level;
 import gypsysCarnival.model.place.Game;
-
 import java.util.Random;
 import java.util.Scanner;
 
-// This class is a subclass of gypsysCarnival.Game
+// This class is a subclass of Game
 public class Karaoke extends Game {
 
     /*****************************
@@ -23,7 +22,7 @@ public class Karaoke extends Game {
 
     private String word;
     private String sentence;
-    private IntegerProperty left_trials;
+    private IntegerProperty left_trials = new SimpleIntegerProperty(NB_TRY);
     private String guess;
 
     private final String[][] LYRICS = {
@@ -127,16 +126,15 @@ public class Karaoke extends Game {
         // To flush scanner
         Gameplay.scanner.nextLine();
 
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- Game finished ---\n");
     }
 
     //METHODS TO PLAY
 
     //Initializes the game
     public void start() {
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- Game launched ---\n");
 
-        left_trials = new SimpleIntegerProperty();
         left_trials.set(NB_TRY);
         guess = "";
 
