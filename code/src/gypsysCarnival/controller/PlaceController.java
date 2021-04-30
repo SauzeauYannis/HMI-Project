@@ -17,6 +17,7 @@ import gypsysCarnival.controller.place.hub.PlatinumHubController;
 import gypsysCarnival.controller.place.shop.FoodShopController;
 import gypsysCarnival.controller.place.shop.KeyShopController;
 import gypsysCarnival.model.place.game.gold.TicTacToe;
+import gypsysCarnival.model.place.game.platinum.Karaoke;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -231,7 +232,6 @@ public class PlaceController {
      */
     public void setScene(Scene scene) {
         this.ticTacToeController.setScene(scene);
-        this.karaokeController.setScene(scene);
     }
 
     /*----------------------- Private methods --------------------------------*/
@@ -360,6 +360,7 @@ public class PlaceController {
         FXMLLoader karaokeLoader = new FXMLLoader(getClass().getResource("../view/place/game/platinum/karaoke.fxml"));
         this.karaokeHubPane = karaokeLoader.load();
         this.karaokeController = karaokeLoader.getController();
+        this.karaokeController.setKaraoke((Karaoke) platinumHubExitList.get(2).getPlace());
         this.karaokeController.setPlaceController(this);
         this.karaokeController.setPlayer(player);
 
