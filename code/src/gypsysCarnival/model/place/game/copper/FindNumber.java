@@ -85,7 +85,7 @@ public class FindNumber extends Game {
         this.rand = (int) (Math.random() * (MAX_NUMBER));
         this.win = false;
 
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- Find Number launched ---\n");
 
         this.getNpc().talk("You need to find my number between 0 and " + MAX_NUMBER + " in " + DEFAULT_ATTEMPT + " attempts!");
     }
@@ -135,6 +135,6 @@ public class FindNumber extends Game {
     }
 
     public void finish() {
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- Find Number finished ---\n");
     }
 }

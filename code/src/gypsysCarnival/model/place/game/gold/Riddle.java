@@ -105,7 +105,7 @@ public class Riddle extends Game {
         // Initialize the number of attempts
         this.attempts.set(DEFAULT_ATTEMPTS);
 
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- Riddle launched ---\n");
 
         this.getNpc().talk("Oh oh oh, greetings traveler! I hope you aren't so tired to be arrived here!\n" +
                 "Because you will be probationned, by my self! You should find the right answer to my riddle.\n" +
@@ -166,7 +166,7 @@ public class Riddle extends Game {
     }
 
     public void finish() {
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- Riddle finished ---\n");
     }
 
     private void choseYesOrNo(boolean choseYes, String[] riddle) {

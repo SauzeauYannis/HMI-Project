@@ -1,22 +1,21 @@
 package gypsysCarnival.controller;
 
+import gypsysCarnival.model.character.Player;
+import gypsysCarnival.model.command.Interpreter;
+import gypsysCarnival.model.place.Place;
+import gypsysCarnival.view.ClickableImage;
+import gypsysCarnival.view.CustomAlert;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import gypsysCarnival.model.character.Player;
-import gypsysCarnival.model.command.Interpreter;
-import gypsysCarnival.model.place.Place;
-import gypsysCarnival.view.ClickableImage;
-import gypsysCarnival.view.CustomAlert;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -41,7 +40,6 @@ public class MainController implements Initializable {
     private boolean isVolumeOn;
     private Animation animation;
 
-    private PlaceController placeController;
     private SceneController sceneController;
     private Player player;
 
@@ -190,21 +188,12 @@ public class MainController implements Initializable {
             }
         });
 
-        this.placeController = new PlaceController(this.gameTab, player);
+        PlaceController placeController = new PlaceController(this.gameTab, player);
 
         this.playerInfoController.setPlayer(player);
-        this.placeController.setPlayerInfoController(this.playerInfoController);
+        placeController.setPlayerInfoController(this.playerInfoController);
 
         this.player.getPlace().getNpc().talk("Welcome to Gypsy's Carnival!");
-    }
-
-    /**
-     * Sets scene.
-     *
-     * @param scene the scene
-     */
-    public void setScene(Scene scene) {
-        this.placeController.setScene(scene);
     }
 
     /**

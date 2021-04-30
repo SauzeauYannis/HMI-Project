@@ -19,7 +19,6 @@ import gypsysCarnival.controller.place.shop.KeyShopController;
 import gypsysCarnival.model.place.game.gold.TicTacToe;
 import gypsysCarnival.model.place.game.platinum.Karaoke;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import gypsysCarnival.model.character.Player;
@@ -35,7 +34,6 @@ import gypsysCarnival.model.place.game.platinum.Questions;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 
 /**
  * The Place gypsysCarnival.controller.
@@ -195,6 +193,7 @@ public class PlaceController {
                 this.riddleController.reset();
                 break;
             case "Tic tac toe":
+                this.ticTacToeController.reset();
                 break;
             case "Hangman":
                 this.hangmanController.reset();
@@ -223,15 +222,6 @@ public class PlaceController {
         this.copperHubController.setPlayerInfoController(playerInfoController);
         this.goldHubController.setPlayerInfoController(playerInfoController);
         this.platinumHubController.setPlayerInfoController(playerInfoController);
-    }
-
-    /**
-     * Sets scene.
-     *
-     * @param scene the scene
-     */
-    public void setScene(Scene scene) {
-        this.ticTacToeController.setScene(scene);
     }
 
     /*----------------------- Private methods --------------------------------*/

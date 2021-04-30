@@ -114,7 +114,7 @@ public class Questions extends Game {
                 if (this.isTheLastRound()) {
                     this.winJackpot(player);
                     Gameplay.scanner.nextLine();
-                    System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+                    System.out.println("\n--- Questions finished ---\n");
                     return;
                 }
             }
@@ -132,7 +132,7 @@ public class Questions extends Game {
         // To flush scanner
         Gameplay.scanner.nextLine();
 
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- Questions finished ---\n");
     }
 
     //GETTERS
@@ -154,7 +154,7 @@ public class Questions extends Game {
         lose = false;
         questionUsed = new int[NB_ROUND];
 
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- Questions launched ---\n");
 
         this.getNpc().talk("Laddies and Gentlemen, welcome to my stand! " +
                 "Here your culture would be roughly tested...\n" +

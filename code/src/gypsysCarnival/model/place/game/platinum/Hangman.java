@@ -95,7 +95,7 @@ public class Hangman extends Game {
         else
             this.lose(player);
 
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- Hangman finished ---\n");
     }
 
     //GETTERS
@@ -109,7 +109,7 @@ public class Hangman extends Game {
 
     //METHODS
     public void start() {
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- Hangman launched ---\n");
 
         this.getNpc().talk("ZZzzzZZZ... Wha... Sh... Hello! ^^'\n" +
                 "I wasn't sleeping... Well, I'm Mrs.Lependu and welcome to my stand! \n" +

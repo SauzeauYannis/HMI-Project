@@ -65,7 +65,6 @@ public class Game extends Application {
         mainController.setSceneController(sceneController);
         mainController.setPlaceList(placeList);
         mainController.setPlayer(new Player("Benjapied Tablenuit", placeList.get(0)));
-        mainController.setScene(scene);
 
         helpController.setSceneController(sceneController);
 

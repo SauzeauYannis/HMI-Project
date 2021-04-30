@@ -126,14 +126,14 @@ public class Karaoke extends Game {
         // To flush scanner
         Gameplay.scanner.nextLine();
 
-        System.out.println("\n--- Game finished ---\n");
+        System.out.println("\n--- Karaoke finished ---\n");
     }
 
     //METHODS TO PLAY
 
     //Initializes the game
     public void start() {
-        System.out.println("\n--- Game launched ---\n");
+        System.out.println("\n--- Karaoke launched ---\n");
 
         left_trials.set(NB_TRY);
         guess = "";

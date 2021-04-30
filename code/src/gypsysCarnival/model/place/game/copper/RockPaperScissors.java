@@ -101,7 +101,7 @@ public class RockPaperScissors extends Game {
         this.NPCPoint.set(0);
 
         // To print the game
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- Rock paper and scissors launched ---\n");
 
         this.getNpc().talk("I am unbeatable in that game!\n" +
                 "I take you in 3 rounds!");
@@ -132,7 +132,7 @@ public class RockPaperScissors extends Game {
     }
 
     public void finish() {
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- Rock paper and scissors finished ---\n");
     }
 
     private String getPlayerTurn(Player player) {

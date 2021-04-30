@@ -89,7 +89,7 @@ public class QTE extends Game {
     public void start() {
         round = new SimpleIntegerProperty(0);
 
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- QTE launched ---\n");
 
         this.getNpc().talk("Yo! Welcome to my stand bro!\n" +
                 "I am the fastest rapper of this carnival!\n" +
@@ -131,7 +131,7 @@ public class QTE extends Game {
 
     public void finish(Player player) {
         this.win(player);
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- QTE finished ---\n");
     }
 
     // To print the punchline

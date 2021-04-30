@@ -66,12 +66,12 @@ public class TicTacToe extends Game {
     }
 
     public void finish(){
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- Tic Tac Toe finished ---\n");
     }
 
     @Override
     public void play(Player player) {
-        System.out.println("\n--- Game launched ---\n");
+        System.out.println("\n--- Tic Tac Toe launched ---\n");
 
         // Initialize the game
         this.initGame();

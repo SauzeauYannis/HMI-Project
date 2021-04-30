@@ -93,7 +93,7 @@ public class HanoiTower extends Game {
     }
 
     public void start() {
-        System.out.println("\n--- gypsysCarnival.Game launched ---\n");
+        System.out.println("\n--- Hanoi Tower launched ---\n");
 
         this.getNpc().talk("Hi young man, I'm really annoyed by this problem, can you help me?\n" +
                 "I have three pillars in front of me and I have to pass the three discs from pillar A to pillar C using pillar B.\n" +
@@ -147,7 +147,7 @@ public class HanoiTower extends Game {
             this.lose(player);
             this.getNpc().talk("Oh no you've lose!");
         }
-        System.out.println("\n--- gypsysCarnival.Game finished ---\n");
+        System.out.println("\n--- Hanoi Tower finished ---\n");
     }
 
     // Getter
