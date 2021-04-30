@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0"
+            prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171"
+            fx:controller="gypsysCarnival.controller.place.game.copper.QTEController">
+    <Label layoutX="412.0" layoutY="31.0" text="QTE">
+        <font>
+            <Font name="Carlito Bold" size="25.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="punchTextField" layoutX="283.0" layoutY="294.0" minWidth="300.0"
+               onKeyPressed="#punchTextFieldKeyPressed" promptText="Type the punch here">
+        <font>
+            <Font name="Carlito Bold" size="15.0"/>
+        </font>
+    </TextField>
+    <Label fx:id="punchLabel" alignment="CENTER" layoutX="283.0" layoutY="213.0" minWidth="300.0">
+        <font>
+            <Font name="Carlito Bold" size="17.0"/>
+        </font>
+    </Label>
+    <Label fx:id="roundLabel" layoutX="104.0" layoutY="299.0">
+        <font>
+            <Font name="Carlito Bold" size="15.0"/>
+        </font>
+    </Label>
+    <Label fx:id="timeLabel" layoutX="679.0" layoutY="299.0">
+        <font>
+            <Font name="Carlito Bold" size="15.0"/>
+        </font>
+    </Label>
+</AnchorPane>

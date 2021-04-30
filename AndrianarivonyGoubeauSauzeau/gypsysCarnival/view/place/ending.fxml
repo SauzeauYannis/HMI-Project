@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import gypsysCarnival.view.ClickableImage?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0"
+            prefWidth="865.0" xmlns="http://javafx.com/javafx/8.0.171"
+            fx:controller="gypsysCarnival.controller.place.EndingController">
+    <ClickableImage fitHeight="50.0" fitWidth="50.0" layoutX="21.0" layoutY="21.0"
+                    onMouseClicked="#goCarnival" pickOnBounds="true" preserveRatio="true"
+                    tooltipText="Go to carnival">
+        <Image url="@../design/image/carnival.png"/>
+    </ClickableImage>
+    <ImageView fitHeight="400.0" fitWidth="400.0" layoutX="233.0" layoutY="108.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../design/image/ok.png"/>
+    </ImageView>
+</AnchorPane>
