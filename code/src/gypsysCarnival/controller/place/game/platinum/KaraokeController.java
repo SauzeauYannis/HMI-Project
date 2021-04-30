@@ -70,15 +70,6 @@ public class KaraokeController implements Initializable {
     }
 
     /**
-     * Sets scene.
-     *
-     * @param scene the scene
-     */
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
-
-    /**
      * Sets karaoke.
      *
      * @param karaoke the karaoke
